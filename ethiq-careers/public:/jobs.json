@@ -1,29 +1,37 @@
-{
-  "jobs": [
-    {
-      "id": "job-001",
-      "title": "Head of Engineering",
-      "company": "Confidential - Global Fintech",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "director",
-      "function": "Engineering",
-      "salary": "£150k - £200k",
-      "location": { "name": "London, UK" },
-      "summary": "Lead a world-class engineering team building next-generation financial infrastructure. Drive technical vision and scale our platform to serve millions of users globally.",
-      "createdAt": "2024-01-15T00:00:00Z",
-      "applyUrl": "https://api.recruitwithatlas.com/jobs/job-001"
-    },
-    {
-      "id": "job-002", 
-      "title": "Senior Product Manager",
-      "company": "Confidential - Series B SaaS",
-      "contractType": "full_time",
-      "workMode": "remote",
-      "seniority": "senior",
-      "function": "Product",
-      "salary": "£90k - £120k",
-      "location": { "name": "Remote, UK" },
-      "summary": "Own product strategy for our core platform serving 10k+ businesses. Work closely with engineering and design to deliver exceptional user experiences.",
-      "createdAt": "2024-01-12T00:00:00Z",
-      "applyUrl": "https://api.recruitwithatlas.com/jobs
+fetch('https://api.recruitwithatlas.com/api/v1/projects?per_page=10', {
+  headers: {
+    'Authorization': 'hEVpFYwRHUKIymDhRyedzB',
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => response.json())
+.then(data => {
+  console.log('✅ All jobs found:', data.data?.length || 0);
+  
+  // Show each job with its state
+  data.data?.forEach(job => {
+    console.log(`📋 ${job.jobRole} - State: ${job.state} - Public: ${job.public}`);
+  });
+  
+  // Transform to careers page format
+  const jobs = (data.data || []).map(job => ({
+    id: job.id,
+    title: job.jobRole,
+    company: 'Confidential Client',
+    location: job.location || { name: 'Location TBD' },
+    salary: job.salary || 'Competitive salary',
+    contractType: job.contractType || 'full_time',
+    workMode: job.workMode || 'hybrid',
+    seniority: job.seniority || 'senior',
+    function: job.func || 'Various',
+    summary: job.jobDescription ? job.jobDescription.substring(0, 200) + '...' : 'Exciting opportunity to join our client.',
+    createdAt: job.createdAt || new Date().toISOString(),
+    applyUrl: `https://api.recruitwithatlas.com/jobs/${job.id}`
+  }));
+  
+  console.log('🚀 Ready for careers page:', {
+    jobs: jobs,
+    lastUpdated: new Date().toISOString(),
+    count: jobs.length
+  });
+})

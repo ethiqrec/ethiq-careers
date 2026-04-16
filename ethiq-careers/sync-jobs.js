@@ -1,5 +1,5 @@
 // Test Atlas API connection
-const API_KEY = 'YOUR_ACTUAL_API_KEY_HERE'; // Replace this with your real key
+const API_KEY = 'hEVpFYwRHUKIymDhRyedzB'; // Replace this with your real key
 const ATLAS_API_BASE = 'https://api.recruitwithatlas.com';
 
 console.log('🔄 Testing Atlas API connection...');

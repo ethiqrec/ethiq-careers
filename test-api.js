@@ -1,6 +1,10 @@
-const ATLAS_API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your actual key
-const url = 'https://api.recruitwithatlas.com/api/v1/projects?state=active&per_page=5';
+// Simple API test
+console.log('Testing Atlas API...');
 
-console.log('Testing Atlas API connection...');
+const API_KEY = 'YOUR_ACTUAL_API_KEY_HERE'; // Replace with your real key
+const url = 'https://api.recruitwithatlas.com/api/v1/projects?state=active&per_page=3';
+
 console.log('URL:', url);
-console.log('Key:', ATLAS_API_KEY ? 'Present' : 'Missing');
+console.log('Using API key:', API_KEY.substring(0, 10) + '...');
+
+// You can run this locally or just verify the key format

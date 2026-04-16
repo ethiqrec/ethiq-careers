@@ -2,8 +2,8 @@ name: Sync Jobs from Atlas
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Every 30 minutes
-  workflow_dispatch:          # Manual trigger
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -14,11 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
 
       - name: Run sync script
         env:
@@ -36,5 +31,5 @@ jobs:
             git add public/jobs.json
             git commit -m "chore: update jobs data - $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
-            echo "✅ Changes committed and pushed"
+            echo "Changes committed and pushed"
           fi

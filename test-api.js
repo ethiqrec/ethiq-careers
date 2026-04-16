@@ -1,7 +1,7 @@
 // Simple API test
 console.log('Testing Atlas API...');
 
-const API_KEY = 'YOUR_ACTUAL_API_KEY_HERE'; // Replace with your real key
+const API_KEY = 'hEVpFYwRHUKIymDhRyedzB'; // Replace with your real key
 const url = 'https://api.recruitwithatlas.com/api/v1/projects?state=active&per_page=3';
 
 console.log('URL:', url);

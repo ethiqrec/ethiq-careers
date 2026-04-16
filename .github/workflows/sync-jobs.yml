@@ -2,12 +2,11 @@ name: Sync Jobs from Atlas
 
 on:
   schedule:
-    # Run every 30 minutes
     - cron: '*/30 * * * *'
-  workflow_dispatch: # Allow manual triggering
+  workflow_dispatch:
   push:
     branches: [main]
-    paths: [sync-jobs.js] # Re-sync if sync script changes
+    paths: [sync-jobs.js]
 
 jobs:
   sync:
@@ -17,7 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Need write access to commit updated jobs.json
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Setup Node.js
@@ -39,7 +37,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Check if there are changes
           if git diff --quiet public/jobs.json; then
             echo "No changes to commit"
             exit 0
@@ -48,8 +45,3 @@ jobs:
           git add public/jobs.json sync-log.json
           git commit -m "Update jobs data - $(date -u +"%Y-%m-%d %H:%M UTC")"
           git push
-      
-      - name: Deploy to Vercel (if changed)
-        # Vercel will automatically redeploy when we push the updated JSON
-        run: echo "Jobs updated, Vercel will auto-deploy"
-

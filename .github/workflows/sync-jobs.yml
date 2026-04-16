@@ -22,10 +22,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
       
       - name: Install dependencies
-        run: npm install
+        run: npm install --production
       
       - name: Sync jobs from Atlas
         env:
@@ -42,6 +41,6 @@ jobs:
             exit 0
           fi
           
-          git add public/jobs.json sync-log.json
+          git add public/jobs.json
           git commit -m "Update jobs data - $(date -u +"%Y-%m-%d %H:%M UTC")"
           git push

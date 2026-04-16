@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: [sync-jobs.js]
 
 jobs:
   sync:
@@ -23,13 +20,10 @@ jobs:
         with:
           node-version: '18'
       
-      - name: Install dependencies
-        run: npm install --production
-      
       - name: Sync jobs from Atlas
         env:
           ATLAS_API_KEY: ${{ secrets.ATLAS_API_KEY }}
-        run: npm run sync
+        run: node sync-jobs.js
       
       - name: Commit updated jobs data
         run: |

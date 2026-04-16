@@ -1,71 +1,40 @@
-// Simple Atlas API sync without external dependencies
+// Test Atlas API connection
+const API_KEY = 'YOUR_ACTUAL_API_KEY_HERE'; // Replace this with your real key
 const ATLAS_API_BASE = 'https://api.recruitwithatlas.com';
-const API_KEY = process.env.ATLAS_API_KEY;
 
-async function syncJobs() {
-  console.log('🔄 Starting job sync...');
+console.log('🔄 Testing Atlas API connection...');
+
+fetch(`${ATLAS_API_BASE}/api/v1/projects?state=active&per_page=5`, {
+  headers: {
+    'Authorization': `Bearer ${API_KEY}`,
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => {
+  console.log('Response status:', response.status);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+  return response.json();
+})
+.then(data => {
+  console.log('✅ API Success!');
+  console.log('Projects found:', data.data?.length || 0);
   
-  if (!API_KEY) {
-    throw new Error('ATLAS_API_KEY environment variable not set');
-  }
-
-  try {
-    // Use built-in fetch (available in Node 18+)
-    const response = await fetch(`${ATLAS_API_BASE}/api/v1/projects?state=active&per_page=50`, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Atlas API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const projects = data.data || [];
-    
-    console.log(`Found ${projects.length} active projects`);
-
-    // Transform jobs and hide client names
-    const jobs = projects
-      .filter(job => job.public !== false) // Only public jobs
-      .map(job => ({
-        id: job.id,
-        title: job.jobRole,
-        company: 'Confidential Client', // Always hide client name
-        location: job.location || { name: 'Location TBD' },
-        state: job.state,
-        createdAt: job.createdAt || new Date().toISOString(),
-        applyUrl: `${ATLAS_API_BASE}/jobs/${job.id}` // Atlas public job URL
-      }));
-
-    // Write to jobs.json
-    const outputData = {
-      jobs: jobs,
-      lastUpdated: new Date().toISOString(),
-      count: jobs.length
-    };
-
-    // Use Node.js built-in fs
-    const fs = await import('fs/promises');
-    await fs.writeFile('./public/jobs.json', JSON.stringify(outputData, null, 2));
-    
-    console.log(`✅ Successfully synced ${jobs.length} jobs`);
-    return jobs.length;
-    
-  } catch (error) {
-    console.error('❌ Sync failed:', error);
-    throw error;
-  }
-}
-
-syncJobs()
-  .then(count => {
-    console.log(`🎉 Sync completed: ${count} jobs published`);
-    process.exit(0);
-  })
-  .catch(error => {
-    console.error('💥 Sync failed:', error.message);
-    process.exit(1);
-  });
+  // Transform to our format
+  const jobs = (data.data || []).map(job => ({
+    id: job.id,
+    title: job.jobRole,
+    company: 'Confidential Client',
+    location: job.location || { name: 'Location TBD' },
+    salary: job.salary || null,
+    summary: job.jobDescription ? job.jobDescription.substring(0, 200) + '...' : 'Exciting opportunity to join our client.',
+    createdAt: job.createdAt || new Date().toISOString(),
+    applyUrl: `${ATLAS_API_BASE}/jobs/${job.id}`
+  }));
+  
+  console.log('Transformed jobs:', JSON.stringify(jobs, null, 2));
+})
+.catch(error => {
+  console.error('❌ API Error:', error.message);
+});

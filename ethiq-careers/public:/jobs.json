@@ -1,5 +1,29 @@
 {
-  "jobs": [],
-  "lastUpdated": "2024-01-16T00:00:00Z",
-  "count": 0
-}
+  "jobs": [
+    {
+      "id": "job-001",
+      "title": "Head of Engineering",
+      "company": "Confidential - Global Fintech",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "director",
+      "function": "Engineering",
+      "salary": "£150k - £200k",
+      "location": { "name": "London, UK" },
+      "summary": "Lead a world-class engineering team building next-generation financial infrastructure. Drive technical vision and scale our platform to serve millions of users globally.",
+      "createdAt": "2024-01-15T00:00:00Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/job-001"
+    },
+    {
+      "id": "job-002", 
+      "title": "Senior Product Manager",
+      "company": "Confidential - Series B SaaS",
+      "contractType": "full_time",
+      "workMode": "remote",
+      "seniority": "senior",
+      "function": "Product",
+      "salary": "£90k - £120k",
+      "location": { "name": "Remote, UK" },
+      "summary": "Own product strategy for our core platform serving 10k+ businesses. Work closely with engineering and design to deliver exceptional user experiences.",
+      "createdAt": "2024-01-12T00:00:00Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs

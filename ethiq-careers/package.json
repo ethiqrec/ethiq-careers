@@ -1,0 +1,25 @@
+{
+  "name": "ethiq-careers",
+  "version": "1.0.0",
+  "description": "Ethiq Recruitment careers page with Atlas API integration",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "sync": "node sync-jobs.js",
+    "sync:watch": "nodemon sync-jobs.js"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

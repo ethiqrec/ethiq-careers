@@ -1,8 +1,6 @@
 name: Sync Jobs from Atlas
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -15,26 +13,46 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
+      - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: '18'
       
-      - name: Sync jobs from Atlas
+      - name: Test API Connection
         env:
           ATLAS_API_KEY: ${{ secrets.ATLAS_API_KEY }}
-        run: node sync-jobs.js
+        run: |
+          echo "Testing Atlas API..."
+          echo "API Key present: $([ ! -z "$ATLAS_API_KEY" ] && echo "Yes" || echo "No")"
+          
+      - name: Run sync script
+        env:
+          ATLAS_API_KEY: ${{ secrets.ATLAS_API_KEY }}
+        run: |
+          echo "Running sync script..."
+          node --version
+          node sync-jobs.js
       
-      - name: Commit updated jobs data
+      - name: Show results
+        run: |
+          echo "Checking public/jobs.json..."
+          if [ -f "public/jobs.json" ]; then
+            echo "File exists, first few lines:"
+            head -10 public/jobs.json
+          else
+            echo "File not found"
+          fi
+      
+      - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
           if git diff --quiet public/jobs.json; then
             echo "No changes to commit"
-            exit 0
+          else
+            git add public/jobs.json
+            git commit -m "Update jobs data - $(date -u +"%Y-%m-%d %H:%M UTC")"
+            git push
+            echo "Changes committed and pushed"
           fi
-          
-          git add public/jobs.json
-          git commit -m "Update jobs data - $(date -u +"%Y-%m-%d %H:%M UTC")"
-          git push

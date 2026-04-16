@@ -1,19 +1,11 @@
 fetch('https://api.recruitwithatlas.com/api/v1/projects?per_page=10', {
   headers: {
-    'Authorization': 'Bearer YOUR_ACTUAL_API_KEY_HERE',
+    'Authorization': 'hEVpFYwRHUKIymDhRyedzB',
     'Content-Type': 'application/json'
   }
 })
 .then(response => response.json())
 .then(data => {
-  console.log('✅ All jobs found:', data.data?.length || 0);
-  
-  // Show each job with its state
-  data.data?.forEach(job => {
-    console.log(`📋 ${job.jobRole} - State: ${job.state} - Public: ${job.public}`);
-  });
-  
-  // Transform to careers page format
   const jobs = (data.data || []).map(job => ({
     id: job.id,
     title: job.jobRole,
@@ -29,9 +21,13 @@ fetch('https://api.recruitwithatlas.com/api/v1/projects?per_page=10', {
     applyUrl: `https://api.recruitwithatlas.com/jobs/${job.id}`
   }));
   
-  console.log('🚀 Ready for careers page:', {
+  const finalJSON = {
     jobs: jobs,
     lastUpdated: new Date().toISOString(),
     count: jobs.length
-  });
-})
+  };
+  
+  console.log('=== COPY THIS JSON BELOW ===');
+  console.log(JSON.stringify(finalJSON, null, 2));
+  console.log('=== COPY THIS JSON ABOVE ===');
+});

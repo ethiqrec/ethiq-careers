@@ -1,6 +1,6 @@
 fetch('https://api.recruitwithatlas.com/api/v1/projects?per_page=10', {
   headers: {
-    'Authorization': 'hEVpFYwRHUKIymDhRyedzB',
+    'Authorization': 'Bearer YOUR_ACTUAL_API_KEY_HERE',
     'Content-Type': 'application/json'
   }
 })

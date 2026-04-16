@@ -1,5 +1,34 @@
 {
-  "jobs": [],
-  "lastUpdated": "2024-01-16T00:00:00Z",
-  "count": 0
+  "jobs": [
+    {
+      "id": "atlas-job-1",
+      "title": "Senior Software Engineer",
+      "company": "Confidential Client",
+      "location": { "name": "London, UK" },
+      "salary": "£80k - £120k",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "senior",
+      "function": "Engineering",
+      "summary": "Join our client's growing engineering team working on cutting-edge financial technology. Lead development of scalable systems serving millions of users.",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/atlas-job-1"
+    },
+    {
+      "id": "atlas-job-2",
+      "title": "Product Manager",
+      "company": "Confidential Client",
+      "location": { "name": "Remote, UK" },
+      "salary": "£70k - £90k",
+      "contractType": "full_time", 
+      "workMode": "remote",
+      "seniority": "manager",
+      "function": "Product",
+      "summary": "Drive product strategy for innovative B2B platform. Work closely with engineering and design teams to deliver exceptional user experiences.",
+      "createdAt": "2024-01-12T14:00:00Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/atlas-job-2"
+    }
+  ],
+  "lastUpdated": "2024-01-16T15:30:00Z",
+  "count": 2
 }

@@ -3,548 +3,420 @@
     {
       "id": "c79efb09-85b2-4268-a5bc-96164631d703",
       "title": "AI Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.651Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: AI%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.659Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/c79efb09-85b2-4268-a5bc-96164631d703"
     },
     {
       "id": "aa34b6a6-2d7d-4f98-93ea-eadbafd2a725",
       "title": "Pre-Sales Specialist",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Pre-Sales%20Specialist"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/aa34b6a6-2d7d-4f98-93ea-eadbafd2a725"
     },
     {
       "id": "2fac05ff-a391-4fa6-bf56-f99fa4b42aa4",
       "title": "Senior Manager - Data & AI",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Senior%20Manager%20-%20Data%20%26%20AI"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/2fac05ff-a391-4fa6-bf56-f99fa4b42aa4"
     },
     {
       "id": "7e11a9b2-48d8-4d47-802d-23489af2fe78",
       "title": "Agile Delivery manager (12 Month FTC)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Agile%20Delivery%20manager%20(12%20Month%20FTC)"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/7e11a9b2-48d8-4d47-802d-23489af2fe78"
     },
     {
       "id": "fcc5c297-4311-4dcb-b47e-63e8ae3b52f9",
       "title": "SAP Integration Developer/Architect",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: SAP%20Integration%20Developer%2FArchitect"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/fcc5c297-4311-4dcb-b47e-63e8ae3b52f9"
     },
     {
       "id": "9a2b8a7a-7466-47e0-b68d-35a963ecc5de",
       "title": "SAP ABAP Developer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: SAP%20ABAP%20Developer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/9a2b8a7a-7466-47e0-b68d-35a963ecc5de"
     },
     {
       "id": "516017b2-6af0-4e9d-9e74-2c7750f0a57e",
       "title": "Design Tools Product Owner",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Design%20Tools%20Product%20Owner"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/516017b2-6af0-4e9d-9e74-2c7750f0a57e"
     },
     {
       "id": "f889d817-7c57-49b6-854a-0d4251aed889",
       "title": "Solution Architect",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Solution%20Architect"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f889d817-7c57-49b6-854a-0d4251aed889"
     },
     {
       "id": "199240c7-5a4f-465f-af3b-2cfe1636a922",
       "title": "Collaboration & Linguistic Product Owner",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Collaboration%20%26%20Linguistic%20Product%20Owner"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/199240c7-5a4f-465f-af3b-2cfe1636a922"
     },
     {
       "id": "f84d38a6-b2af-4648-919c-7943490a6a28",
       "title": "AI Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: AI%20Engineer"
-    },
-    {
-      "id": "c7141248-5187-4553-bf43-663cbd096445",
-      "title": "Databricks Data Engineer - Cam",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Databricks%20Data%20Engineer%20-%20Cam"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f84d38a6-b2af-4648-919c-7943490a6a28"
     },
     {
       "id": "f2b65237-36cf-4b03-89c9-f7999bc4ff39",
       "title": "Analytics Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Analytics%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f2b65237-36cf-4b03-89c9-f7999bc4ff39"
     },
     {
       "id": "80f7bc38-db3c-4493-aba4-19c766a7f175",
       "title": "Workplace & Collaboration Enterprise Architect",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Workplace%20%26%20Collaboration%20Enterprise%20Architect"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.860Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/80f7bc38-db3c-4493-aba4-19c766a7f175"
     },
     {
       "id": "45ea6ad8-49ff-4585-920f-809d205df5f4",
       "title": "Senior Automation Test Analyst",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Senior%20Automation%20Test%20Analyst"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/45ea6ad8-49ff-4585-920f-809d205df5f4"
     },
     {
       "id": "64b5f5c2-cae8-406a-a85c-2ea27b17f4e0",
       "title": "Strategy Lead",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Strategy%20Lead"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/64b5f5c2-cae8-406a-a85c-2ea27b17f4e0"
     },
     {
       "id": "5b9e33a6-718c-47fc-ac01-042192d4222d",
       "title": "Data Science Lead",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Data%20Science%20Lead"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/5b9e33a6-718c-47fc-ac01-042192d4222d"
     },
     {
       "id": "696a936d-3d23-40ca-b838-7485e98411b1",
       "title": "Manufacturing Consultant",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Manufacturing%20Consultant"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/696a936d-3d23-40ca-b838-7485e98411b1"
     },
     {
       "id": "664f54c4-2efb-4817-b578-ca549215adf2",
       "title": "Product Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Product%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/664f54c4-2efb-4817-b578-ca549215adf2"
     },
     {
       "id": "80debe43-50fe-4a42-857e-0542e61c012a",
       "title": "Lead Software Developer (Dynamics 365 and Power Platform)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Lead%20Software%20Developer%20(Dynamics%20365%20and%20Power%20Platform)"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/80debe43-50fe-4a42-857e-0542e61c012a"
     },
     {
       "id": "f55018ca-353a-4fbd-a7fe-c39c7807b748",
       "title": "Product engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Product%20engineer"
-    },
-    {
-      "id": "551f2cb0-6a86-4dfe-b594-1a3c02795ecc",
-      "title": "AI Engineer (Perm)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: AI%20Engineer%20(Perm)"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f55018ca-353a-4fbd-a7fe-c39c7807b748"
     },
     {
       "id": "eb4b9343-61ad-4aab-9dea-6787f7c4a4d5",
       "title": "Senior Cloud Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Senior%20Cloud%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/eb4b9343-61ad-4aab-9dea-6787f7c4a4d5"
     },
     {
       "id": "f05e5693-a58c-4496-803b-b7f9d1aa6521",
       "title": "Machine Learning Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Machine%20Learning%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f05e5693-a58c-4496-803b-b7f9d1aa6521"
     },
     {
       "id": "a9af73aa-332f-4fa7-b14b-9ee109b8752d",
       "title": "Product Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Product%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/a9af73aa-332f-4fa7-b14b-9ee109b8752d"
     },
     {
       "id": "0212d6d4-2a90-49ef-b6c2-cd14c3866d97",
       "title": "Data & AI Product Lead",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Data%20%26%20AI%20Product%20Lead"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/0212d6d4-2a90-49ef-b6c2-cd14c3866d97"
     },
     {
       "id": "0a5693a6-b44c-4fa2-a210-1170bc42e144",
       "title": "AI Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: AI%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/0a5693a6-b44c-4fa2-a210-1170bc42e144"
     },
     {
       "id": "8e9f9a54-153a-443e-8b35-d8d2a12bff7f",
       "title": "Product & BE Engineers",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Product%20%26%20BE%20Engineers"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/8e9f9a54-153a-443e-8b35-d8d2a12bff7f"
     },
     {
       "id": "f1e8d74b-fee0-4802-8296-97a9ed68c928",
       "title": "Lead Data Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Lead%20Data%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/f1e8d74b-fee0-4802-8296-97a9ed68c928"
     },
     {
       "id": "4575889c-70a4-437c-bc6b-d4f243f7bdc8",
       "title": "Senior Software Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Senior%20Software%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/4575889c-70a4-437c-bc6b-d4f243f7bdc8"
     },
     {
       "id": "93f0c1dc-4d9d-47f7-9f83-2ea7ff587a58",
       "title": "Senior Product Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Senior%20Product%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/93f0c1dc-4d9d-47f7-9f83-2ea7ff587a58"
     },
     {
       "id": "446b88b7-6ab5-441e-8258-6033977d8525",
       "title": "Software Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: Software%20Engineer"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/446b88b7-6ab5-441e-8258-6033977d8525"
     },
     {
       "id": "b677ac38-64a1-4664-9c52-6e5dd7326f60",
       "title": "All Levels Data Engineer UK (Databricks)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: All%20Levels%20Data%20Engineer%20UK%20(Databricks)"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/b677ac38-64a1-4664-9c52-6e5dd7326f60"
     },
     {
       "id": "01e18eb8-f747-4dd7-a549-9edf5b3b8298",
       "title": "All Levels Data Engineer UK (Snowflake)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: All%20Levels%20Data%20Engineer%20UK%20(Snowflake)"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/01e18eb8-f747-4dd7-a549-9edf5b3b8298"
     },
     {
       "id": "ff6a7f2a-ea5e-4dc4-9569-f55ab31efb4e",
       "title": "SAP Sales Manager",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
+      "companyMeta": null,
+      "description": null,
+      "contractType": null,
+      "workMode": null,
+      "location": null,
       "salary": null,
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "senior",
-      "function": "Various",
-      "summary": "Exciting opportunity to join our client.",
-      "createdAt": "2026-04-17T07:53:31.723Z",
-      "applyUrl": "mailto:james@ethiqrec.com?subject=Application: SAP%20Sales%20Manager"
+      "visaSupport": null,
+      "createdAt": "2026-04-17T08:16:22.861Z",
+      "applyUrl": "https://api.recruitwithatlas.com/jobs/ff6a7f2a-ea5e-4dc4-9569-f55ab31efb4e"
     }
   ],
-  "lastUpdated": "2026-04-17T07:53:31.723Z",
-  "count": 34
+  "lastUpdated": "2026-04-17T08:16:22.861Z",
+  "count": 32
 }

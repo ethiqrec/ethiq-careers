@@ -15,6 +15,54 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
+// Extract plain text from BlockNote JSON format
+function extractBlockNoteText(jsonStr) {
+  try {
+    const blocks = JSON.parse(jsonStr);
+    if (!Array.isArray(blocks)) return null;
+    const textParts = [];
+    for (const block of blocks) {
+      if (block.content && Array.isArray(block.content)) {
+        for (const item of block.content) {
+          if (item.type === 'text' && item.text) {
+            textParts.push(item.text);
+          }
+        }
+      }
+      if (block.children && Array.isArray(block.children)) {
+        for (const child of block.children) {
+          if (child.content && Array.isArray(child.content)) {
+            for (const item of child.content) {
+              if (item.type === 'text' && item.text) {
+                textParts.push(item.text);
+              }
+            }
+          }
+        }
+      }
+    }
+    const result = textParts.join(' ').trim();
+    return result.length > 0 ? result : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Parse job description from various formats (HTML, BlockNote JSON, plain text)
+function parseDescription(rawDesc) {
+  if (!rawDesc) return null;
+  const trimmed = rawDesc.trim();
+  // Check if it looks like BlockNote JSON (starts with [{ )
+  if (trimmed.startsWith('[{') || trimmed.startsWith('[\n{')) {
+    const extracted = extractBlockNoteText(trimmed);
+    if (extracted) return extracted;
+    return null;
+  }
+  // Otherwise strip HTML tags and return plain text
+  const stripped = trimmed.replace(/<[^>]*>/g, '').trim();
+  return stripped.length > 0 ? stripped : null;
+}
+
 async function fetchJobDetails(id) {
   const res = await fetch(`${ATLAS_API_BASE}/api/v1/projects/${id}`, { headers });
   if (!res.ok) {
@@ -64,11 +112,8 @@ try {
         || [job.location?.city, job.location?.country].filter(Boolean).join(', ')
         || null;
 
-      // Strip HTML from job description
-      const rawDesc = job.jobDescription || null;
-      const description = rawDesc
-        ? rawDesc.replace(/<[^>]*>/g, '').trim()
-        : null;
+      // Parse job description (handles HTML, BlockNote JSON, and plain text)
+      const description = parseDescription(job.jobDescription);
 
       // Salary string
       const salary = job.salary || null;

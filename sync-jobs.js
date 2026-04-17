@@ -2,6 +2,7 @@ import fs from 'fs';
 
 const API_KEY = process.env.ATLAS_API_KEY;
 const ATLAS_API_BASE = 'https://api.recruitwithatlas.com';
+const ATLAS_PUBLIC_BASE = 'https://my.recruitwithatlas.com/public';
 const OUTPUT_FILE = 'public/jobs.json';
 
 if (!API_KEY) {
@@ -37,7 +38,7 @@ try {
     const companySize = job.company?.size || null;
     const companyMeta = [industry, companySize ? `${companySize} employees` : null]
       .filter(Boolean)
-      .join(' · ') || null;
+      .join(' \u00b7 ') || null;
 
     // Build location from city and country
     const city = job.location?.city || null;
@@ -68,7 +69,7 @@ try {
       salary: salaryStr,
       visaSupport: job.visaSupport === true ? true : (job.visaSupport === false ? false : null),
       createdAt: job.createdAt || new Date().toISOString(),
-      applyUrl: `${ATLAS_API_BASE}/jobs/${job.id}`
+      applyUrl: `${ATLAS_PUBLIC_BASE}/${job.id}`
     };
   });
 

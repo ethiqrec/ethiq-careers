@@ -51,7 +51,8 @@ export default function CareersPage() {
     const map = {
       full_time: 'Full-time', part_time: 'Part-time',
       contract: 'Contract', freelance: 'Freelance',
-      internship: 'Internship', temporary: 'Temporary'
+      internship: 'Internship', temporary: 'Temporary',
+    non_exec: 'Non-Executive'
     };
     return map[type] || type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   };

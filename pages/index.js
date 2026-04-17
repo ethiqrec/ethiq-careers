@@ -29,8 +29,9 @@ export default function CareersPage() {
     const term = searchTerm.toLowerCase();
     const filtered = jobs.filter(job =>
       (job.title || '').toLowerCase().includes(term) ||
-      (job.location?.name || '').toLowerCase().includes(term) ||
-      (job.summary || '').toLowerCase().includes(term)
+      (job.location || '').toLowerCase().includes(term) ||
+      (job.description || '').toLowerCase().includes(term) ||
+      (job.companyMeta || '').toLowerCase().includes(term)
     );
     setFilteredJobs(filtered);
   }, [jobs, searchTerm]);
@@ -45,17 +46,27 @@ export default function CareersPage() {
     return `${Math.floor(diffDays / 30)} months ago`;
   };
 
-  const openJob = (job) => {
-    if (job.applyUrl && job.applyUrl !== '#') {
-      window.open(job.applyUrl, '_blank');
-    } else {
-      window.location.href = `mailto:james@ethiqrec.com?subject=Application: ${encodeURIComponent(job.title)}`;
-    }
+  const formatContractType = (type) => {
+    if (!type) return null;
+    const map = {
+      full_time: 'Full-time', part_time: 'Part-time',
+      contract: 'Contract', freelance: 'Freelance',
+      internship: 'Internship', temporary: 'Temporary'
+    };
+    return map[type] || type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   };
 
-  const hasRealLocation = (job) => job.location?.name && job.location.name !== 'Location TBD';
-  const hasRealSummary = (job) => job.summary && job.summary !== 'Exciting opportunity to join our client.';
-  const hasRealSalary = (job) => job.salary && job.salary !== null;
+  const formatWorkMode = (mode) => {
+    if (!mode) return null;
+    const map = { remote: 'Remote', hybrid: 'Hybrid', onsite: 'On-site', on_site: 'On-site' };
+    return map[mode] || mode.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  };
+
+  const openJob = (job) => {
+    if (job.applyUrl) {
+      window.open(job.applyUrl, '_blank');
+    }
+  };
 
   return (
     <>
@@ -152,19 +163,31 @@ export default function CareersPage() {
                   <>
                     <h3 className="job-title">{job.title}</h3>
 
-                    {(hasRealLocation(job) || hasRealSalary(job)) && (
-                      <div className="job-meta">
-                        {hasRealLocation(job) && (
-                          <span className="job-tag">{job.location.name}</span>
-                        )}
-                        {hasRealSalary(job) && (
-                          <span className="job-tag job-tag-salary">{job.salary}</span>
-                        )}
-                      </div>
+                    {job.companyMeta && (
+                      <p className="job-company-meta">{job.companyMeta}</p>
                     )}
 
-                    {hasRealSummary(job) && (
-                      <p className="job-summary">{job.summary}</p>
+                    <div className="job-tags">
+                      {job.location && (
+                        <span className="job-tag job-tag-location">{job.location}</span>
+                      )}
+                      {formatContractType(job.contractType) && (
+                        <span className="job-tag">{formatContractType(job.contractType)}</span>
+                      )}
+                      {formatWorkMode(job.workMode) && (
+                        <span className="job-tag">{formatWorkMode(job.workMode)}</span>
+                      )}
+                      {job.visaSupport === true && (
+                        <span className="job-tag job-tag-visa">Visa Sponsorship</span>
+                      )}
+                    </div>
+
+                    {job.salary && (
+                      <p className="job-salary">{job.salary}</p>
+                    )}
+
+                    {job.description && (
+                      <p className="job-summary">{job.description.length > 180 ? job.description.substring(0, 180) + '...' : job.description}</p>
                     )}
 
                     <div className="job-footer">
@@ -172,9 +195,11 @@ export default function CareersPage() {
                         {job.createdAt ? formatDate(job.createdAt) : 'New'}
                       </span>
                       <a
-                        href="#"
+                        href={job.applyUrl || '#'}
                         className="apply-btn"
-                        onClick={(e) => { e.stopPropagation(); openJob(job); }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Apply
                       </a>
@@ -185,11 +210,23 @@ export default function CareersPage() {
                     <div className="job-list-main">
                       <h3 className="job-title">{job.title}</h3>
                       <div className="job-list-tags">
-                        {hasRealLocation(job) && (
-                          <span className="job-tag">{job.location.name}</span>
+                        {job.companyMeta && (
+                          <span className="job-tag job-tag-company">{job.companyMeta}</span>
                         )}
-                        {hasRealSalary(job) && (
+                        {job.location && (
+                          <span className="job-tag job-tag-location">{job.location}</span>
+                        )}
+                        {formatContractType(job.contractType) && (
+                          <span className="job-tag">{formatContractType(job.contractType)}</span>
+                        )}
+                        {formatWorkMode(job.workMode) && (
+                          <span className="job-tag">{formatWorkMode(job.workMode)}</span>
+                        )}
+                        {job.salary && (
                           <span className="job-tag job-tag-salary">{job.salary}</span>
+                        )}
+                        {job.visaSupport === true && (
+                          <span className="job-tag job-tag-visa">Visa Sponsorship</span>
                         )}
                         {job.createdAt && (
                           <span className="job-posted">{formatDate(job.createdAt)}</span>
@@ -197,9 +234,11 @@ export default function CareersPage() {
                       </div>
                     </div>
                     <a
-                      href="#"
+                      href={job.applyUrl || '#'}
                       className="apply-btn apply-btn-sm"
-                      onClick={(e) => { e.stopPropagation(); openJob(job); }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       Apply
                     </a>

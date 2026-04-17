@@ -58,7 +58,7 @@ export default function CareersPage() {
 
   const formatWorkMode = (mode) => {
     if (!mode) return null;
-    const map = { remote: 'Remote', hybrid: 'Hybrid', onsite: 'On-site', on_site: 'On-site' };
+    const map = { remote: 'Remote', hybrid: 'Hybrid', office: 'On-site', on_site: 'On-site' };
     return map[mode] || mode.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   };
 

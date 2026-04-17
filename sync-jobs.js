@@ -31,6 +31,13 @@ try {
   const rawJobs = data.data || [];
   console.log(`Fetched ${rawJobs.length} jobs from Atlas`);
 
+  // DEBUG: Log the full raw structure of the first job
+  if (rawJobs.length > 0) {
+    console.log('\n=== RAW API RESPONSE (first job) ===');
+    console.log(JSON.stringify(rawJobs[0], null, 2));
+    console.log('=== END RAW API RESPONSE ===\n');
+  }
+
   // Transform to public-safe format (hide client names)
   const jobs = rawJobs.map(job => {
     // Build company metadata from industry and size (without naming the company)

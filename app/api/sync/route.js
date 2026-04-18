@@ -1,12 +1,8 @@
-// /api/sync — refresh roles from Atlas + regenerate LLM content
-// Wired to Vercel cron (every 15 min)
-
+// /api/sync — refresh roles from Atlas
+// Wired to Vercel cron (daily)
 import { NextResponse } from 'next/server'
 import { fetchActiveRoles, transformRole } from '../../../lib/atlas.js'
-import { rewriteAllRoles } from '../../../lib/llm.js'
 import { setCachedRoles } from '../../../lib/cache.js'
-
-export const maxDuration = 60 // allow up to 60s for LLM calls
 
 export async function GET(request) {
   // Optional: verify cron secret
@@ -25,14 +21,10 @@ export async function GET(request) {
     const roles = raw.map(transformRole)
     console.log(`Sync: fetched ${roles.length} roles from Atlas`)
 
-    // 2. Run LLM rewrites (only for roles with changed JDs — cache handles dedup)
-    const rewrites = await rewriteAllRoles(roles)
-    console.log(`Sync: processed ${rewrites.size} LLM rewrites`)
-
-    // 3. Enrich and cache
+    // 2. Enrich and cache (no LLM rewrites)
     const enriched = roles.map((role) => ({
       ...role,
-      rewrite: rewrites.get(role.id) || null,
+      rewrite: null,
       locationDisplay: formatLocation(role.location, role.workMode),
       workModeLabel: formatWorkMode(role.workMode),
       salaryDisplay: role.salary || null,
@@ -40,7 +32,6 @@ export async function GET(request) {
     }))
 
     enriched.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-
     await setCachedRoles(enriched)
     console.log(`Sync: cached ${enriched.length} enriched roles`)
 
@@ -78,5 +69,5 @@ function buildDescriptor(role) {
   const loc = formatLocation(role.location, role.workMode)
   if (loc) parts.push(loc)
   if (role.visaSupport === true || role.visaSupport === 'yes') parts.push('visa supported')
-  return parts.join(' · ') || null
+  return parts.join(' \u00b7 ') || null
 }

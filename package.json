@@ -1,6 +1,6 @@
 {
   "name": "ethiq-careers",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,9 +10,14 @@
     "sync": "node sync-jobs.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@tailwindcss/postcss": "^4.2.2",
     "next": "^14.0.0",
+    "postcss": "^8.5.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "resend": "^6.12.0",
+    "tailwindcss": "^4.2.2"
   },
   "engines": {
     "node": ">=18"

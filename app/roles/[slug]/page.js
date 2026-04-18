@@ -8,7 +8,7 @@ export const revalidate = 900
 export async function generateStaticParams() {
   try {
     const roles = await getRoles()
-    return roles.map((r) => ({ slug: r.slug }))
+    return roles.filter((r) => r.slug).map((r) => ({ slug: r.slug }))
   } catch {
     return []
   }

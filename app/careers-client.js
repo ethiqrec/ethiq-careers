@@ -205,6 +205,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
           <div className="stat-label">SENIORITY</div>
           <div className="stat-value">{role.seniorityLabel || '—'}</div>
         </div>
+      </div>
 
       {/* Why this one */}
       {hasRewrite && role.rewrite.why_this_one && (

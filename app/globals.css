@@ -627,6 +627,11 @@ a:hover {
   }
 }
 
+.mobile-consultant-filter {
+  padding: 8px 0 12px;
+  border-bottom: none;
+}
+
 /* ── Mobile list (visible <768px) ── */
 .mobile-list-item {
   padding: 14px 0;

@@ -48,10 +48,6 @@ export default function MobileDetail({ role }) {
           <div className="stat-label">WORK MODE</div>
           <div className="stat-value">{role.workModeLabel || '—'}</div>
         </div>
-        <div className="stat-cell">
-          <div className="stat-label">SENIORITY</div>
-          <div className="stat-value">{role.seniorityLabel || '—'}</div>
-        </div>
       </div>
 
       {/* Why this one */}

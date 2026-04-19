@@ -45,8 +45,8 @@ export default function MobileDetail({ role }) {
           <div className="stat-value">{role.locationDisplay || '—'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">WORK MODE</div>
-          <div className="stat-value">{role.workModeLabel || '—'}</div>
+          <div className="stat-label">CONTRACT</div>
+          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
         </div>
       </div>
 

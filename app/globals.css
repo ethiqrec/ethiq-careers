@@ -351,8 +351,37 @@ a:hover {
 .raw-jd {
   font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.65;
-  white-space: pre-wrap;
+  line-height: 1.7;
+}
+.raw-jd p {
+  margin: 0 0 0.75em;
+}
+.raw-jd h3, .raw-jd h4 {
+  color: var(--text-primary, #fff);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 1.25em 0 0.4em;
+}
+.raw-jd ul {
+  margin: 0 0 0.75em;
+  padding-left: 1.4em;
+}
+.raw-jd li {
+  margin-bottom: 0.3em;
+}
+.raw-jd strong {
+  color: var(--text-primary, #fff);
+  font-weight: 600;
+}
+.raw-jd a {
+  color: var(--green);
+  text-decoration: underline;
+}
+.raw-jd code {
+  background: rgba(255,255,255,0.06);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  font-size: 0.9em;
 }
 
 /* Action row */

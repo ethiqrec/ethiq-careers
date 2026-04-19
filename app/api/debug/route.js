@@ -1,45 +1,36 @@
 import { NextResponse } from 'next/server'
-import { fetchActiveRoles, fetchRoleDetail } from '../../../lib/atlas.js'
-import { getCachedRoles } from '../../../lib/cache.js'
+import { fetchRoleDetail, transformRole } from '../../../lib/atlas.js'
+
+// Product Engineer role ID
+const ROLE_ID = '664f54c4-2efb-4817-b578-ca549215adf2'
 
 export async function GET() {
   try {
-    const cached = await getCachedRoles()
-    const firstCached = cached?.[0]
-
-    const roles = await fetchActiveRoles()
-    const firstId = roles[0]?.id
-    let rawJdType = null
-    let rawJdSample = null
-
-    if (firstId) {
-      const rawDetail = await fetchRoleDetail(firstId)
-      const jd = rawDetail.jobDescription
-      rawJdType = Array.isArray(jd) ? 'array' : typeof jd
-      if (typeof jd === 'string') {
-        rawJdSample = jd.substring(0, 300)
-      } else if (Array.isArray(jd)) {
-        rawJdSample = JSON.stringify(jd.slice(0, 2), null, 2)
-      } else {
-        rawJdSample = JSON.stringify(jd)?.substring(0, 300)
-      }
+    const raw = await fetchRoleDetail(ROLE_ID)
+    const jd = raw.jobDescription
+    const jdType = Array.isArray(jd) ? 'array' : typeof jd
+    
+    // Check if it's a string containing JSON
+    let parsed = null
+    let parseError = null
+    if (typeof jd === 'string' && (jd.startsWith('[') || jd.startsWith('{'))) {
+      try { parsed = JSON.parse(jd) } catch (e) { parseError = e.message }
     }
 
+    // Transform through our pipeline
+    const transformed = transformRole(raw)
+
     return NextResponse.json({
-      kvCacheExists: !!cached,
-      kvCacheCount: cached?.length || 0,
-      kvFirstRole: firstCached ? {
-        title: firstCached.title,
-        jdHasHtmlTags: /<[a-z]/.test(firstCached.jobDescription || ''),
-        jdSample: (firstCached.jobDescription || '').substring(0, 300),
-      } : null,
-      atlasRaw: {
-        roleId: firstId,
-        jdType: rawJdType,
-        jdSample: rawJdSample,
-      }
+      rawJdType: jdType,
+      rawJdStartsWith: typeof jd === 'string' ? jd.substring(0, 80) : null,
+      rawJdLength: typeof jd === 'string' ? jd.length : null,
+      parsedBlockCount: parsed ? (Array.isArray(parsed) ? parsed.length : 'not array') : null,
+      parsedFirstBlocks: parsed && Array.isArray(parsed) ? parsed.slice(0, 3).map(b => ({ type: b.type, contentLen: (b.content || []).length, firstContent: (b.content || [])[0]?.text?.substring(0, 50) })) : null,
+      parseError,
+      transformedJdHasHtml: /<[a-z]/.test(transformed.jobDescription || ''),
+      transformedJdSample: (transformed.jobDescription || '').substring(0, 500),
     })
   } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+    return NextResponse.json({ error: err.message, stack: err.stack }, { status: 500 })
   }
 }

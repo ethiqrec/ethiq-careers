@@ -1,36 +1,36 @@
 import { NextResponse } from 'next/server'
-import { fetchRoleDetail, transformRole } from '../../../lib/atlas.js'
+import { fetchRoleDetail } from '../../../lib/atlas.js'
 
-// Product Engineer role ID
 const ROLE_ID = '664f54c4-2efb-4817-b578-ca549215adf2'
 
 export async function GET() {
   try {
     const raw = await fetchRoleDetail(ROLE_ID)
-    const jd = raw.jobDescription
-    const jdType = Array.isArray(jd) ? 'array' : typeof jd
     
-    // Check if it's a string containing JSON
-    let parsed = null
-    let parseError = null
-    if (typeof jd === 'string' && (jd.startsWith('[') || jd.startsWith('{'))) {
-      try { parsed = JSON.parse(jd) } catch (e) { parseError = e.message }
-    }
+    // Show all top-level keys and their types
+    const keys = Object.keys(raw).map(k => {
+      const v = raw[k]
+      const t = Array.isArray(v) ? 'array' : typeof v
+      let sample = ''
+      if (typeof v === 'string') sample = v.substring(0, 60)
+      else if (Array.isArray(v)) sample = v.length + ' items'
+      else if (v && typeof v === 'object') sample = Object.keys(v).join(',')
+      return { key: k, type: t, sample }
+    })
 
-    // Transform through our pipeline
-    const transformed = transformRole(raw)
+    // Check for any field containing BlockNote-like data
+    const jsonFields = Object.keys(raw).filter(k => {
+      const v = raw[k]
+      return typeof v === 'string' && (v.startsWith('[{') || v.startsWith('{'))
+    })
 
     return NextResponse.json({
-      rawJdType: jdType,
-      rawJdStartsWith: typeof jd === 'string' ? jd.substring(0, 80) : null,
-      rawJdLength: typeof jd === 'string' ? jd.length : null,
-      parsedBlockCount: parsed ? (Array.isArray(parsed) ? parsed.length : 'not array') : null,
-      parsedFirstBlocks: parsed && Array.isArray(parsed) ? parsed.slice(0, 3).map(b => ({ type: b.type, contentLen: (b.content || []).length, firstContent: (b.content || [])[0]?.text?.substring(0, 50) })) : null,
-      parseError,
-      transformedJdHasHtml: /<[a-z]/.test(transformed.jobDescription || ''),
-      transformedJdSample: (transformed.jobDescription || '').substring(0, 500),
+      allKeys: keys,
+      jsonStringFields: jsonFields,
+      jobDescriptionRaw: raw.jobDescriptionRaw ? (typeof raw.jobDescriptionRaw + ': ' + String(raw.jobDescriptionRaw).substring(0, 200)) : 'NOT PRESENT',
+      description: raw.description ? (typeof raw.description + ': ' + String(raw.description).substring(0, 200)) : 'NOT PRESENT',
     })
   } catch (err) {
-    return NextResponse.json({ error: err.message, stack: err.stack }, { status: 500 })
+    return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

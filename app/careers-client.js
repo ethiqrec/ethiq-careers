@@ -76,7 +76,7 @@ export default function CareersClient({ roles }) {
           <h1>We place tech talent.<br />That&rsquo;s the whole thing.</h1>
           <p className="hero-sub">
             EMEA-focused recruitment. No &ldquo;transformational opportunities.&rdquo;
-            Just real roles at companies we&rsquo;ve actually vetted.
+            Just real roles at companies we actually know.
           </p>
           <p className="hero-meta">
             {roles.length} open roles &middot; synced {timeAgo(roles[0]?.createdAt)}
@@ -224,6 +224,10 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         <div className="stat-cell">
           <div className="stat-label">CONTRACT</div>
           <div className="stat-value">{role.contractTypeLabel || '—'}</div>
+        </div>
+        <div className="stat-cell">
+          <div className="stat-label">LIVE ROLES</div>
+          <div className="stat-value">{role.hireTarget || '—'}</div>
         </div>
       </div>
 

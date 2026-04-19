@@ -28,11 +28,20 @@ export default function CareersClient({ roles }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'share' | 'refer' | null
+  const [consultantFilter, setConsultantFilter] = useState(null) // null = all
 
-  const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
+  // Unique consultants for filter
+  const consultants = [...new Set(roles.map((r) => r.ownerFirstName).filter(Boolean))].sort()
+
+  // Filter then sort
+  const filtered = consultantFilter
+    ? roles.filter((r) => r.ownerFirstName === consultantFilter)
+    : roles
+
+  const selected = filtered.find((r) => r.id === selectedId) || filtered[0] || null
 
   // Sort
-  const sorted = [...roles].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     if (sortBy === 'compensation') {
       const aVal = a.salary ? parseFloat(String(a.salary).replace(/[^0-9.]/g, '')) : 0
       const bVal = b.salary ? parseFloat(String(b.salary).replace(/[^0-9.]/g, '')) : 0
@@ -86,6 +95,21 @@ export default function CareersClient({ roles }) {
                 {sortBy === 'newest' ? 'newest' : 'comp'} ↕
               </button>
             </div>
+            {consultants.length > 1 && (
+              <div className="consultant-filter">
+                <button
+                  className={`filter-pill ${!consultantFilter ? 'active' : ''}`}
+                  onClick={() => setConsultantFilter(null)}
+                >All</button>
+                {consultants.map((name) => (
+                  <button
+                    key={name}
+                    className={`filter-pill ${consultantFilter === name ? 'active' : ''}`}
+                    onClick={() => setConsultantFilter(name)}
+                  >{name}</button>
+                ))}
+              </div>
+            )}
             {sorted.map((role) => (
               <div
                 key={role.id}
@@ -198,8 +222,8 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
           <div className="stat-value">{role.locationDisplay || '—'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">WORK MODE</div>
-          <div className="stat-value">{role.workModeLabel || '—'}</div>
+          <div className="stat-label">CONTRACT</div>
+          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 // /api/sync — refresh roles from Atlas
+// Triggers Vercel rebuild to pick up fresh KV data
 // Wired to Vercel cron (every 15 min)
 
 import { NextResponse } from 'next/server'

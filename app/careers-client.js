@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 // ── Helpers ──
@@ -28,10 +29,30 @@ export default function CareersClient({ roles }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'share' | 'refer' | null
-  const [consultantFilter, setConsultantFilter] = useState(null) // null = all
+  const searchParams = useSearchParams()
 
   // Unique consultants for filter
   const consultants = [...new Set(roles.map((r) => r.ownerFirstName).filter(Boolean))].sort()
+
+  // Initialise consultant filter from ?consultant= URL param
+  const [consultantFilter, setConsultantFilterRaw] = useState(() => {
+    const param = searchParams.get('consultant')
+    if (!param) return null
+    const match = consultants.find((c) => c.toLowerCase() === param.toLowerCase())
+    return match || null
+  })
+
+  // Update URL when filter changes so the link is shareable
+  const setConsultantFilter = useCallback((name) => {
+    setConsultantFilterRaw(name)
+    const url = new URL(window.location.href)
+    if (name) {
+      url.searchParams.set('consultant', name.toLowerCase())
+    } else {
+      url.searchParams.delete('consultant')
+    }
+    window.history.replaceState({}, '', url.toString())
+  }, [])
 
   // Filter then sort
   const filtered = consultantFilter
@@ -147,6 +168,21 @@ export default function CareersClient({ roles }) {
 
       {/* Mobile: list (visible <768px) */}
       <div className="container mobile-list">
+        {consultants.length > 1 && (
+          <div className="consultant-filter mobile-consultant-filter">
+            <button
+              className={`filter-pill ${!consultantFilter ? 'active' : ''}`}
+              onClick={() => setConsultantFilter(null)}
+            >All</button>
+            {consultants.map((name) => (
+              <button
+                key={name}
+                className={`filter-pill ${consultantFilter === name ? 'active' : ''}`}
+                onClick={() => setConsultantFilter(name)}
+              >{name}</button>
+            ))}
+          </div>
+        )}
         {sorted.map((role) => (
           <Link
             key={role.id}

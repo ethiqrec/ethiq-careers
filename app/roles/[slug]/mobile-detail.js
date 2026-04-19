@@ -48,6 +48,10 @@ export default function MobileDetail({ role }) {
           <div className="stat-label">CONTRACT</div>
           <div className="stat-value">{role.contractTypeLabel || '—'}</div>
         </div>
+        <div className="stat-cell">
+          <div className="stat-label">LIVE ROLES</div>
+          <div className="stat-value">{role.hireTarget || '—'}</div>
+        </div>
       </div>
 
       {/* Why this one */}

@@ -253,17 +253,23 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
             </div>
           )}
         </>
+      ) : role.jobDescription ? (
+        <div className="raw-jd" dangerouslySetInnerHTML={{ __html: role.jobDescription }} />
       ) : (
-        <div className="raw-jd">
-          {stripHtml(role.jobDescription) || 'No description available.'}
-        </div>
+        <div className="raw-jd">No description available.</div>
       )}
 
       {/* Action row */}
       <div className="action-row">
-        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+        <a
+          className="btn btn-primary"
+          href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', textAlign: 'center' }}
+        >
           Apply →
-        </button>
+        </a>
         <div style={{ position: 'relative' }}>
           <button className="btn btn-outline" onClick={() => togglePanel('share')}>
             Share ↗
@@ -278,7 +284,6 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       </div>
 
       {/* Panels */}
-      {activePanel === 'apply' && <ApplyForm role={role} />}
       {activePanel === 'refer' && <ReferForm role={role} />}
     </div>
   )

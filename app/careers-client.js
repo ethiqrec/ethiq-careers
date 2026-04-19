@@ -73,9 +73,9 @@ export default function CareersClient({ roles }) {
       {/* Hero */}
       <section className="hero">
         <div className="container">
-          <h1>We build AI &amp; data teams.<br />That&rsquo;s the whole thing.</h1>
+          <h1>We place tech talent.<br />That&rsquo;s the whole thing.</h1>
           <p className="hero-sub">
-            EMEA-focused tech recruitment. No &ldquo;transformational opportunities.&rdquo;
+            EMEA-focused recruitment. No &ldquo;transformational opportunities.&rdquo;
             Just real roles at companies we&rsquo;ve actually vetted.
           </p>
           <p className="hero-meta">

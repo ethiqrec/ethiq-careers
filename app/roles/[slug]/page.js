@@ -8,7 +8,7 @@ export const revalidate = 900
 export async function generateStaticParams() {
   try {
     const roles = await getRoles()
-    return roles.filter((r) => r.slug).map((r) => ({ slug: r.slug }))
+    return roles.map((r) => ({ slug: r.slug }))
   } catch {
     return []
   }
@@ -17,10 +17,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params
   const role = await getRoleBySlug(slug)
-  if (!role) return { title: 'Role not found — Ethiq' }
+  if (!role) return { title: 'Role not found â Ethiq' }
   return {
-    title: `${role.title} — Ethiq`,
+    title: `${role.title} â Ethiq`,
     description: role.descriptor || 'Engineering role via Ethiq',
+    robots: {
+      index: false,
+      follow: false,
+    },
   }
 }
 

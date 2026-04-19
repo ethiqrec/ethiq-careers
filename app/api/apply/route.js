@@ -1,4 +1,4 @@
-// POST /api/apply — handle job applications
+// POST /api/apply -- handle job applications
 // 1. Save CV to Vercel Blob (or filesystem fallback)
 // 2. Email the project owner
 // 3. Create person in Atlas
@@ -18,7 +18,7 @@ export async function POST(request) {
     const fd = await request.formData()
     const roleId = fd.get('roleId')
     const roleTitle = fd.get('roleTitle') || 'Unknown role'
-    const ownerEmail = fd.get('ownerEmail') || process.env.OWNER_EMAIL_FALLBACK || 'james@ethiqrec.com'
+    const ownerEmail = fd.get('ownerEmail') || process.env.OWNER_EMAIL_FALLBACK || ''
     const ownerName = fd.get('ownerName') || 'James'
     const name = fd.get('name')
     const email = fd.get('email')
@@ -36,7 +36,7 @@ export async function POST(request) {
       cvUrl = await saveCv(cvFile, roleId, name)
     }
 
-    // 2. Send email (non-blocking — don't fail if email provider isn't set up)
+    // 2. Send email (non-blocking)
     try {
       await sendApplicationEmail({
         to: ownerEmail,
@@ -68,14 +68,12 @@ export async function POST(request) {
         }
       } catch (err) {
         console.error('Atlas integration failed:', err.message)
-        // Log but don't fail — applicant has done their part
       }
     }
 
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('Apply handler error:', err)
-    // Still return success — never fail-visible to the applicant
     return NextResponse.json({ ok: true })
   }
 }
@@ -104,7 +102,7 @@ async function saveCv(file, roleId, name) {
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
     const path = join(dir, filename)
     writeFileSync(path, buffer)
-    return path // Not a URL, but logged for debugging
+    return path
   } catch (err) {
     console.error('File save failed:', err.message)
     return null

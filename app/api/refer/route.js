@@ -49,7 +49,7 @@ export async function POST(request) {
             name: 'Referred candidate',
             email: null,
             linkedinUrl: referredLinkedin,
-            addedByEmail: 'james@ethiqrec.com',
+            addedByEmail: process.env.OWNER_EMAIL_FALLBACK || '',
           })
           const personId = person?.data?.id || person?.id
 

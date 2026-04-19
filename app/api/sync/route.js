@@ -44,8 +44,10 @@ export async function GET(request) {
       rewrite: null,
       locationDisplay: formatLocation(role.location, role.workMode),
       workModeLabel: formatWorkMode(role.workMode),
+      contractTypeLabel: formatContractType(role.contractType),
       seniorityLabel: formatSeniority(role.seniority),
       salaryDisplay: role.salary || null,
+      ownerFirstName: (role.owner?.name || '').split(' ')[0] || null,
       descriptor: buildDescriptor(role),
     }))
 
@@ -79,6 +81,11 @@ function formatLocation(location, workMode) {
 function formatWorkMode(mode) {
   if (!mode) return null
   return { remote: 'Remote', hybrid: 'Hybrid', office: 'On-site' }[mode] || mode
+}
+
+function formatContractType(type) {
+  if (!type) return null
+  return { full_time: 'Full-time', contract: 'Contract', part_time: 'Part-time' }[type] || type
 }
 
 function formatSeniority(seniority) {

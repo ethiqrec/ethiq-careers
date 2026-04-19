@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 // ── Helpers ──
@@ -29,18 +28,20 @@ export default function CareersClient({ roles }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'share' | 'refer' | null
-  const searchParams = useSearchParams()
-
   // Unique consultants for filter
   const consultants = [...new Set(roles.map((r) => r.ownerFirstName).filter(Boolean))].sort()
 
-  // Initialise consultant filter from ?consultant= URL param
-  const [consultantFilter, setConsultantFilterRaw] = useState(() => {
-    const param = searchParams.get('consultant')
-    if (!param) return null
-    const match = consultants.find((c) => c.toLowerCase() === param.toLowerCase())
-    return match || null
-  })
+  // Consultant filter — initialised from ?consultant= URL param via useEffect
+  const [consultantFilter, setConsultantFilterRaw] = useState(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const param = params.get('consultant')
+    if (param) {
+      const match = consultants.find((c) => c.toLowerCase() === param.toLowerCase())
+      if (match) setConsultantFilterRaw(match)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update URL when filter changes so the link is shareable
   const setConsultantFilter = useCallback((name) => {
@@ -206,9 +207,6 @@ export default function CareersClient({ roles }) {
       <footer className="site-footer">
         <div className="container footer-inner">
           <span className="footer-text">&copy; {new Date().getFullYear()} Ethiq Recruitment</span>
-          <span className="footer-text">
-            <a href="mailto:james@ethiqrec.com">james@ethiqrec.com</a>
-          </span>
         </div>
       </footer>
     </>

@@ -100,17 +100,23 @@ export default function MobileDetail({ role }) {
             </div>
           )}
         </>
+      ) : role.jobDescription ? (
+        <div className="raw-jd" dangerouslySetInnerHTML={{ __html: role.jobDescription }} />
       ) : (
-        <div className="raw-jd">
-          {stripHtml(role.jobDescription) || 'No description available.'}
-        </div>
+        <div className="raw-jd">No description available.</div>
       )}
 
       {/* Actions */}
       <div className="action-row">
-        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+        <a
+          className="btn btn-primary"
+          href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', textAlign: 'center' }}
+        >
           Apply →
-        </button>
+        </a>
         <button className="btn btn-outline" onClick={() => {
           if (navigator.share) {
             navigator.share({ title: `${role.title} — Ethiq`, url: window.location.href })
@@ -125,7 +131,6 @@ export default function MobileDetail({ role }) {
         </button>
       </div>
 
-      {activePanel === 'apply' && <ApplyForm role={role} />}
       {activePanel === 'refer' && <ReferForm role={role} />}
     </div>
   )

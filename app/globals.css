@@ -180,6 +180,36 @@ a:hover {
   background: var(--bg-surface);
 }
 
+/* Consultant filter */
+.consultant-filter {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px 10px;
+  border-bottom: 0.5px solid var(--border);
+  flex-wrap: wrap;
+}
+.filter-pill {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 120ms ease;
+  font-family: var(--font-mono);
+  text-transform: lowercase;
+}
+.filter-pill:hover {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+}
+.filter-pill.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+}
+
 /* Rail items */
 .rail-item {
   padding: 12px 16px;

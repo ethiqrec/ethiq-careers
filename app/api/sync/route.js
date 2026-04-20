@@ -5,6 +5,15 @@
 import { NextResponse } from 'next/server'
 import { fetchActiveRoles, fetchRoleDetail, transformRole } from '../../../lib/atlas.js'
 import { setCachedRoles } from '../../../lib/cache.js'
+import { readFileSync } from 'fs'
+import { join } from 'path'
+
+// Load manual location overrides
+let locationOverrides = {}
+try {
+  const locPath = join(process.cwd(), 'public', 'locations.json')
+  locationOverrides = JSON.parse(readFileSync(locPath, 'utf8'))
+} catch (e) { /* no overrides */ }
 
 export const maxDuration = 60
 
@@ -42,7 +51,7 @@ export async function GET(request) {
     const enriched = roles.map((role) => ({
       ...role,
       rewrite: null,
-      locationDisplay: role.placeOfWork || formatLocation(role.location, role.workMode),
+      locationDisplay: locationOverrides[role.title] || role.placeOfWork || formatLocation(role.location, role.workMode),
       workModeLabel: formatWorkMode(role.workMode),
       contractTypeLabel: formatContractType(role.contractType),
       seniorityLabel: formatSeniority(role.seniority),

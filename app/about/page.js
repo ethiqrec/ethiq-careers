@@ -53,7 +53,7 @@ export default function AboutPage() {
       {/* Nav */}
       <nav className="nav">
         <div className="container nav-inner">
-          <Link href="/" className="nav-logo">ETHIQ</Link>
+          <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={250} height={100} priority /></Link>
           <ul className="nav-links">
             <li><Link href="/">Roles</Link></li>
             <li><Link href="/about/" className="active">About</Link></li>

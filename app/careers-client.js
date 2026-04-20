@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 
-// ── Helpers ──
+// ââ Helpers ââ
 
 function timeAgo(dateStr) {
   if (!dateStr) return ''
@@ -31,7 +31,7 @@ function matchesConsultant(ownerName, filter) {
   return ownerName.toLowerCase().startsWith(filter.toLowerCase())
 }
 
-// ── Share handler ──
+// ââ Share handler ââ
 
 async function handleShare(role) {
   var url = typeof window !== 'undefined' ? window.location.href : ''
@@ -54,7 +54,7 @@ async function handleShare(role) {
   return false
 }
 
-// ── Toast component ──
+// ââ Toast component ââ
 
 function Toast({ message, onDone }) {
   useEffect(() => {
@@ -65,7 +65,7 @@ function Toast({ message, onDone }) {
   return <div className="toast">{message}</div>
 }
 
-// ── Main component ──
+// ââ Main component ââ
 
 export default function CareersClient({ roles, syncedAt }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
@@ -230,7 +230,7 @@ export default function CareersClient({ roles, syncedAt }) {
   )
 }
 
-// ── Role detail pane ──
+// ââ Role detail pane ââ
 
 function RoleDetail({ role, activePanel, setActivePanel }) {
   const [toast, setToast] = useState(null)
@@ -356,9 +356,9 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
 
       {/* Action row */}
       <div className="action-row">
-        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+        <a className="btn btn-primary" href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`} target="_blank" rel="noopener noreferrer">
           Apply {'\u2192'}
-        </button>
+        </a>
         <button className="btn btn-outline" onClick={onShare}>
           Share {'\u2197'}
         </button>
@@ -371,7 +371,6 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
 
       {/* Panels */}
-      {activePanel === 'apply' && <ApplyForm role={role} />}
       {activePanel === 'refer' && (
         <div ref={referFormRef}>
           <ReferForm role={role} />
@@ -381,7 +380,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
   )
 }
 
-// ── Apply form ──
+// ââ Apply form ââ
 
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle') // idle | submitting | done
@@ -481,7 +480,7 @@ function ApplyForm({ role }) {
   )
 }
 
-// ── Refer form ──
+// ââ Refer form ââ
 
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')

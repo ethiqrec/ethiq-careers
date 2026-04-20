@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // ââ Helpers ââ
 
@@ -100,7 +101,7 @@ export default function CareersClient({ roles, syncedAt }) {
       {/* Nav */}
       <nav className="nav">
         <div className="container nav-inner">
-          <Link href="/" className="nav-logo">ETHIQ</Link>
+          <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={250} height={100} priority /></Link>
           <ul className="nav-links">
             <li><Link href="/" className="active">Roles</Link></li>
             <li><Link href="/about/">About</Link></li>

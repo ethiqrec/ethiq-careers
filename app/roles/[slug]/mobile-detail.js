@@ -7,14 +7,14 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
-// ââ Share handler ââ
+// ── Share handler ──
 
 async function handleShare(role) {
-  const url = typeof window !== 'undefined' ? window.location.href : ''
-  const shareData = {
-    title: `${role.title} - Ethiq`,
-    text: `${role.title} at a ${role.stage || ''} ${role.company?.industry || ''} company`.trim(),
-    url,
+  var url = typeof window !== 'undefined' ? window.location.href : ''
+  var shareData = {
+    title: role.title + ' - Ethiq',
+    text: (role.title + ' ' + (role.company?.industry || '')).trim(),
+    url: url,
   }
 
   if (navigator.share && navigator.canShare?.(shareData)) {
@@ -30,11 +30,11 @@ async function handleShare(role) {
   return false
 }
 
-// ââ Toast ââ
+// ── Toast ──
 
 function Toast({ message, onDone }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 2000)
+    var t = setTimeout(onDone, 2000)
     return () => clearTimeout(t)
   }, [onDone])
 
@@ -46,7 +46,7 @@ export default function MobileDetail({ role }) {
   const [toast, setToast] = useState(null)
   const referFormRef = useRef(null)
 
-  const hasRewrite = role.rewrite && (
+  var hasRewrite = role.rewrite && (
     role.rewrite.why_this_one ||
     role.rewrite.the_company ||
     role.rewrite.what_youll_do ||
@@ -54,21 +54,21 @@ export default function MobileDetail({ role }) {
     role.rewrite.how_they_hire
   )
 
-  const togglePanel = (panel) => {
+  var togglePanel = (panel) => {
     setActivePanel((prev) => (prev === panel ? null : panel))
   }
 
-  const onShare = async () => {
-    const showToast = await handleShare(role)
+  var onShare = async () => {
+    var showToast = await handleShare(role)
     if (showToast) setToast('Link copied')
   }
 
-  const onRefer = () => {
+  var onRefer = () => {
     togglePanel('refer')
     setTimeout(() => {
       if (referFormRef.current) {
         referFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        const firstInput = referFormRef.current.querySelector('input')
+        var firstInput = referFormRef.current.querySelector('input')
         if (firstInput) setTimeout(() => firstInput.focus(), 400)
       }
     }, 50)
@@ -76,7 +76,7 @@ export default function MobileDetail({ role }) {
 
   return (
     <div className="container mobile-detail">
-      <Link href="/" className="back-link">â all roles</Link>
+      <Link href="/" className="back-link">{'\u2190'} all roles</Link>
 
       <h2 className="detail-title">{role.title}</h2>
 
@@ -88,21 +88,21 @@ export default function MobileDetail({ role }) {
       <div className="stats-grid">
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
-          <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
-            {role.salaryDisplay || 'â'}
+          <div className={'stat-value' + (role.salaryDisplay ? ' green' : '')}>
+            {role.salaryDisplay || '-'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || 'â'}</div>
+          <div className="stat-value">{role.locationDisplay || '-'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">WORK MODE</div>
-          <div className="stat-value">{role.workModeLabel || 'â'}</div>
+          <div className="stat-value">{role.workModeLabel || '-'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">SENIORITY</div>
-          <div className="stat-value">{role.seniorityLabel || 'â'}</div>
+          <div className="stat-value">{role.seniorityLabel || '-'}</div>
         </div>
       </div>
 
@@ -161,13 +161,13 @@ export default function MobileDetail({ role }) {
       {/* Actions */}
       <div className="action-row">
         <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
-          Apply â
+          Apply {'\u2192'}
         </button>
         <button className="btn btn-outline" onClick={onShare}>
-          Share â
+          Share {'\u2197'}
         </button>
         <button className="btn btn-outline" onClick={onRefer}>
-          Refer <span className="green-suffix">Â£1k</span> â
+          Refer <span className="green-suffix">{'\u00A3'}1k</span> {'\u2197'}
         </button>
       </div>
 
@@ -190,10 +190,10 @@ function ApplyForm({ role }) {
   const [form, setForm] = useState({ name: '', email: '', linkedin: '', note: '' })
   const fileRef = useRef(null)
 
-  const handleSubmit = async (e) => {
+  var handleSubmit = async (e) => {
     e.preventDefault()
     setState('submitting')
-    const fd = new FormData()
+    var fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
     fd.append('ownerEmail', role.owner?.email || '')
@@ -245,11 +245,11 @@ function ApplyForm({ role }) {
         <textarea rows={2} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
       </div>
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application â'}
+        {state === 'submitting' ? 'Sending...' : 'Send application \u2192'}
       </button>
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
-        We won&rsquo;t pass you around to anyone else. <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy â</a>
+        We won&rsquo;t pass you around to anyone else. <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy {'\u2192'}</a>
       </p>
     </form>
   )
@@ -262,10 +262,10 @@ function ReferForm({ role }) {
   const [form, setForm] = useState({ linkedin: '', name: '', email: '', note: '' })
   const fileRef = useRef(null)
 
-  const handleSubmit = async (e) => {
+  var handleSubmit = async (e) => {
     e.preventDefault()
     setState('submitting')
-    const fd = new FormData()
+    var fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
     fd.append('referrerName', form.name)
@@ -291,7 +291,7 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired, we pay you Â£1,000. No catch, no timer, no weird vesting.
+        If they get hired, we pay you {'\u00A3'}1,000. No catch, no timer, no weird vesting.
         Drop their LinkedIn or their CV - whichever is easier.
       </p>
       <div className="form-toggle">
@@ -322,11 +322,11 @@ function ReferForm({ role }) {
         <textarea rows={2} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
       </div>
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral â'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral \u2192'}
       </button>
       <p className="form-fine-print">
         We&rsquo;ll only contact them with your permission. If they&rsquo;re already in our system,
-        no reward - but we&rsquo;ll still say thanks. Â£1,000 is paid once the candidate has passed
+        no reward - but we&rsquo;ll still say thanks. {'\u00A3'}1,000 is paid once the candidate has passed
         90 days in the role.
       </p>
     </form>

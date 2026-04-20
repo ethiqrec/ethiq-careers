@@ -348,12 +348,30 @@ a:hover {
 }
 
 /* Raw JD fallback */
+/* Raw JD fallback — now renders HTML from BlockNote */
 .raw-jd {
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.65;
-  white-space: pre-wrap;
 }
+.raw-jd h1, .raw-jd h2, .raw-jd h3, .raw-jd h4, .raw-jd h5, .raw-jd h6 {
+  color: var(--text-primary);
+  margin: 18px 0 6px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.raw-jd h1 { font-size: 20px; }
+.raw-jd h2 { font-size: 17px; }
+.raw-jd h3 { font-size: 15px; }
+.raw-jd p { margin: 0 0 10px; }
+.raw-jd ul, .raw-jd ol { margin: 6px 0 12px 20px; padding: 0; }
+.raw-jd li { margin-bottom: 4px; }
+.raw-jd strong { color: var(--text-primary); font-weight: 600; }
+.raw-jd a { color: var(--accent-blue, #8EB8FF); text-decoration: underline; }
+.raw-jd table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+.raw-jd th, .raw-jd td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; }
+.raw-jd th { font-weight: 600; color: var(--text-primary); }
+.raw-jd code { background: rgba(255,255,255,0.06); padding: 1px 4px; border-radius: 3px; font-size: 13px; }
 
 /* Action row */
 .action-row {

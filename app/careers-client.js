@@ -67,7 +67,7 @@ function Toast({ message, onDone }) {
 
 // ── Main component ──
 
-export default function CareersClient({ roles }) {
+export default function CareersClient({ roles, syncedAt }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'refer' | null
@@ -113,11 +113,11 @@ export default function CareersClient({ roles }) {
         <div className="container">
           <h1>We place tech talent.<br />That&rsquo;s the whole thing.</h1>
           <p className="hero-sub">
-            Tech recruitment across the UK and Europe. No &ldquo;transformational opportunities.&rdquo;
-            Just real roles at companies we actually know.
+            Small team, deep domain knowledge, zero bureaucracy.
+            Real roles at companies we actually know.
           </p>
           <p className="hero-meta">
-            {roles.length} open roles &middot; synced {timeAgo(roles[0]?.createdAt)}
+            {roles.length} open roles &middot; synced {timeAgo(syncedAt || roles[0]?.createdAt)}
           </p>
         </div>
       </section>

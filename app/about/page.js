@@ -69,7 +69,7 @@ export default function AboutPage() {
             Ethiq is a tech recruitment firm specialising in AI, Data and Engineering
             talent across the UK and Europe. We work with companies of all sizes, from
             early-stage startups to scaling enterprises. Small team, deep domain
-            knowledge, direct process, no &ldquo;transformational opportunities.&rdquo;
+            knowledge, zero bureaucracy, direct process.
           </p>
 
           <div className="team-grid">

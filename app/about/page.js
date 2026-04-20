@@ -2,31 +2,35 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'About \u2014 Ethiq',
-  description: 'Ethiq is a tech recruitment firm specialising in AI, Data and Engineering talent across the UK and Europe.',
+  title: 'About — Ethiq',
+  description: 'Ethiq places engineers at EMEA startups. Small team, direct process.',
 }
 
 const TEAM = [
   {
     name: 'Fraser Tait',
+    firstName: 'Fraser',
     role: 'Co-founder',
     photo: '/team/fraser.png',
     linkedin: 'https://www.linkedin.com/in/ftait/',
   },
   {
     name: 'Anton Howell',
+    firstName: 'Anton',
     role: 'Co-founder',
     photo: '/team/anton.png',
     linkedin: 'https://www.linkedin.com/in/antonhowell',
   },
   {
     name: 'James Wilson',
+    firstName: 'James',
     role: 'Recruiter',
     photo: '/team/james.png',
     linkedin: 'https://www.linkedin.com/in/james-wilson-92170656',
   },
   {
     name: 'Mark Worsfold',
+    firstName: 'Mark',
     role: 'Recruiter',
     photo: '/team/mark.png',
     linkedin: 'https://www.linkedin.com/in/markworsfold',
@@ -67,38 +71,43 @@ export default function AboutPage() {
         <div className="container">
           <h1 className="about-heading">About</h1>
           <p className="about-intro">
-            Ethiq is a tech recruitment firm specialising in AI, Data and Engineering
-            talent across the UK and Europe. We work with companies of all sizes, from
-            early-stage startups to scaling enterprises. Small team, deep domain
-            knowledge, zero bureaucracy, direct process.
+            Ethiq places engineers at EMEA startups. Mostly seed to series D, mostly product
+            engineers, mostly roles we actually know inside out. Small team, direct process,
+            no &ldquo;transformational opportunities.&rdquo;
           </p>
 
           <div className="team-grid">
             {TEAM.map((person) => (
               <div key={person.name} className="team-card">
                 <div className="team-photo-wrap">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={person.photo}
                     alt={person.name}
                     width={400}
                     height={400}
                     className="team-photo"
-                    loading="lazy"
                   />
                 </div>
                 <div className="team-info">
                   <div className="team-name">{person.name}</div>
                   <div className="team-role">{person.role}</div>
-                  <a
-                    href={person.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="team-linkedin"
-                    aria-label={person.name + ' on LinkedIn'}
-                  >
-                    <LinkedInIcon />
-                  </a>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
+                    <Link
+                      href={`/?consultant=${person.firstName}`}
+                      className="team-roles-link"
+                    >
+                      View roles &rarr;
+                    </Link>
+                    <a
+                      href={person.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="team-linkedin"
+                      aria-label={`${person.name} on LinkedIn`}
+                    >
+                      <LinkedInIcon />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}

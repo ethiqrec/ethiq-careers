@@ -3,17 +3,9 @@
 // Wired to Vercel cron (every 15 min)
 
 import { NextResponse } from 'next/server'
-import { fetchActiveRoles, fetchRoleDetail, transformRole } from '../../../lib/atlas.js'
+import { fetchActiveRoles, fetchRoleDetail, transformRole, fetchPublicLocations } from '../../../lib/atlas.js'
 import { setCachedRoles } from '../../../lib/cache.js'
-import { readFileSync } from 'fs'
-import { join } from 'path'
 
-// Load manual location overrides
-let locationOverrides = {}
-try {
-  const locPath = join(process.cwd(), 'public', 'locations.json')
-  locationOverrides = JSON.parse(readFileSync(locPath, 'utf8'))
-} catch (e) { /* no overrides */ }
 
 export const maxDuration = 60
 
@@ -47,11 +39,13 @@ export async function GET(request) {
     )
     console.log(`Sync: fetched details for ${roles.length} roles`)
 
-    // 3. Enrich and cache
+    // 3. Fetch locations from Public Jobs API and enrich
+    const publicLocations = await fetchPublicLocations()
+
     const enriched = roles.map((role) => ({
       ...role,
       rewrite: null,
-      locationDisplay: locationOverrides[role.title] || role.placeOfWork || formatLocation(role.location, role.workMode),
+      locationDisplay: publicLocations[role.id] || role.placeOfWork || formatLocation(role.location, role.workMode),
       workModeLabel: formatWorkMode(role.workMode),
       contractTypeLabel: formatContractType(role.contractType),
       seniorityLabel: formatSeniority(role.seniority),

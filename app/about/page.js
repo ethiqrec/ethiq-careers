@@ -2,33 +2,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'About â Ethiq',
-  description: 'Ethiq places engineers at EMEA startups. Small team, direct process.',
+  title: 'About \u2014 Ethiq',
+  description: 'Ethiq is a tech recruitment firm specialising in AI, Data and Engineering talent across the UK and Europe.',
 }
 
 const TEAM = [
   {
     name: 'Fraser Tait',
     role: 'Co-founder',
-    photo: '/team/fraser.png',
+    photo: '/team/fraser.svg',
     linkedin: 'https://www.linkedin.com/in/ftait/',
   },
   {
     name: 'Anton Howell',
     role: 'Co-founder',
-    photo: '/team/anton.png',
+    photo: '/team/anton.svg',
     linkedin: 'https://www.linkedin.com/in/antonhowell',
   },
   {
     name: 'James Wilson',
     role: 'Recruiter',
-    photo: '/team/james.png',
+    photo: '/team/james.svg',
     linkedin: 'https://www.linkedin.com/in/james-wilson-92170656',
   },
   {
     name: 'Mark Worsfold',
     role: 'Recruiter',
-    photo: '/team/mark.png',
+    photo: '/team/mark.svg',
     linkedin: 'https://www.linkedin.com/in/markworsfold',
   },
 ]
@@ -67,9 +67,10 @@ export default function AboutPage() {
         <div className="container">
           <h1 className="about-heading">About</h1>
           <p className="about-intro">
-            Ethiq places engineers at EMEA startups. Mostly seed to series D, mostly product
-            engineers, mostly roles we actually know inside out. Small team, direct process,
-            no &ldquo;transformational opportunities.&rdquo;
+            Ethiq is a tech recruitment firm specialising in AI, Data and Engineering
+            talent across the UK and Europe. We work with companies of all sizes, from
+            early-stage startups to scaling enterprises. Small team, deep domain
+            knowledge, direct process, no &ldquo;transformational opportunities.&rdquo;
           </p>
 
           <div className="team-grid">
@@ -92,7 +93,7 @@ export default function AboutPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="team-linkedin"
-                    aria-label={`${person.name} on LinkedIn`}
+                    aria-label={person.name + ' on LinkedIn'}
                   >
                     <LinkedInIcon />
                   </a>
@@ -117,4 +118,3 @@ export default function AboutPage() {
     </>
   )
 }
-

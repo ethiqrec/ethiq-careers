@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
-// v2 app-router rebuild // trigger deploy
 const nextConfig = {
+  // No 'output: export' -- we need server-side API routes + ISR
   trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
+  // Revalidate pages every 15 minutes by default
   experimental: {},
 }
 

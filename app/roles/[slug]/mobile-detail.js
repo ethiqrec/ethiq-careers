@@ -7,8 +7,44 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
+// ââ Share handler ââ
+
+async function handleShare(role) {
+  const url = typeof window !== 'undefined' ? window.location.href : ''
+  const shareData = {
+    title: `${role.title} - Ethiq`,
+    text: `${role.title} at a ${role.stage || ''} ${role.company?.industry || ''} company`.trim(),
+    url,
+  }
+
+  if (navigator.share && navigator.canShare?.(shareData)) {
+    try {
+      await navigator.share(shareData)
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error(err)
+    }
+  } else {
+    await navigator.clipboard.writeText(url)
+    return true
+  }
+  return false
+}
+
+// ââ Toast ââ
+
+function Toast({ message, onDone }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, 2000)
+    return () => clearTimeout(t)
+  }, [onDone])
+
+  return <div className="toast">{message}</div>
+}
+
 export default function MobileDetail({ role }) {
   const [activePanel, setActivePanel] = useState(null)
+  const [toast, setToast] = useState(null)
+  const referFormRef = useRef(null)
 
   const hasRewrite = role.rewrite && (
     role.rewrite.why_this_one ||
@@ -22,9 +58,25 @@ export default function MobileDetail({ role }) {
     setActivePanel((prev) => (prev === panel ? null : panel))
   }
 
+  const onShare = async () => {
+    const showToast = await handleShare(role)
+    if (showToast) setToast('Link copied')
+  }
+
+  const onRefer = () => {
+    togglePanel('refer')
+    setTimeout(() => {
+      if (referFormRef.current) {
+        referFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const firstInput = referFormRef.current.querySelector('input')
+        if (firstInput) setTimeout(() => firstInput.focus(), 400)
+      }
+    }, 50)
+  }
+
   return (
     <div className="container mobile-detail">
-      <Link href="/" className="back-link">← all roles</Link>
+      <Link href="/" className="back-link">â all roles</Link>
 
       <h2 className="detail-title">{role.title}</h2>
 
@@ -37,20 +89,20 @@ export default function MobileDetail({ role }) {
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
           <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
-            {role.salaryDisplay || '—'}
+            {role.salaryDisplay || 'â'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || '—'}</div>
+          <div className="stat-value">{role.locationDisplay || 'â'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">CONTRACT</div>
-          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
+          <div className="stat-label">WORK MODE</div>
+          <div className="stat-value">{role.workModeLabel || 'â'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">LIVE ROLES</div>
-          <div className="stat-value">{role.hireTarget || '—'}</div>
+          <div className="stat-label">SENIORITY</div>
+          <div className="stat-value">{role.seniorityLabel || 'â'}</div>
         </div>
       </div>
 
@@ -100,43 +152,39 @@ export default function MobileDetail({ role }) {
             </div>
           )}
         </>
-      ) : role.jobDescription ? (
-        <div className="raw-jd" dangerouslySetInnerHTML={{ __html: role.jobDescription }} />
       ) : (
-        <div className="raw-jd">No description available.</div>
+        <div className="raw-jd">
+          {stripHtml(role.jobDescription) || 'No description available.'}
+        </div>
       )}
 
       {/* Actions */}
       <div className="action-row">
-        <a
-          className="btn btn-primary"
-          href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: 'none', textAlign: 'center' }}
-        >
-          Apply →
-        </a>
-        <button className="btn btn-outline" onClick={() => {
-          if (navigator.share) {
-            navigator.share({ title: `${role.title} — Ethiq`, url: window.location.href })
-          } else {
-            navigator.clipboard.writeText(window.location.href)
-          }
-        }}>
-          Share ↗
+        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+          Apply â
         </button>
-        <button className="btn btn-outline" onClick={() => togglePanel('refer')}>
-          Refer <span className="green-suffix">£1k</span> ↗
+        <button className="btn btn-outline" onClick={onShare}>
+          Share â
+        </button>
+        <button className="btn btn-outline" onClick={onRefer}>
+          Refer <span className="green-suffix">Â£1k</span> â
         </button>
       </div>
 
-      {activePanel === 'refer' && <ReferForm role={role} />}
+      {/* Toast */}
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+
+      {activePanel === 'apply' && <ApplyForm role={role} />}
+      {activePanel === 'refer' && (
+        <div ref={referFormRef}>
+          <ReferForm role={role} />
+        </div>
+      )}
     </div>
   )
 }
 
-// Apply form (same as desktop, duplicated for the mobile route)
+// Apply form
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle')
   const [form, setForm] = useState({ name: '', email: '', linkedin: '', note: '' })
@@ -148,8 +196,8 @@ function ApplyForm({ role }) {
     const fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
-    fd.append('ownerEmail', role.owner?.email || 'james@ethiqrec.com')
-    fd.append('ownerName', role.owner?.name || 'James')
+    fd.append('ownerEmail', role.owner?.email || '')
+    fd.append('ownerName', role.owner?.name || 'the team')
     fd.append('name', form.name)
     fd.append('email', form.email)
     if (form.linkedin) fd.append('linkedin', form.linkedin)
@@ -163,7 +211,7 @@ function ApplyForm({ role }) {
     return (
       <div className="form-panel">
         <div className="form-success">
-          You&rsquo;re in. {role.owner?.name || 'James'} will be in touch within three working days.
+          You&rsquo;re in. {role.owner?.name || 'The team'} will be in touch within three working days.
         </div>
       </div>
     )
@@ -173,7 +221,7 @@ function ApplyForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Apply for this role</div>
       <p className="form-subhead">
-        Goes directly to {role.owner?.name || 'James'} — the consultant who owns this role.
+        Goes directly to {role.owner?.name || 'the team'} - the recruiter who owns this role.
         No ATS, no black hole. You&rsquo;ll hear back within three working days.
       </p>
       <div className="form-group">
@@ -189,7 +237,7 @@ function ApplyForm({ role }) {
         <input type="url" value={form.linkedin} onChange={(e) => setForm({ ...form, linkedin: e.target.value })} />
       </div>
       <div className="form-group">
-        <label>CV upload — PDF, DOCX, or DOC, max 10MB</label>
+        <label>CV upload - PDF, DOCX, or DOC, max 10MB</label>
         <input type="file" accept=".pdf,.docx,.doc" ref={fileRef} />
       </div>
       <div className="form-group">
@@ -197,17 +245,17 @@ function ApplyForm({ role }) {
         <textarea rows={2} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
       </div>
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application →'}
+        {state === 'submitting' ? 'Sending...' : 'Send application â'}
       </button>
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
-        We won&rsquo;t pass you around to anyone else. <a href="/privacy/">Privacy policy →</a>
+        We won&rsquo;t pass you around to anyone else. <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy â</a>
       </p>
     </form>
   )
 }
 
-// Refer form (same as desktop)
+// Refer form
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')
   const [mode, setMode] = useState('linkedin')
@@ -243,8 +291,8 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired, we pay you £1,000. No catch, no timer, no weird vesting.
-        Drop their LinkedIn or their CV — whichever is easier.
+        If they get hired, we pay you Â£1,000. No catch, no timer, no weird vesting.
+        Drop their LinkedIn or their CV - whichever is easier.
       </p>
       <div className="form-toggle">
         <button type="button" className={mode === 'linkedin' ? 'active' : ''} onClick={() => setMode('linkedin')}>LinkedIn</button>
@@ -257,7 +305,7 @@ function ReferForm({ role }) {
         </div>
       ) : (
         <div className="form-group">
-          <label>Their CV — PDF, DOCX, or DOC</label>
+          <label>Their CV - PDF, DOCX, or DOC</label>
           <input type="file" accept=".pdf,.docx,.doc" ref={fileRef} />
         </div>
       )}
@@ -274,11 +322,12 @@ function ReferForm({ role }) {
         <textarea rows={2} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
       </div>
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral →'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral â'}
       </button>
       <p className="form-fine-print">
-        We&rsquo;ll only contact them with your permission. And the candidate must pass
-        probation in the role.
+        We&rsquo;ll only contact them with your permission. If they&rsquo;re already in our system,
+        no reward - but we&rsquo;ll still say thanks. Â£1,000 is paid once the candidate has passed
+        90 days in the role.
       </p>
     </form>
   )

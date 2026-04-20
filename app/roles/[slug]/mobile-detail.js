@@ -153,9 +153,7 @@ export default function MobileDetail({ role }) {
           )}
         </>
       ) : (
-        <div className="raw-jd">
-          {stripHtml(role.jobDescription) || 'No description available.'}
-        </div>
+        <div className="raw-jd" dangerouslySetInnerHTML={{ __html: role.jobDescription || '<p>No description available.</p>' }} />
       )}
 
       {/* Actions */}

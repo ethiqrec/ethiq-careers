@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// ââ Helpers ââ
+// ── Helpers ──
 
 function timeAgo(dateStr) {
   if (!dateStr) return ''
@@ -23,23 +24,24 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
-// Consultant filter
-const CONSULTANTS = ['All', 'Fraser', 'Anton', 'James', 'Mark']
+// Contract type filter
+const TYPE_FILTERS = ['All', 'Permanent', 'Contract']
 
-function matchesConsultant(ownerName, filter) {
+function matchesContractType(contractType, filter) {
   if (filter === 'All') return true
-  if (!ownerName) return false
-  return ownerName.toLowerCase().startsWith(filter.toLowerCase())
+  if (filter === 'Permanent') return !contractType || contractType === 'full_time'
+  // "Contract" matches anything that isn't full_time
+  return contractType && contractType !== 'full_time'
 }
 
-// ââ Share handler ââ
+// ── Share handler ──
 
 async function handleShare(role) {
-  var url = typeof window !== 'undefined' ? window.location.href : ''
-  var shareData = {
-    title: role.title + ' - Ethiq',
-    text: (role.title + ' ' + (role.company?.industry || '')).trim(),
-    url: url,
+  const url = typeof window !== 'undefined' ? window.location.href : ''
+  const shareData = {
+    title: `${role.title} - Ethiq`,
+    text: `${role.title} at a ${role.stage || ''} ${role.company?.industry || ''} company`.trim(),
+    url,
   }
 
   if (navigator.share && navigator.canShare?.(shareData)) {
@@ -55,43 +57,53 @@ async function handleShare(role) {
   return false
 }
 
-// ââ Toast component ââ
+// ── Toast component ──
 
 function Toast({ message, onDone }) {
   useEffect(() => {
-    var t = setTimeout(onDone, 2000)
+    const t = setTimeout(onDone, 2000)
     return () => clearTimeout(t)
   }, [onDone])
 
   return <div className="toast">{message}</div>
 }
 
-// ââ Main component ââ
+// ── Main component ──
 
-export default function CareersClient({ roles, syncedAt }) {
+export default function CareersClient({ roles }) {
+  const searchParams = useSearchParams()
+  const consultantParam = searchParams.get('consultant')
+
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'refer' | null
-  const [consultantFilter, setConsultantFilter] = useState('All')
+  const [typeFilter, setTypeFilter] = useState('All')
 
-  var selected = roles.find((r) => r.id === selectedId) || roles[0] || null
+  const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
 
-  // Filter by consultant
-  var filtered = roles.filter((r) => matchesConsultant(r.owner?.name, consultantFilter))
+  // Filter by contract type and optional consultant param
+  const filtered = roles.filter((r) => {
+    if (!matchesContractType(r.contractType, typeFilter)) return false
+    if (consultantParam) {
+      const ownerFirst = (r.owner?.name || '').split(' ')[0].toLowerCase()
+      return ownerFirst === consultantParam.toLowerCase()
+    }
+    return true
+  })
 
   // Sort
-  var sorted = [...filtered].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     if (sortBy === 'compensation') {
-      var aVal = a.salary ? parseFloat(String(a.salary).replace(/[^0-9.]/g, '')) : 0
-      var bVal = b.salary ? parseFloat(String(b.salary).replace(/[^0-9.]/g, '')) : 0
+      const aVal = a.salary ? parseFloat(String(a.salary).replace(/[^0-9.]/g, '')) : 0
+      const bVal = b.salary ? parseFloat(String(b.salary).replace(/[^0-9.]/g, '')) : 0
       return bVal - aVal
     }
     return new Date(b.createdAt) - new Date(a.createdAt)
   })
 
-  var toggleSort = () => setSortBy((s) => (s === 'newest' ? 'compensation' : 'newest'))
+  const toggleSort = () => setSortBy((s) => (s === 'newest' ? 'compensation' : 'newest'))
 
-  var selectRole = useCallback((id) => {
+  const selectRole = useCallback((id) => {
     setSelectedId(id)
     setActivePanel(null)
   }, [])
@@ -114,11 +126,11 @@ export default function CareersClient({ roles, syncedAt }) {
         <div className="container">
           <h1>We place tech talent.<br />That&rsquo;s the whole thing.</h1>
           <p className="hero-sub">
-            Small team, deep domain knowledge, zero bureaucracy.
-            Real roles at companies we actually know.
+            EMEA-focused recruitment. No &ldquo;transformational opportunities.&rdquo;
+            Just real roles at companies we actually know.
           </p>
           <p className="hero-meta">
-            {roles.length} open roles &middot; synced {timeAgo(syncedAt || roles[0]?.createdAt)}
+            <span className="roles-count">{roles.length} open roles</span> &middot; synced {timeAgo(roles[0]?.createdAt)}
           </p>
         </div>
       </section>
@@ -131,19 +143,27 @@ export default function CareersClient({ roles, syncedAt }) {
             <div className="rail-header">
               <span className="rail-count">{sorted.length} roles</span>
               <button className="sort-toggle" onClick={toggleSort}>
-                {sortBy === 'newest' ? 'newest' : 'comp'} {'\u2195'}
+                {sortBy === 'newest' ? 'newest' : 'comp'} ↕
               </button>
             </div>
 
-            {/* Consultant filter */}
+            {/* Consultant banner */}
+            {consultantParam && (
+              <div className="consultant-banner">
+                <span>Showing roles for <strong>{consultantParam}</strong></span>
+                <Link href="/" className="clear-filter">&times; clear</Link>
+              </div>
+            )}
+
+            {/* Contract type filter */}
             <div className="stage-filter">
-              {CONSULTANTS.map((name) => (
+              {TYPE_FILTERS.map((type) => (
                 <button
-                  key={name}
-                  className={'stage-pill' + (consultantFilter === name ? ' active' : '')}
-                  onClick={() => setConsultantFilter(name)}
+                  key={type}
+                  className={`stage-pill ${typeFilter === type ? 'active' : ''}`}
+                  onClick={() => setTypeFilter(type)}
                 >
-                  {name.toLowerCase()}
+                  {type.toLowerCase()}
                 </button>
               ))}
             </div>
@@ -151,7 +171,7 @@ export default function CareersClient({ roles, syncedAt }) {
             {sorted.map((role) => (
               <div
                 key={role.id}
-                className={'rail-item' + (role.id === selectedId ? ' selected' : '')}
+                className={`rail-item ${role.id === selectedId ? 'selected' : ''}`}
                 onClick={() => selectRole(role.id)}
               >
                 <div className="rail-item-title">{role.title}</div>
@@ -183,16 +203,22 @@ export default function CareersClient({ roles, syncedAt }) {
         </div>
       </div>
 
-      {/* Mobile: consultant filter + list (visible <768px) */}
+      {/* Mobile: contract type filter + list (visible <768px) */}
       <div className="container mobile-list">
+        {consultantParam && (
+          <div className="consultant-banner">
+            <span>Showing roles for <strong>{consultantParam}</strong></span>
+            <Link href="/" className="clear-filter">&times; clear</Link>
+          </div>
+        )}
         <div className="stage-filter">
-          {CONSULTANTS.map((name) => (
+          {TYPE_FILTERS.map((type) => (
             <button
-              key={name}
-              className={'stage-pill' + (consultantFilter === name ? ' active' : '')}
-              onClick={() => setConsultantFilter(name)}
+              key={type}
+              className={`stage-pill ${typeFilter === type ? 'active' : ''}`}
+              onClick={() => setTypeFilter(type)}
             >
-              {name.toLowerCase()}
+              {type.toLowerCase()}
             </button>
           ))}
         </div>
@@ -200,7 +226,7 @@ export default function CareersClient({ roles, syncedAt }) {
         {sorted.map((role) => (
           <Link
             key={role.id}
-            href={'/roles/' + role.slug + '/'}
+            href={`/roles/${role.slug}/`}
             className="mobile-list-item"
             style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
           >
@@ -231,13 +257,13 @@ export default function CareersClient({ roles, syncedAt }) {
   )
 }
 
-// ââ Role detail pane ââ
+// ── Role detail pane ──
 
 function RoleDetail({ role, activePanel, setActivePanel }) {
   const [toast, setToast] = useState(null)
   const referFormRef = useRef(null)
 
-  var hasRewrite = role.rewrite && (
+  const hasRewrite = role.rewrite && (
     role.rewrite.why_this_one ||
     role.rewrite.the_company ||
     role.rewrite.what_youll_do ||
@@ -245,24 +271,24 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
     role.rewrite.how_they_hire
   )
 
-  var togglePanel = (panel) => {
+  const togglePanel = (panel) => {
     setActivePanel((prev) => (prev === panel ? null : panel))
   }
 
-  var onShare = async () => {
-    var showToast = await handleShare(role)
+  const onShare = async () => {
+    const showToast = await handleShare(role)
     if (showToast) {
       setToast('Link copied')
     }
   }
 
-  var onRefer = () => {
+  const onRefer = () => {
     togglePanel('refer')
     // After toggling, scroll to the form and focus first input
     setTimeout(() => {
       if (referFormRef.current) {
         referFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        var firstInput = referFormRef.current.querySelector('input')
+        const firstInput = referFormRef.current.querySelector('input')
         if (firstInput) setTimeout(() => firstInput.focus(), 400)
       }
     }, 50)
@@ -287,21 +313,21 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       <div className="stats-grid">
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
-          <div className={'stat-value' + (role.salaryDisplay ? ' green' : '')}>
-            {role.salaryDisplay || '-'}
+          <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
+            {role.salaryDisplay || '—'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || '-'}</div>
+          <div className="stat-value">{role.locationDisplay || '—'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">CONTRACT TYPE</div>
-          <div className="stat-value">{role.contractTypeLabel || '-'}</div>
+          <div className="stat-label">WORK MODE</div>
+          <div className="stat-value">{role.workModeLabel || '—'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">LIVE ROLES</div>
-          <div className="stat-value">{role.liveRolesDisplay || '\u2014'}</div>
+          <div className="stat-label">SENIORITY</div>
+          <div className="stat-value">{role.seniorityLabel || '—'}</div>
         </div>
       </div>
 
@@ -358,13 +384,13 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       {/* Action row */}
       <div className="action-row">
         <a className="btn btn-primary" href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`} target="_blank" rel="noopener noreferrer">
-          Apply {'\u2192'}
+          Apply →
         </a>
         <button className="btn btn-outline" onClick={onShare}>
-          Share {'\u2197'}
+          Share ↗
         </button>
         <button className="btn btn-outline" onClick={onRefer}>
-          Refer <span className="green-suffix">{'\u00A3'}1k</span> {'\u2197'}
+          Refer <span className="green-suffix">£1k</span> ↗
         </button>
       </div>
 
@@ -381,18 +407,18 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
   )
 }
 
-// ââ Apply form ââ
+// ── Apply form ──
 
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle') // idle | submitting | done
   const [form, setForm] = useState({ name: '', email: '', linkedin: '', note: '' })
   const fileRef = useRef(null)
 
-  var handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setState('submitting')
 
-    var fd = new FormData()
+    const fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
     fd.append('ownerEmail', role.owner?.email || '')
@@ -469,19 +495,19 @@ function ApplyForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application \u2192'}
+        {state === 'submitting' ? 'Sending...' : 'Send application →'}
       </button>
 
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
         We won&rsquo;t pass you around to anyone else.{' '}
-        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy {'\u2192'}</a>
+        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy →</a>
       </p>
     </form>
   )
 }
 
-// ââ Refer form ââ
+// ── Refer form ──
 
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')
@@ -489,11 +515,11 @@ function ReferForm({ role }) {
   const [form, setForm] = useState({ linkedin: '', name: '', email: '', note: '' })
   const fileRef = useRef(null)
 
-  var handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setState('submitting')
 
-    var fd = new FormData()
+    const fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
     fd.append('referrerName', form.name)
@@ -524,7 +550,7 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired, we pay you {'\u00A3'}1,000. No catch, no timer, no weird vesting.
+        If they get hired, we pay you £1,000. No catch, no timer, no weird vesting.
         Drop their LinkedIn or their CV - whichever is easier.
       </p>
 
@@ -590,12 +616,12 @@ function ReferForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral \u2192'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral →'}
       </button>
 
       <p className="form-fine-print">
         We&rsquo;ll only contact them with your permission. If they&rsquo;re already in our system,
-        no reward - but we&rsquo;ll still say thanks. {'\u00A3'}1,000 is paid once the candidate has passed
+        no reward - but we&rsquo;ll still say thanks. £1,000 is paid once the candidate has passed
         90 days in the role.
       </p>
     </form>

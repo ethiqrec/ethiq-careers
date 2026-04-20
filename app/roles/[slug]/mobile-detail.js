@@ -7,7 +7,7 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
-// ── Share handler ──
+// ââ Share handler ââ
 
 async function handleShare(role) {
   var url = typeof window !== 'undefined' ? window.location.href : ''
@@ -30,7 +30,7 @@ async function handleShare(role) {
   return false
 }
 
-// ── Toast ──
+// ââ Toast ââ
 
 function Toast({ message, onDone }) {
   useEffect(() => {
@@ -158,9 +158,9 @@ export default function MobileDetail({ role }) {
 
       {/* Actions */}
       <div className="action-row">
-        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+        <a className="btn btn-primary" href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`} target="_blank" rel="noopener noreferrer">
           Apply {'\u2192'}
-        </button>
+        </a>
         <button className="btn btn-outline" onClick={onShare}>
           Share {'\u2197'}
         </button>
@@ -172,7 +172,6 @@ export default function MobileDetail({ role }) {
       {/* Toast */}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
 
-      {activePanel === 'apply' && <ApplyForm role={role} />}
       {activePanel === 'refer' && (
         <div ref={referFormRef}>
           <ReferForm role={role} />

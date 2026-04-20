@@ -295,8 +295,8 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
           <div className="stat-value">{role.locationDisplay || '-'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">WORK MODE</div>
-          <div className="stat-value">{role.workModeLabel || '-'}</div>
+          <div className="stat-label">CONTRACT TYPE</div>
+          <div className="stat-value">{role.contractTypeLabel || '-'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LIVE ROLES</div>

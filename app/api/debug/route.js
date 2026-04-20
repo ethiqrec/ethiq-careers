@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { fetchActiveRoles, fetchRoleDetail } from '../../../../lib/atlas.js'
+import { fetchActiveRoles, fetchRoleDetail } from '../../../lib/atlas.js'
 
 export async function GET() {
     try {

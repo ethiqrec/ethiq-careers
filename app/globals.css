@@ -80,14 +80,12 @@ a:hover {
   height: 52px;
 }
 .nav-logo {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  color: var(--text-primary);
-  border: 0.5px solid var(--border-input);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+}
+.nav-logo img {
+  height: 28px;
+  width: auto;
 }
 .nav-links {
   display: flex;

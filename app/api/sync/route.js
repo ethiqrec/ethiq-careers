@@ -42,10 +42,11 @@ export async function GET(request) {
     const enriched = roles.map((role) => ({
       ...role,
       rewrite: null,
-      locationDisplay: formatLocation(role.location, role.workMode),
+      locationDisplay: role.placeOfWork || formatLocation(role.location, role.workMode),
       workModeLabel: formatWorkMode(role.workMode),
       contractTypeLabel: formatContractType(role.contractType),
       seniorityLabel: formatSeniority(role.seniority),
+      liveRolesDisplay: role.numberOfPositions ? String(role.numberOfPositions) : null,
       salaryDisplay: role.salary || null,
       ownerFirstName: (role.owner?.name || '').split(' ')[0] || null,
       descriptor: buildDescriptor(role),

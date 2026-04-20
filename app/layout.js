@@ -1,9 +1,9 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Roles — Ethiq',
+  title: 'Roles \u2014 Ethiq',
   description:
-    'We place engineers at startups across EMEA. Live roles, no fluff.',
+    'Tech recruitment across the UK and Europe. AI, Data and Engineering roles, no fluff.',
 }
 
 export default function RootLayout({ children }) {

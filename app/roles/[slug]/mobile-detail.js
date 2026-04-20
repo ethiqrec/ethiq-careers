@@ -101,8 +101,8 @@ export default function MobileDetail({ role }) {
           <div className="stat-value">{role.workModeLabel || '-'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">SENIORITY</div>
-          <div className="stat-value">{role.seniorityLabel || '-'}</div>
+          <div className="stat-label">LIVE ROLES</div>
+          <div className="stat-value">{role.liveRolesDisplay || '\u2014'}</div>
         </div>
       </div>
 

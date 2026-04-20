@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 
-// ── Helpers ──
+// ââ Helpers ââ
 
 function timeAgo(dateStr) {
   if (!dateStr) return ''
@@ -22,45 +22,65 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
-// ── Main component ──
+// Stage filter buckets
+const STAGE_FILTERS = ['All', 'Pre-seed', 'Seed', 'Series A', 'Series B+']
+
+function matchesStage(roleStage, filter) {
+  if (filter === 'All') return true
+  if (!roleStage) return false
+  const s = roleStage.toLowerCase()
+  if (filter === 'Series B+') {
+    return s.startsWith('series') && !['series a'].includes(s)
+  }
+  return s === filter.toLowerCase()
+}
+
+// ââ Share handler ââ
+
+async function handleShare(role) {
+  const url = typeof window !== 'undefined' ? window.location.href : ''
+  const shareData = {
+    title: `${role.title} - Ethiq`,
+    text: `${role.title} at a ${role.stage || ''} ${role.company?.industry || ''} company`.trim(),
+    url,
+  }
+
+  if (navigator.share && navigator.canShare?.(shareData)) {
+    try {
+      await navigator.share(shareData)
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error(err)
+    }
+  } else {
+    await navigator.clipboard.writeText(url)
+    return true // signal to show toast
+  }
+  return false
+}
+
+// ââ Toast component ââ
+
+function Toast({ message, onDone }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, 2000)
+    return () => clearTimeout(t)
+  }, [onDone])
+
+  return <div className="toast">{message}</div>
+}
+
+// ââ Main component ââ
 
 export default function CareersClient({ roles }) {
   const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
-  const [activePanel, setActivePanel] = useState(null) // 'apply' | 'share' | 'refer' | null
-  // Unique consultants for filter
-  const consultants = [...new Set(roles.map((r) => r.ownerFirstName).filter(Boolean))].sort()
+  const [activePanel, setActivePanel] = useState(null) // 'apply' | 'refer' | null
+  const [stageFilter, setStageFilter] = useState('All')
 
-  // Consultant filter — initialised from ?consultant= URL param via useEffect
-  const [consultantFilter, setConsultantFilterRaw] = useState(null)
+  const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const param = params.get('consultant')
-    if (param) {
-      const match = consultants.find((c) => c.toLowerCase() === param.toLowerCase())
-      if (match) setConsultantFilterRaw(match)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Update URL when filter changes so the link is shareable
-  const setConsultantFilter = useCallback((name) => {
-    setConsultantFilterRaw(name)
-    const url = new URL(window.location.href)
-    if (name) {
-      url.searchParams.set('consultant', name.toLowerCase())
-    } else {
-      url.searchParams.delete('consultant')
-    }
-    window.history.replaceState({}, '', url.toString())
-  }, [])
-
-  // Filter then sort
-  const filtered = consultantFilter
-    ? roles.filter((r) => r.ownerFirstName === consultantFilter)
-    : roles
-
-  const selected = filtered.find((r) => r.id === selectedId) || filtered[0] || null
+  // Filter by stage
+  const filtered = roles.filter((r) => matchesStage(r.stage, stageFilter))
 
   // Sort
   const sorted = [...filtered].sort((a, b) => {
@@ -76,7 +96,7 @@ export default function CareersClient({ roles }) {
 
   const selectRole = useCallback((id) => {
     setSelectedId(id)
-    setActivePanel(null) // close any open form
+    setActivePanel(null)
   }, [])
 
   return (
@@ -84,10 +104,10 @@ export default function CareersClient({ roles }) {
       {/* Nav */}
       <nav className="nav">
         <div className="container nav-inner">
-          <span className="nav-logo">ETHIQ</span>
+          <Link href="/" className="nav-logo">ETHIQ</Link>
           <ul className="nav-links">
-            <li><a href="/" className="active">Roles</a></li>
-            <li><a href="mailto:james@ethiqrec.com">About</a></li>
+            <li><Link href="/" className="active">Roles</Link></li>
+            <li><Link href="/about/">About</Link></li>
           </ul>
         </div>
       </nav>
@@ -114,24 +134,23 @@ export default function CareersClient({ roles }) {
             <div className="rail-header">
               <span className="rail-count">{sorted.length} roles</span>
               <button className="sort-toggle" onClick={toggleSort}>
-                {sortBy === 'newest' ? 'newest' : 'comp'} ↕
+                {sortBy === 'newest' ? 'newest' : 'comp'} â
               </button>
             </div>
-            {consultants.length > 1 && (
-              <div className="consultant-filter">
+
+            {/* Stage filter */}
+            <div className="stage-filter">
+              {STAGE_FILTERS.map((stage) => (
                 <button
-                  className={`filter-pill ${!consultantFilter ? 'active' : ''}`}
-                  onClick={() => setConsultantFilter(null)}
-                >All</button>
-                {consultants.map((name) => (
-                  <button
-                    key={name}
-                    className={`filter-pill ${consultantFilter === name ? 'active' : ''}`}
-                    onClick={() => setConsultantFilter(name)}
-                  >{name}</button>
-                ))}
-              </div>
-            )}
+                  key={stage}
+                  className={`stage-pill ${stageFilter === stage ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stage)}
+                >
+                  {stage.toLowerCase()}
+                </button>
+              ))}
+            </div>
+
             {sorted.map((role) => (
               <div
                 key={role.id}
@@ -167,23 +186,20 @@ export default function CareersClient({ roles }) {
         </div>
       </div>
 
-      {/* Mobile: list (visible <768px) */}
+      {/* Mobile: stage filter + list (visible <768px) */}
       <div className="container mobile-list">
-        {consultants.length > 1 && (
-          <div className="consultant-filter mobile-consultant-filter">
+        <div className="stage-filter">
+          {STAGE_FILTERS.map((stage) => (
             <button
-              className={`filter-pill ${!consultantFilter ? 'active' : ''}`}
-              onClick={() => setConsultantFilter(null)}
-            >All</button>
-            {consultants.map((name) => (
-              <button
-                key={name}
-                className={`filter-pill ${consultantFilter === name ? 'active' : ''}`}
-                onClick={() => setConsultantFilter(name)}
-              >{name}</button>
-            ))}
-          </div>
-        )}
+              key={stage}
+              className={`stage-pill ${stageFilter === stage ? 'active' : ''}`}
+              onClick={() => setStageFilter(stage)}
+            >
+              {stage.toLowerCase()}
+            </button>
+          ))}
+        </div>
+
         {sorted.map((role) => (
           <Link
             key={role.id}
@@ -207,15 +223,23 @@ export default function CareersClient({ roles }) {
       <footer className="site-footer">
         <div className="container footer-inner">
           <span className="footer-text">&copy; {new Date().getFullYear()} Ethiq Recruitment</span>
+          <span className="footer-text">
+            <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">
+              Privacy policy
+            </a>
+          </span>
         </div>
       </footer>
     </>
   )
 }
 
-// ── Role detail pane ──
+// ââ Role detail pane ââ
 
 function RoleDetail({ role, activePanel, setActivePanel }) {
+  const [toast, setToast] = useState(null)
+  const referFormRef = useRef(null)
+
   const hasRewrite = role.rewrite && (
     role.rewrite.why_this_one ||
     role.rewrite.the_company ||
@@ -226,6 +250,25 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
 
   const togglePanel = (panel) => {
     setActivePanel((prev) => (prev === panel ? null : panel))
+  }
+
+  const onShare = async () => {
+    const showToast = await handleShare(role)
+    if (showToast) {
+      setToast('Link copied')
+    }
+  }
+
+  const onRefer = () => {
+    togglePanel('refer')
+    // After toggling, scroll to the form and focus first input
+    setTimeout(() => {
+      if (referFormRef.current) {
+        referFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const firstInput = referFormRef.current.querySelector('input')
+        if (firstInput) setTimeout(() => firstInput.focus(), 400)
+      }
+    }, 50)
   }
 
   return (
@@ -248,20 +291,20 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
           <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
-            {role.salaryDisplay || '—'}
+            {role.salaryDisplay || 'â'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || '—'}</div>
+          <div className="stat-value">{role.locationDisplay || 'â'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">CONTRACT</div>
-          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
+          <div className="stat-label">WORK MODE</div>
+          <div className="stat-value">{role.workModeLabel || 'â'}</div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">LIVE ROLES</div>
-          <div className="stat-value">{role.hireTarget || '—'}</div>
+          <div className="stat-label">SENIORITY</div>
+          <div className="stat-value">{role.seniorityLabel || 'â'}</div>
         </div>
       </div>
 
@@ -282,7 +325,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         </div>
       )}
 
-      {/* The role — LLM rewritten or raw JD */}
+      {/* The role - LLM rewritten or raw JD */}
       <div className="section-label">the role</div>
       {hasRewrite ? (
         <>
@@ -311,43 +354,40 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
             </div>
           )}
         </>
-      ) : role.jobDescription ? (
-        <div className="raw-jd" dangerouslySetInnerHTML={{ __html: role.jobDescription }} />
       ) : (
-        <div className="raw-jd">No description available.</div>
+        <div className="raw-jd">
+          {stripHtml(role.jobDescription) || 'No description available.'}
+        </div>
       )}
 
       {/* Action row */}
       <div className="action-row">
-        <a
-          className="btn btn-primary"
-          href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: 'none', textAlign: 'center' }}
-        >
-          Apply →
-        </a>
-        <div style={{ position: 'relative' }}>
-          <button className="btn btn-outline" onClick={() => togglePanel('share')}>
-            Share ↗
-          </button>
-          {activePanel === 'share' && (
-            <SharePopover role={role} onClose={() => setActivePanel(null)} />
-          )}
-        </div>
-        <button className="btn btn-outline" onClick={() => togglePanel('refer')}>
-          Refer <span className="green-suffix">£1k</span> ↗
+        <button className="btn btn-primary" onClick={() => togglePanel('apply')}>
+          Apply â
+        </button>
+        <button className="btn btn-outline" onClick={onShare}>
+          Share â
+        </button>
+        <button className="btn btn-outline" onClick={onRefer}>
+          Refer <span className="green-suffix">Â£1k</span> â
         </button>
       </div>
 
+      {/* Toast */}
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+
       {/* Panels */}
-      {activePanel === 'refer' && <ReferForm role={role} />}
+      {activePanel === 'apply' && <ApplyForm role={role} />}
+      {activePanel === 'refer' && (
+        <div ref={referFormRef}>
+          <ReferForm role={role} />
+        </div>
+      )}
     </div>
   )
 }
 
-// ── Apply form ──
+// ââ Apply form ââ
 
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle') // idle | submitting | done
@@ -361,8 +401,8 @@ function ApplyForm({ role }) {
     const fd = new FormData()
     fd.append('roleId', role.id)
     fd.append('roleTitle', role.title)
-    fd.append('ownerEmail', role.owner?.email || 'james@ethiqrec.com')
-    fd.append('ownerName', role.owner?.name || 'James')
+    fd.append('ownerEmail', role.owner?.email || '')
+    fd.append('ownerName', role.owner?.name || 'the team')
     fd.append('name', form.name)
     fd.append('email', form.email)
     if (form.linkedin) fd.append('linkedin', form.linkedin)
@@ -372,7 +412,7 @@ function ApplyForm({ role }) {
     try {
       await fetch('/api/apply', { method: 'POST', body: fd })
     } catch {
-      // Still show success — brief says never fail-visible
+      // Still show success - brief says never fail-visible
     }
     setState('done')
   }
@@ -381,7 +421,7 @@ function ApplyForm({ role }) {
     return (
       <div className="form-panel">
         <div className="form-success">
-          You&rsquo;re in. {role.owner?.name || 'James'} will be in touch within three working days.
+          You&rsquo;re in. {role.owner?.name || 'The team'} will be in touch within three working days.
         </div>
       </div>
     )
@@ -391,7 +431,7 @@ function ApplyForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Apply for this role</div>
       <p className="form-subhead">
-        Goes directly to {role.owner?.name || 'James'} — the consultant who owns this role.
+        Goes directly to {role.owner?.name || 'the team'} - the recruiter who owns this role.
         No ATS, no black hole. You&rsquo;ll hear back within three working days.
       </p>
 
@@ -422,7 +462,7 @@ function ApplyForm({ role }) {
         />
       </div>
       <div className="form-group">
-        <label>CV upload — PDF, DOCX, or DOC, max 10MB</label>
+        <label>CV upload - PDF, DOCX, or DOC, max 10MB</label>
         <input type="file" accept=".pdf,.docx,.doc" ref={fileRef} />
       </div>
       <div className="form-group">
@@ -435,87 +475,19 @@ function ApplyForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application →'}
+        {state === 'submitting' ? 'Sending...' : 'Send application â'}
       </button>
 
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
         We won&rsquo;t pass you around to anyone else.{' '}
-        <a href="/privacy/">Privacy policy →</a>
+        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy â</a>
       </p>
     </form>
   )
 }
 
-// ── Share popover ──
-
-function SharePopover({ role, onClose }) {
-  const [copied, setCopied] = useState(false)
-  const ref = useRef(null)
-
-  const url = typeof window !== 'undefined'
-    ? `${window.location.origin}/roles/${role.slug}/`
-    : ''
-  const title = `${role.title} — Ethiq`
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) onClose()
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [onClose])
-
-  const copyLink = (channel) => {
-    const shareUrl = channel ? `${url}?ref=share_${channel}` : url
-    navigator.clipboard.writeText(shareUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
-
-  return (
-    <div className="share-popover" ref={ref}>
-      <button className="share-option" onClick={() => copyLink()}>
-        {copied ? 'Copied ✓' : 'Copy link'}
-      </button>
-      <button className="share-option" onClick={() => copyLink('slack')}>
-        Slack
-      </button>
-      <button className="share-option" onClick={() => copyLink('discord')}>
-        Discord
-      </button>
-      <a
-        className="share-option"
-        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url + '?ref=share_linkedin')}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
-      >
-        LinkedIn
-      </a>
-      <a
-        className="share-option"
-        href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + url + '?ref=share_whatsapp')}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
-      >
-        WhatsApp
-      </a>
-      <a
-        className="share-option"
-        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url + '?ref=share_x')}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
-      >
-        X
-      </a>
-    </div>
-  )
-}
-
-// ── Refer form ──
+// ââ Refer form ââ
 
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')
@@ -558,8 +530,8 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired, we pay you £1,000. No catch, no timer, no weird vesting.
-        Drop their LinkedIn or their CV — whichever is easier.
+        If they get hired, we pay you Â£1,000. No catch, no timer, no weird vesting.
+        Drop their LinkedIn or their CV - whichever is easier.
       </p>
 
       <div className="form-toggle">
@@ -591,7 +563,7 @@ function ReferForm({ role }) {
         </div>
       ) : (
         <div className="form-group">
-          <label>Their CV — PDF, DOCX, or DOC</label>
+          <label>Their CV - PDF, DOCX, or DOC</label>
           <input type="file" accept=".pdf,.docx,.doc" ref={fileRef} />
         </div>
       )}
@@ -624,12 +596,13 @@ function ReferForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral →'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral â'}
       </button>
 
       <p className="form-fine-print">
-        We&rsquo;ll only contact them with your permission. And the candidate must pass
-        probation in the role.
+        We&rsquo;ll only contact them with your permission. If they&rsquo;re already in our system,
+        no reward - but we&rsquo;ll still say thanks. Â£1,000 is paid once the candidate has passed
+        90 days in the role.
       </p>
     </form>
   )

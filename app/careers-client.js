@@ -116,7 +116,6 @@ export default function CareersClient({ roles }) {
           <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={250} height={100} priority /></Link>
           <ul className="nav-links">
             <li><Link href="/" className="active">Roles</Link></li>
-            <li><Link href="/about/">About</Link></li>
           </ul>
         </div>
       </nav>
@@ -130,7 +129,7 @@ export default function CareersClient({ roles }) {
             Just real roles at companies we actually know.
           </p>
           <p className="hero-meta">
-            <span className="roles-count">{roles.length} open roles</span> &middot; synced {timeAgo(roles[0]?.createdAt)}
+            <span className="roles-count">{roles.length} open roles</span> &middot; auto-synced every 15 min
           </p>
         </div>
       </section>
@@ -175,14 +174,15 @@ export default function CareersClient({ roles }) {
                 onClick={() => selectRole(role.id)}
               >
                 <div className="rail-item-title">{role.title}</div>
-                {role.descriptor && (
-                  <div className="rail-item-desc">{role.descriptor}</div>
+                {role.locationDisplay && (
+                  <div className="rail-item-desc">{role.locationDisplay}</div>
                 )}
                 <div className="rail-item-meta">
                   {role.salaryDisplay && (
                     <span className="salary">{role.salaryDisplay}</span>
                   )}
                   {role.workModeLabel && <span>{role.workModeLabel}</span>}
+                  {role.discipline && <span>{role.discipline}</span>}
                 </div>
               </div>
             ))}
@@ -231,12 +231,13 @@ export default function CareersClient({ roles }) {
             style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
           >
             <div className="rail-item-title">{role.title}</div>
-            {role.descriptor && (
-              <div className="rail-item-desc">{role.descriptor}</div>
+            {role.locationDisplay && (
+              <div className="rail-item-desc">{role.locationDisplay}</div>
             )}
             <div className="rail-item-meta">
               {role.salaryDisplay && <span className="salary">{role.salaryDisplay}</span>}
               {role.workModeLabel && <span>{role.workModeLabel}</span>}
+              {role.discipline && <span>{role.discipline}</span>}
             </div>
           </Link>
         ))}

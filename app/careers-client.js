@@ -34,6 +34,14 @@ function matchesContractType(contractType, filter) {
   return contractType && contractType !== 'full_time'
 }
 
+// Discipline filter
+const DISCIPLINE_FILTERS = ['All', 'Software Engineering', 'Data', 'Other']
+
+function matchesDiscipline(discipline, filter) {
+  if (filter === 'All') return true
+  return (discipline || '').toLowerCase() === filter.toLowerCase()
+}
+
 // ── Share handler ──
 
 async function handleShare(role) {
@@ -78,12 +86,14 @@ export default function CareersClient({ roles }) {
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'refer' | null
   const [typeFilter, setTypeFilter] = useState('All')
+  const [disciplineFilter, setDisciplineFilter] = useState('All')
 
   const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
 
   // Filter by contract type and optional consultant param
   const filtered = roles.filter((r) => {
     if (!matchesContractType(r.contractType, typeFilter)) return false
+    if (!matchesDiscipline(r.discipline, disciplineFilter)) return false
     if (consultantParam) {
       const ownerFirst = (r.owner?.name || '').split(' ')[0].toLowerCase()
       return ownerFirst === consultantParam.toLowerCase()
@@ -167,6 +177,19 @@ export default function CareersClient({ roles }) {
               ))}
             </div>
 
+            {/* Discipline filter */}
+            <div className="stage-filter">
+              {DISCIPLINE_FILTERS.map((disc) => (
+                <button
+                  key={disc}
+                  className={`stage-pill ${disciplineFilter === disc ? 'active' : ''}`}
+                  onClick={() => setDisciplineFilter(disc)}
+                >
+                  {disc.toLowerCase()}
+                </button>
+              ))}
+            </div>
+
             {sorted.map((role) => (
               <div
                 key={role.id}
@@ -219,6 +242,19 @@ export default function CareersClient({ roles }) {
               onClick={() => setTypeFilter(type)}
             >
               {type.toLowerCase()}
+            </button>
+          ))}
+        </div>
+
+        {/* Discipline filter */}
+        <div className="stage-filter">
+          {DISCIPLINE_FILTERS.map((disc) => (
+            <button
+              key={disc}
+              className={`stage-pill ${disciplineFilter === disc ? 'active' : ''}`}
+              onClick={() => setDisciplineFilter(disc)}
+            >
+              {disc.toLowerCase()}
             </button>
           ))}
         </div>

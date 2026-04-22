@@ -26,12 +26,20 @@ export async function generateMetadata({ params }) {
 
 // Build Google Jobs JSON-LD structured data
 function buildJobPostingLD(role) {
+  // Strip HTML tags from description for clean plain text
+  const plainDesc = (role.description || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: role.title,
-    description: role.description || role.descriptor || '',
-    datePosted: role.createdAt ? new Date(role.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+    description: plainDesc || role.descriptor || role.title,
+    datePosted: role.createdAt
+      ? new Date(role.createdAt).toISOString().split('T')[0]
+      : new Date().toISOString().split('T')[0],
     hiringOrganization: {
       '@type': 'Organization',
       name: 'Ethiq',
@@ -58,25 +66,34 @@ function buildJobPostingLD(role) {
     if (mapped) ld.employmentType = mapped
   }
 
-  // Salary
-  if (role.salary) {
-    const salaryStr = String(role.salary)
-    const nums = salaryStr.match(/[\d,]+/g)
-    if (nums && nums.length >= 1) {
-      const clean = (s) => parseInt(s.replace(/,/g, ''), 10)
+  // Salary - parse display string like "\u00a380-\u00a3120k base"
+  if (role.salaryDisplay || role.salary) {
+    const salaryStr = String(role.salaryDisplay || role.salary)
+    // Match numbers, accounting for k/K suffix
+    const matches = salaryStr.match(/([£$\d,.]+[kK]?)/g)
+    if (matches && matches.length >= 1) {
+      const parseVal = (s) => {
+        const cleaned = s.replace(/[\u00a3$,]/g, '')
+        const num = parseFloat(cleaned)
+        if (cleaned.toLowerCase().endsWith('k')) {
+          return parseFloat(cleaned.slice(0, -1)) * 1000
+        }
+        // If number is small (< 1000), likely in thousands
+        return num < 1000 ? num * 1000 : num
+      }
       ld.baseSalary = {
         '@type': 'MonetaryAmount',
-        currency: role.salaryCurrency || 'GBP',
+        currency: 'GBP',
         value: {
           '@type': 'QuantitativeValue',
           unitText: 'YEAR',
         },
       }
-      if (nums.length >= 2) {
-        ld.baseSalary.value.minValue = clean(nums[0])
-        ld.baseSalary.value.maxValue = clean(nums[1])
+      if (matches.length >= 2) {
+        ld.baseSalary.value.minValue = parseVal(matches[0])
+        ld.baseSalary.value.maxValue = parseVal(matches[1])
       } else {
-        ld.baseSalary.value.value = clean(nums[0])
+        ld.baseSalary.value.value = parseVal(matches[0])
       }
     }
   }

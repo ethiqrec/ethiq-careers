@@ -133,16 +133,14 @@ export default function CareersClient({ roles }) {
       <nav className="nav">
         <div className="container nav-inner">
           <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={250} height={100} priority /></Link>
-          <ul className="nav-links">
-            <li><Link href="/" className="active">Roles</Link></li>
-          </ul>
+          
         </div>
       </nav>
 
       {/* Hero */}
       <section className="hero">
         <div className="container">
-          <h1>Ethiq roles</h1>
+          <h1><span className="live-beacon" /> Ethiq live roles</h1>
           <p className="hero-sub">
             Every role we&rsquo;re actively working on, pulled live from our CRM.
           </p>

@@ -88,6 +88,15 @@ export default function CareersClient({ roles }) {
   const [typeFilter, setTypeFilter] = useState('All')
   const [disciplineFilter, setDisciplineFilter] = useState('All')
 
+  // Sync countdown timer - ticks every minute, resets every 15 min
+  const [syncMinutes, setSyncMinutes] = useState(0)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSyncMinutes((prev) => (prev + 1) % 15)
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [])
+
   const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
 
   // Filter by contract type and optional consultant param
@@ -133,13 +142,12 @@ export default function CareersClient({ roles }) {
       {/* Hero */}
       <section className="hero">
         <div className="container">
-          <h1>We place tech talent.<br />That&rsquo;s the whole thing.</h1>
+          <h1>Ethiq roles</h1>
           <p className="hero-sub">
-            EMEA-focused recruitment. No &ldquo;transformational opportunities.&rdquo;
-            Just real roles at companies we actually know.
+            Every role we&rsquo;re actively working on, pulled live from our CRM.
           </p>
           <p className="hero-meta">
-            <span className="roles-count">{roles.length} open roles</span> &middot; auto-synced every 15 min
+            <span className="roles-count">{roles.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min
           </p>
         </div>
       </section>

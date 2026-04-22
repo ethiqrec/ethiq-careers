@@ -116,6 +116,22 @@ a:hover {
   color: var(--text-primary);
   margin-bottom: 12px;
 }
+.live-beacon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  position: relative;
+  animation: beacon-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--green);
+}
+@keyframes beacon-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--green); }
+  50% { opacity: 0.5; box-shadow: 0 0 12px var(--green), 0 0 24px rgba(121, 192, 136, 0.3); }
+}
 .hero-sub {
   font-size: 15px;
   color: var(--text-muted);

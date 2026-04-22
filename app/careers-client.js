@@ -350,8 +350,8 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       <h2 className="detail-title">{role.title}</h2>
 
       {/* Descriptor */}
-      {role.descriptor && (
-        <p className="detail-descriptor">{role.descriptor}</p>
+      {role.locationDisplay && (
+        <p className="detail-descriptor">{role.locationDisplay}</p>
       )}
 
       {/* Stats grid */}

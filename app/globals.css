@@ -550,6 +550,18 @@ a:hover {
   font-size: 12px;
   color: var(--text-mono);
 }
+.linkedin-link {
+  color: var(--text-mono);
+  margin-left: 12px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  display: inline-flex;
+  vertical-align: middle;
+}
+.linkedin-link:hover {
+  opacity: 1;
+  color: var(--text-muted);
+}
 
 /* ── Mobile: <768px ── */
 @media (max-width: 768px) {

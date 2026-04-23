@@ -132,7 +132,7 @@ export default function CareersClient({ roles }) {
       {/* Nav */}
       <nav className="nav">
         <div className="container nav-inner">
-          <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={250} height={100} priority /></Link>
+          <Link href="/" className="nav-logo"><Image src="/ethiq-logo-nav.png" alt="Ethiq" width={300} height={120} priority /></Link>
           
         </div>
       </nav>
@@ -140,9 +140,9 @@ export default function CareersClient({ roles }) {
       {/* Hero */}
       <section className="hero">
         <div className="container">
-          <h1><span className="live-beacon" /> Ethiq live roles</h1>
+          <h1><span className="live-beacon" /> Live roles</h1>
           <p className="hero-sub">
-            Every role we&rsquo;re actively working on, pulled live from our CRM.
+            Roles we're actively hiring for right now.
           </p>
           <p className="hero-meta">
             <span className="roles-count">{roles.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min

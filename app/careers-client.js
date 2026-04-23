@@ -370,7 +370,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       )}
       {role.owner?.name && (
         <p className="recruiter-line">
-          <a href={getRecruiterLinkedIn(role.owner.name) || '#'} target="_blank" rel="noopener noreferrer" className="recruiter-link">
+          Recruiter: <a href={getRecruiterLinkedIn(role.owner.name) || '#'} target="_blank" rel="noopener noreferrer" className="recruiter-link">
             {role.owner.name}
           </a>
         </p>

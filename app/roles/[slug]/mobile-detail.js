@@ -94,8 +94,8 @@ export default function MobileDetail({ role }) {
 
       <h2 className="detail-title">{role.title}</h2>
 
-      {role.descriptor && (
-        <p className="detail-descriptor">{role.descriptor}</p>
+      {role.locationDisplay && (
+        <p className="detail-descriptor">{role.locationDisplay}</p>
       )}
       {role.owner?.name && (
         <p className="recruiter-line">

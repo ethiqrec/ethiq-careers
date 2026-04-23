@@ -402,10 +402,10 @@ a:hover {
 }
 
 .recruiter-line {
-  margin-top: 2px;
-  margin-bottom: 12px;
+  margin-top: -2px;
+  margin-bottom: 8px;
   font-size: 13px;
-  color: var(--text-dim);
+  color: var(--text-mono);
 }
 .recruiter-link {
   color: var(--text-dim);

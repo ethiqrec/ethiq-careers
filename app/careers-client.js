@@ -37,6 +37,20 @@ function matchesContractType(contractType, filter) {
 // Discipline filter
 const DISCIPLINE_FILTERS = ['All', 'Software Engineering', 'Data', 'Other']
 
+// Recruiter LinkedIn mapping
+const RECRUITER_LINKEDIN = {
+  james: 'https://www.linkedin.com/in/james-wilson-92170656/',
+  mark: 'https://www.linkedin.com/in/markworsfold/',
+  fraser: 'https://www.linkedin.com/in/ftait/',
+  anton: 'https://www.linkedin.com/in/antonhowell/',
+}
+
+function getRecruiterLinkedIn(ownerName) {
+  if (!ownerName) return null
+  const first = ownerName.split(' ')[0].toLowerCase()
+  return RECRUITER_LINKEDIN[first] || null
+}
+
 function matchesDiscipline(discipline, filter) {
   if (filter === 'All') return true
   return (discipline || '').toLowerCase() === filter.toLowerCase()
@@ -45,7 +59,7 @@ function matchesDiscipline(discipline, filter) {
 // ── Share handler ──
 
 async function handleShare(role) {
-  const url = typeof window !== 'undefined' ? window.location.href : ''
+  const url = typeof window !== 'undefined' ? `${window.location.origin}/roles/${role.slug}` : ''
   const shareData = {
     title: `${role.title} - Ethiq`,
     text: `${role.title} at a ${role.stage || ''} ${role.company?.industry || ''} company`.trim(),
@@ -353,6 +367,13 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       {/* Descriptor */}
       {role.locationDisplay && (
         <p className="detail-descriptor">{role.locationDisplay}</p>
+      )}
+      {role.owner?.name && (
+        <p className="recruiter-line">
+          <a href={getRecruiterLinkedIn(role.owner.name) || '#'} target="_blank" rel="noopener noreferrer" className="recruiter-link">
+            {role.owner.name}
+          </a>
+        </p>
       )}
 
       {/* Stats grid */}

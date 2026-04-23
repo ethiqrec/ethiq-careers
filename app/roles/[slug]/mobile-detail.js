@@ -309,8 +309,8 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired, we pay you {'\u00A3'}1,000. No catch, no timer, no weird vesting.
-        Drop their LinkedIn or their CV - whichever is easier.
+        If they get hired and pass their probation, we'll pay you {'\u00A3'}1,000 as a gift card of your choosing.
+        Drop their LinkedIn or their CV — whichever is easier.
       </p>
       <div className="form-toggle">
         <button type="button" className={mode === 'linkedin' ? 'active' : ''} onClick={() => setMode('linkedin')}>LinkedIn</button>

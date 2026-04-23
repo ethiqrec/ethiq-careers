@@ -687,9 +687,7 @@ function ReferForm({ role }) {
       </button>
 
       <p className="form-fine-print">
-        We&rsquo;ll only contact them with your permission. If they&rsquo;re already in our system,
-        no reward - but we&rsquo;ll still say thanks. £1,000 is paid once the candidate has passed
-        90 days in the role.
+        We&rsquo;ll only contact them with your permission. £1,000 is paid as a gift voucher of your choosing once the candidate has passed their probation period.
       </p>
     </form>
   )

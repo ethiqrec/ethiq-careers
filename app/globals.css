@@ -368,7 +368,7 @@ a:hover {
 /* Raw JD fallback */
 .raw-jd {
   font-size: 14px;
-  color: var(--text-muted);
+  color: #C8C8CC;
   line-height: 1.65;
 }
 .raw-jd h1, .raw-jd h2, .raw-jd h3 {
@@ -399,6 +399,19 @@ a:hover {
 .raw-jd a {
   color: var(--accent-blue);
   text-decoration: underline;
+}
+
+.recruiter-line {
+  margin-top: 4px;
+  font-size: 13px;
+}
+.recruiter-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.recruiter-link:hover {
+  color: var(--text-primary);
 }
 
 /* Action row */

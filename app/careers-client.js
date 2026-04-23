@@ -154,12 +154,12 @@ export default function CareersClient({ roles }) {
       {/* Hero */}
       <section className="hero">
         <div className="container">
-          <h1><span className="live-beacon" /> Live roles</h1>
+          <h1>Live roles</h1>
           <p className="hero-sub">
             Roles we're actively hiring for right now.
           </p>
           <p className="hero-meta">
-            <span className="roles-count">{roles.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min
+            <span className="live-beacon" /><span className="roles-count">{roles.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min
           </p>
         </div>
       </section>

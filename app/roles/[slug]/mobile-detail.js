@@ -10,7 +10,7 @@ function stripHtml(s) {
 // ââ Share handler ââ
 
 async function handleShare(role) {
-  var url = typeof window !== 'undefined' ? window.location.href : ''
+  var url = typeof window !== 'undefined' ? `${window.location.origin}/roles/${role.slug}` : ''
   var shareData = {
     title: role.title + ' - Ethiq',
     text: (role.title + ' ' + (role.company?.industry || '')).trim(),
@@ -39,6 +39,20 @@ function Toast({ message, onDone }) {
   }, [onDone])
 
   return <div className="toast">{message}</div>
+}
+
+// Recruiter LinkedIn mapping
+const RECRUITER_LINKEDIN = {
+  james: 'https://www.linkedin.com/in/james-wilson-92170656/',
+  mark: 'https://www.linkedin.com/in/markworsfold/',
+  fraser: 'https://www.linkedin.com/in/ftait/',
+  anton: 'https://www.linkedin.com/in/antonhowell/',
+}
+
+function getRecruiterLinkedIn(ownerName) {
+  if (!ownerName) return null
+  const first = ownerName.split(' ')[0].toLowerCase()
+  return RECRUITER_LINKEDIN[first] || null
 }
 
 export default function MobileDetail({ role }) {
@@ -82,6 +96,13 @@ export default function MobileDetail({ role }) {
 
       {role.descriptor && (
         <p className="detail-descriptor">{role.descriptor}</p>
+      )}
+      {role.owner?.name && (
+        <p className="recruiter-line">
+          Recruiter: <a href={getRecruiterLinkedIn(role.owner.name) || '#'} target="_blank" rel="noopener noreferrer" className="recruiter-link">
+            {role.owner.name}
+          </a>
+        </p>
       )}
 
       {/* Stats grid */}

@@ -1,15 +1,19 @@
 import { NextResponse } from 'next/server'
 import { getRoles } from '../../../../lib/roles.js'
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, renderToBuffer, Font } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, renderToBuffer, Image, Link } from '@react-pdf/renderer'
+import path from 'path'
+import fs from 'fs'
+
+const GREEN = '#79C088'
+const LOGO_URL = 'https://ethiq-careers.vercel.app/ethiq-logo-nav.png'
+const LINKEDIN_URL = 'https://www.linkedin.com/company/ethiqrec/posts/?feedView=all'
 
 // Strip HTML tags and return array of {type, text} blocks
 function parseHtmlToBlocks(html) {
   if (!html) return []
   const blocks = []
-  // Remove div wrappers
   const cleaned = html.replace(/<div[^>]*>/gi, '').replace(/<\/div>/gi, '')
-  // Split on block-level tags
   const parts = cleaned.split(/(<(?:h[1-6]|p|li|ul|ol)[^>]*>)/gi)
   let currentType = 'p'
   for (const part of parts) {
@@ -18,7 +22,6 @@ function parseHtmlToBlocks(html) {
       currentType = tagMatch[1].toLowerCase()
       continue
     }
-    // Strip remaining tags
     const text = part.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&rsquo;/g, "'").replace(/&lsquo;/g, "'").replace(/&rdquo;/g, '"').replace(/&ldquo;/g, '"').replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").trim()
     if (text) {
       blocks.push({ type: currentType, text })
@@ -36,16 +39,22 @@ const styles = StyleSheet.create({
     color: '#C8C8CC',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#2A2A2E',
-    paddingBottom: 16,
+    paddingBottom: 14,
     marginBottom: 24,
   },
   logo: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Bold',
-    color: '#F5F5F7',
-    letterSpacing: 3,
+    width: 100,
+    height: 40,
+    objectFit: 'contain',
+  },
+  linkedinLink: {
+    fontSize: 9,
+    color: '#6E6E73',
   },
   title: {
     fontSize: 22,
@@ -57,6 +66,14 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#8E8E93',
     marginBottom: 4,
+  },
+  greenBar: {
+    width: 30,
+    height: 3,
+    backgroundColor: GREEN,
+    marginBottom: 16,
+    marginTop: 8,
+    borderRadius: 2,
   },
   statsRow: {
     flexDirection: 'row',
@@ -73,7 +90,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 7,
-    color: '#6E6E73',
+    color: GREEN,
     letterSpacing: 1.5,
     fontFamily: 'Courier',
     marginBottom: 4,
@@ -84,7 +101,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     fontSize: 8,
-    color: '#6E6E73',
+    color: GREEN,
     letterSpacing: 1.5,
     fontFamily: 'Courier',
     marginBottom: 10,
@@ -120,10 +137,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   footerText: {
     fontSize: 8,
     color: '#6E6E73',
+  },
+  footerGreen: {
+    fontSize: 8,
+    color: GREEN,
   },
 })
 
@@ -132,10 +154,13 @@ function RolePDF({ role }) {
 
   return React.createElement(Document, {},
     React.createElement(Page, { size: 'A4', style: styles.page },
-      // Header
+      // Header with logo and LinkedIn
       React.createElement(View, { style: styles.header },
-        React.createElement(Text, { style: styles.logo }, 'ETHIQ')
+        React.createElement(Image, { src: LOGO_URL, style: styles.logo }),
+        React.createElement(Link, { src: LINKEDIN_URL, style: styles.linkedinLink }, 'linkedin.com/company/ethiqrec')
       ),
+      // Green accent bar
+      React.createElement(View, { style: styles.greenBar }),
       // Title block
       React.createElement(Text, { style: styles.title }, role.title),
       React.createElement(Text, { style: styles.subtitle }, role.locationDisplay || role.location || ''),
@@ -169,6 +194,7 @@ function RolePDF({ role }) {
       // Footer
       React.createElement(View, { style: styles.footer, fixed: true },
         React.createElement(Text, { style: styles.footerText }, 'ethiq-careers.vercel.app'),
+        React.createElement(Text, { style: styles.footerGreen }, 'ethiq'),
         React.createElement(Text, { style: styles.footerText }, new Date().toLocaleDateString('en-GB'))
       )
     )

@@ -459,6 +459,9 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         <button className="btn btn-outline" onClick={onRefer}>
           Refer <span className="green-suffix">£1k</span> ↗
         </button>
+        <a className="btn btn-outline" href={`/api/role-pdf/${role.slug}`} target="_blank" rel="noopener noreferrer">
+          PDF ↓
+        </a>
       </div>
 
       {/* Toast */}

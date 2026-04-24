@@ -453,6 +453,13 @@ a:hover {
   background: var(--bg-surface);
   color: var(--text-primary);
 }
+.btn-pdf {
+  color: var(--green);
+  border-color: var(--green);
+}
+.btn-pdf:hover {
+  background: rgba(121, 192, 136, 0.1);
+}
 .btn .green-suffix {
   font-family: var(--font-mono);
   font-size: 11px;

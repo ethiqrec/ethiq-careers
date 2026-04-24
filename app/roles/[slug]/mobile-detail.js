@@ -188,7 +188,7 @@ export default function MobileDetail({ role }) {
         <button className="btn btn-outline" onClick={onRefer}>
           Refer <span className="green-suffix">{'\u00A3'}1k</span> {'\u2197'}
         </button>
-        <a className="btn btn-outline" href={`/api/role-pdf/${role.slug}`} target="_blank" rel="noopener noreferrer">
+        <a className="btn btn-outline btn-pdf" href={`/api/role-pdf/${role.slug}`} target="_blank" rel="noopener noreferrer">
           PDF {'↓'}
         </a>
       </div>

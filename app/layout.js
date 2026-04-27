@@ -1,7 +1,9 @@
 import './globals.css'
+import PostHogProvider from './posthog-provider'
+import PostHogPageView from './posthog-pageview'
 
 export const metadata = {
-  title: 'Roles \u2014 Ethiq',
+  title: 'Roles — Ethiq',
   description:
     'Tech recruitment across the UK and Europe. AI, Data and Engineering roles, no fluff.',
 }
@@ -9,7 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <PostHogProvider>
+          <PostHogPageView />
+          {children}
+        </PostHogProvider>
+      </body>
     </html>
   )
 }

@@ -1,14 +1,12 @@
-// POST /api/refer — handle referrals
+// POST /api/refer -- handle referrals
 // 1. Check if person already exists in Atlas
 // 2. If new: create person + add as candidate
-// 3. Email James with full context
+// 3. Email James with full context (CV attached directly to email)
 // 4. Never email the referred person (GDPR)
 
 import { NextResponse } from 'next/server'
 import { lookupPeople, createPerson, addCandidate } from '../../../lib/atlas.js'
 import { sendReferralEmail } from '../../../lib/email.js'
-import { writeFileSync, mkdirSync, existsSync } from 'fs'
-import { join } from 'path'
 
 export const maxDuration = 30
 
@@ -27,10 +25,30 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Referrer name and email are required' }, { status: 400 })
     }
 
-    // Save CV if provided
+    // Read CV into buffer (used for email attachment, optionally also Vercel Blob)
+    let cvBuffer = null
+    let cvFilename = null
     let cvUrl = null
+
     if (referredCvFile && referredCvFile.size > 0) {
-      cvUrl = await saveCv(referredCvFile, roleId)
+      try {
+        const bytes = await referredCvFile.arrayBuffer()
+        cvBuffer = Buffer.from(bytes)
+        cvFilename = referredCvFile.name || 'referral-cv.pdf'
+      } catch (err) {
+        console.error('Referral CV read failed:', err.message)
+      }
+
+      if (cvBuffer && process.env.BLOB_READ_WRITE_TOKEN) {
+        try {
+          const { put } = await import('@vercel/blob')
+          const ext = cvFilename.split('.').pop() || 'pdf'
+          const blob = await put(`referrals/referral-${Date.now()}.${ext}`, cvBuffer, { access: 'public' })
+          cvUrl = blob.url
+        } catch (err) {
+          console.error('Blob upload failed:', err.message)
+        }
+      }
     }
 
     let alreadyExists = false
@@ -44,7 +62,7 @@ export async function POST(request) {
         }
 
         if (!alreadyExists) {
-          // 3. Create new person
+          // 2. Create new person
           const person = await createPerson({
             name: 'Referred candidate',
             email: null,
@@ -53,7 +71,7 @@ export async function POST(request) {
           })
           const personId = person?.data?.id || person?.id
 
-          // 4. Add as candidate
+          // 3. Add as candidate
           if (personId && roleId) {
             await addCandidate(roleId, personId)
           }
@@ -63,7 +81,7 @@ export async function POST(request) {
       }
     }
 
-    // Email James
+    // 4. Email James with CV attached directly
     try {
       await sendReferralEmail({
         referrerName,
@@ -71,6 +89,8 @@ export async function POST(request) {
         referredName: null,
         referredLinkedin,
         referredCvUrl: cvUrl,
+        referredCvBuffer: cvBuffer,
+        referredCvFilename: cvFilename,
         note,
         roleTitle,
         alreadyExists,
@@ -83,32 +103,5 @@ export async function POST(request) {
   } catch (err) {
     console.error('Refer handler error:', err)
     return NextResponse.json({ ok: true }) // Always success
-  }
-}
-
-async function saveCv(file, roleId) {
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
-  const ext = file.name?.split('.').pop() || 'pdf'
-  const filename = `referral-${Date.now()}.${ext}`
-
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { put } = await import('@vercel/blob')
-      const blob = await put(`referrals/${filename}`, buffer, { access: 'public' })
-      return blob.url
-    } catch (err) {
-      console.error('Blob upload failed:', err.message)
-    }
-  }
-
-  try {
-    const dir = '/tmp/referrals'
-    if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-    const path = join(dir, filename)
-    writeFileSync(path, buffer)
-    return path
-  } catch {
-    return null
   }
 }

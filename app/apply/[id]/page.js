@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 const wrapStyle = {
@@ -64,7 +64,9 @@ const dropZoneBase = {
 
 export default function ApplyPage() {
   const params = useParams()
+  const searchParams = useSearchParams()
   const roleId = params?.id
+  const titleFromUrl = searchParams?.get('title')
 
   const [role, setRole] = useState(null)
   const [state, setState] = useState('idle') // idle | submitting | done | error
@@ -75,15 +77,16 @@ export default function ApplyPage() {
 
   useEffect(() => {
     if (!roleId) return
+    const fallbackTitle = titleFromUrl || 'this role'
     fetch('/jobs.json', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => {
         const found = (data.jobs || []).find((j) => String(j.id) === String(roleId))
-        if (found) setRole(found)
-        else setRole({ id: roleId, title: 'this role' })
+        if (found) setRole({ ...found, title: titleFromUrl || found.title })
+        else setRole({ id: roleId, title: fallbackTitle })
       })
-      .catch(() => setRole({ id: roleId, title: 'this role' }))
-  }, [roleId])
+      .catch(() => setRole({ id: roleId, title: fallbackTitle }))
+  }, [roleId, titleFromUrl])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -144,7 +147,7 @@ export default function ApplyPage() {
           <Link href="/" style={breadcrumbStyle}>← all roles</Link>
           <div className="form-panel">
             <div className="form-success">
-              You&rsquo;re in. We&rsquo;ll be in touch within three working days.
+              Thanks &mdash; we&rsquo;ll be in touch.
             </div>
           </div>
         </div>

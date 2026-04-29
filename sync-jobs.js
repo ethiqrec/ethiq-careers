@@ -1,35 +1,40 @@
 // sync-jobs.js
 // Pulls roles from Atlas Recruitment CRM and writes public/jobs.json
 // Uses Node 18+ built-in fetch — no dependencies.
+// ES module: package.json declares "type": "module".
 
-const fs = require('fs');
-const path = require('path');
+import { writeFileSync } from 'fs'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const API_KEY = process.env.ATLAS_API_KEY;
-const API_BASE = 'https://api.recruitwithatlas.com';
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const API_KEY = process.env.ATLAS_API_KEY
+const API_BASE = 'https://api.recruitwithatlas.com'
 
 // Which Atlas states to pull from. Add or remove states here as needed.
-const STATES = ['active', 'lead', 'pitch'];
+const STATES = ['active', 'lead', 'pitch']
 
 if (!API_KEY) {
-  console.error('Missing ATLAS_API_KEY env var');
-  process.exit(1);
+  console.error('Missing ATLAS_API_KEY env var')
+  process.exit(1)
 }
 
 async function fetchProjects(state) {
-  const url = `${API_BASE}/api/v1/projects?state=${state}&per_page=100`;
+  const url = `${API_BASE}/api/v1/projects?state=${state}&per_page=100`
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
       'Content-Type': 'application/json',
     },
-  });
+  })
   if (!res.ok) {
-    console.error(`Atlas API error for state=${state}: ${res.status} ${res.statusText}`);
-    return [];
+    console.error(`Atlas API error for state=${state}: ${res.status} ${res.statusText}`)
+    return []
   }
-  const data = await res.json();
-  return data.data || [];
+  const data = await res.json()
+  return data.data || []
 }
 
 // Pull a recruiter name out of whatever Atlas returns. Atlas's exact field name
@@ -42,15 +47,15 @@ function extractRecruiter(job) {
     job.assignedTo,
     job.assigned_to,
     job.user,
-  ].filter(Boolean);
+  ].filter(Boolean)
 
   for (const c of candidates) {
-    if (typeof c === 'string') return c;
+    if (typeof c === 'string') return c
     if (typeof c === 'object') {
-      return c.name || c.firstName || `${c.first_name || ''} ${c.last_name || ''}`.trim() || c.email || '';
+      return c.name || c.firstName || `${c.first_name || ''} ${c.last_name || ''}`.trim() || c.email || ''
     }
   }
-  return '';
+  return ''
 }
 
 function transform(job) {
@@ -69,46 +74,48 @@ function transform(job) {
       ? String(job.jobDescription).replace(/<[^>]+>/g, '').substring(0, 240).trim() + '…'
       : '',
     createdAt: job.createdAt || new Date().toISOString(),
-    // Public Atlas job page — adjust if Atlas uses a different URL pattern
-    applyUrl: job.public ? `${API_BASE}/jobs/${job.id}` : `${API_BASE}/jobs/${job.id}`,
-  };
+    // Route applications through our own /apply/[id] page so we always email
+    // james@ethiqrec.com (via /api/apply) regardless of how Atlas is set up
+    // for this specific role.
+    applyUrl: `/apply/${job.id}`,
+  }
 }
 
 async function main() {
-  console.log('Syncing jobs from Atlas…');
-  console.log('States:', STATES.join(', '));
+  console.log('Syncing jobs from Atlas…')
+  console.log('States:', STATES.join(', '))
 
-  const all = [];
+  const all = []
   for (const state of STATES) {
-    const projects = await fetchProjects(state);
-    console.log(`  ${state}: ${projects.length} jobs`);
-    all.push(...projects);
+    const projects = await fetchProjects(state)
+    console.log(`  ${state}: ${projects.length} jobs`)
+    all.push(...projects)
   }
 
   // De-duplicate by id (in case a job appears in multiple states)
-  const seen = new Set();
+  const seen = new Set()
   const unique = all.filter((j) => {
-    if (seen.has(j.id)) return false;
-    seen.add(j.id);
-    return true;
-  });
+    if (seen.has(j.id)) return false
+    seen.add(j.id)
+    return true
+  })
 
-  const transformed = unique.map(transform);
+  const transformed = unique.map(transform)
 
   const output = {
     jobs: transformed,
     lastUpdated: new Date().toISOString(),
     count: transformed.length,
-  };
+  }
 
-  const outPath = path.join(__dirname, 'public', 'jobs.json');
-  fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
+  const outPath = join(__dirname, 'public', 'jobs.json')
+  writeFileSync(outPath, JSON.stringify(output, null, 2))
 
-  console.log(`✓ Wrote ${transformed.length} jobs to ${outPath}`);
-  console.log('Recruiters found:', [...new Set(transformed.map((j) => j.recruiter).filter(Boolean))]);
+  console.log(`✓ Wrote ${transformed.length} jobs to ${outPath}`)
+  console.log('Recruiters found:', [...new Set(transformed.map((j) => j.recruiter).filter(Boolean))])
 }
 
 main().catch((err) => {
-  console.error('Sync failed:', err);
-  process.exit(1);
-});
+  console.error('Sync failed:', err)
+  process.exit(1)
+})

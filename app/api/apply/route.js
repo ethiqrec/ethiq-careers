@@ -1,15 +1,13 @@
 // POST /api/apply -- handle job applications
-// 1. Save CV to Vercel Blob (or filesystem fallback)
-// 2. Email the project owner
-// 3. Create person in Atlas
-// 4. Add as candidate to the project
+// 1. Optionally upload CV to Vercel Blob (if BLOB_READ_WRITE_TOKEN is set)
+// 2. Email the project owner with the CV attached directly
+// 3. Create person in Atlas (best-effort)
+// 4. Add as candidate to the project (best-effort)
 // 5. Always return success to the applicant
 
 import { NextResponse } from 'next/server'
 import { createPerson, addCandidate } from '../../../lib/atlas.js'
 import { sendApplicationEmail } from '../../../lib/email.js'
-import { writeFileSync, mkdirSync, existsSync } from 'fs'
-import { join } from 'path'
 
 export const maxDuration = 30
 
@@ -30,13 +28,35 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Name and email are required' }, { status: 400 })
     }
 
-    // 1. Save CV
+    // 1. Read CV into a buffer (used for both email attachment and optional Blob upload)
+    let cvBuffer = null
+    let cvFilename = null
     let cvUrl = null
+
     if (cvFile && cvFile.size > 0) {
-      cvUrl = await saveCv(cvFile, roleId, name)
+      try {
+        const bytes = await cvFile.arrayBuffer()
+        cvBuffer = Buffer.from(bytes)
+        cvFilename = cvFile.name || 'cv.pdf'
+      } catch (err) {
+        console.error('CV read failed:', err.message)
+      }
+
+      // Upload to Vercel Blob if configured (for permanent storage)
+      if (cvBuffer && process.env.BLOB_READ_WRITE_TOKEN) {
+        try {
+          const { put } = await import('@vercel/blob')
+          const safeName = (name || 'unknown').replace(/[^a-z0-9]/gi, '-').toLowerCase()
+          const ext = cvFilename.split('.').pop() || 'pdf'
+          const blob = await put(`cvs/${safeName}-${Date.now()}.${ext}`, cvBuffer, { access: 'public' })
+          cvUrl = blob.url
+        } catch (err) {
+          console.error('Blob upload failed:', err.message)
+        }
+      }
     }
 
-    // 2. Send email (non-blocking)
+    // 2. Send email with CV attached directly
     try {
       await sendApplicationEmail({
         to: ownerEmail,
@@ -45,13 +65,15 @@ export async function POST(request) {
         linkedinUrl: linkedin,
         note,
         cvUrl,
+        cvBuffer,
+        cvFilename,
         roleTitle,
       })
     } catch (err) {
       console.error('Email send failed:', err.message)
     }
 
-    // 3. Create person in Atlas
+    // 3. Create person in Atlas (best-effort)
     if (process.env.ATLAS_API_KEY) {
       try {
         const person = await createPerson({
@@ -75,36 +97,5 @@ export async function POST(request) {
   } catch (err) {
     console.error('Apply handler error:', err)
     return NextResponse.json({ ok: true })
-  }
-}
-
-async function saveCv(file, roleId, name) {
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
-  const ext = file.name?.split('.').pop() || 'pdf'
-  const safeName = (name || 'unknown').replace(/[^a-z0-9]/gi, '-').toLowerCase()
-  const filename = `${safeName}-${Date.now()}.${ext}`
-
-  // Try Vercel Blob first
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { put } = await import('@vercel/blob')
-      const blob = await put(`cvs/${filename}`, buffer, { access: 'public' })
-      return blob.url
-    } catch (err) {
-      console.error('Blob upload failed:', err.message)
-    }
-  }
-
-  // Fallback: save to /tmp
-  try {
-    const dir = '/tmp/cvs'
-    if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-    const path = join(dir, filename)
-    writeFileSync(path, buffer)
-    return path
-  } catch (err) {
-    console.error('File save failed:', err.message)
-    return null
   }
 }

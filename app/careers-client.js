@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// ââ Helpers ââ
+// ── Helpers ──
 
 function timeAgo(dateStr) {
   if (!dateStr) return ''
@@ -56,7 +56,7 @@ function matchesDiscipline(discipline, filter) {
   return (discipline || '').toLowerCase() === filter.toLowerCase()
 }
 
-// ââ Share handler ââ
+// ── Share handler ──
 
 async function handleShare(role) {
   const url = typeof window !== 'undefined' ? `${window.location.origin}/roles/${role.slug}` : ''
@@ -79,7 +79,7 @@ async function handleShare(role) {
   return false
 }
 
-// ââ Toast component ââ
+// ── Toast component ──
 
 function Toast({ message, onDone }) {
   useEffect(() => {
@@ -90,13 +90,13 @@ function Toast({ message, onDone }) {
   return <div className="toast">{message}</div>
 }
 
-// ââ Main component ââ
+// ── Main component ──
 
 export default function CareersClient({ roles }) {
   const searchParams = useSearchParams()
   const consultantParam = searchParams.get('consultant')
 
-  const [selectedId, setSelectedId] = useState(roles[0]?.id || null)
+  const [selectedId, setSelectedId] = useState(() => { const _i = consultantParam ? roles.filter((r) => ((r.owner?.name || '').split(' ')[0].toLowerCase() === consultantParam.toLowerCase())) : roles; return _i[0]?.id || null })
   const [sortBy, setSortBy] = useState('newest') // newest | compensation
   const [activePanel, setActivePanel] = useState(null) // 'apply' | 'refer' | null
   const [typeFilter, setTypeFilter] = useState('All')
@@ -111,7 +111,8 @@ export default function CareersClient({ roles }) {
     return () => clearInterval(interval)
   }, [])
 
-  const selected = roles.find((r) => r.id === selectedId) || roles[0] || null
+  const _pool = consultantParam ? roles.filter((r) => ((r.owner?.name || '').split(' ')[0].toLowerCase() === consultantParam.toLowerCase())) : roles
+  const selected = _pool.find((r) => r.id === selectedId) || _pool[0] || null
 
   // Filter by contract type and optional consultant param
   const filtered = roles.filter((r) => {
@@ -159,7 +160,7 @@ export default function CareersClient({ roles }) {
             Roles we're actively hiring for right now.
           </p>
           <p className="hero-meta">
-            <span className="live-beacon" /><span className="roles-count">{roles.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min
+            <span className="live-beacon" /><span className="roles-count">{filtered.length} open roles</span> &middot; {syncMinutes === 0 ? `just updated` : `updated ${syncMinutes}m ago`} &middot; refreshes every 15 min
           </p>
         </div>
       </section>
@@ -172,7 +173,7 @@ export default function CareersClient({ roles }) {
             <div className="rail-header">
               <span className="rail-count">{sorted.length} roles</span>
               <button className="sort-toggle" onClick={toggleSort}>
-                {sortBy === 'newest' ? 'newest' : 'comp'} â
+                {sortBy === 'newest' ? 'newest' : 'comp'} ↕
               </button>
             </div>
 
@@ -315,7 +316,7 @@ export default function CareersClient({ roles }) {
   )
 }
 
-// ââ Role detail pane ââ
+// ── Role detail pane ──
 
 function RoleDetail({ role, activePanel, setActivePanel }) {
   const [toast, setToast] = useState(null)
@@ -379,20 +380,20 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
           <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
-            {role.salaryDisplay || 'â'}
+            {role.salaryDisplay || '—'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || 'â'}</div>
+          <div className="stat-value">{role.locationDisplay || '—'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">CONTRACT</div>
-          <div className="stat-value">{role.contractTypeLabel || 'â'}</div>
+          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LIVE ROLES</div>
-          <div className="stat-value">{role.liveRolesDisplay || 'â'}</div>
+          <div className="stat-value">{role.liveRolesDisplay || '—'}</div>
         </div>
       </div>
 
@@ -449,16 +450,16 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       {/* Action row */}
       <div className="action-row">
         <a className="btn btn-primary" href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`} target="_blank" rel="noopener noreferrer">
-          Apply â
+          Apply →
         </a>
         <button className="btn btn-outline" onClick={onShare}>
-          Share â
+          Share ↗
         </button>
         <button className="btn btn-outline" onClick={onRefer}>
-          Refer <span className="green-suffix">Â£1k</span> â
+          Refer <span className="green-suffix">£1k</span> ↗
         </button>
         <a className="btn btn-outline btn-pdf" href={`/api/role-pdf/${role.slug}`} target="_blank" rel="noopener noreferrer">
-          PDF â
+          PDF ↓
         </a>
       </div>
 
@@ -475,7 +476,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
   )
 }
 
-// ââ Apply form ââ
+// ── Apply form ──
 
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle') // idle | submitting | done
@@ -563,19 +564,19 @@ function ApplyForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application â'}
+        {state === 'submitting' ? 'Sending...' : 'Send application →'}
       </button>
 
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
         We won&rsquo;t pass you around to anyone else.{' '}
-        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy â</a>
+        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy →</a>
       </p>
     </form>
   )
 }
 
-// ââ Refer form ââ
+// ── Refer form ──
 
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')
@@ -618,8 +619,8 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired and pass their probation, we'll pay you Â£1,000 as a gift card of your choosing.
-        Drop their LinkedIn or their CV â whichever is easier.
+        If they get hired and pass their probation, we'll pay you £1,000 as a gift card of your choosing.
+        Drop their LinkedIn or their CV — whichever is easier.
       </p>
 
       <div className="form-toggle">
@@ -684,11 +685,11 @@ function ReferForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral â'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral →'}
       </button>
 
       <p className="form-fine-print">
-        We&rsquo;ll only contact them with your permission. Â£1,000 is paid as a gift voucher of your choosing once the candidate has passed their probation period.
+        We&rsquo;ll only contact them with your permission. £1,000 is paid as a gift voucher of your choosing once the candidate has passed their probation period.
       </p>
     </form>
   )

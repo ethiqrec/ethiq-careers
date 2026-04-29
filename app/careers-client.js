@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// ── Helpers ──
+// ââ Helpers ââ
 
 function timeAgo(dateStr) {
   if (!dateStr) return ''
@@ -56,7 +56,7 @@ function matchesDiscipline(discipline, filter) {
   return (discipline || '').toLowerCase() === filter.toLowerCase()
 }
 
-// ── Share handler ──
+// ââ Share handler ââ
 
 async function handleShare(role) {
   const url = typeof window !== 'undefined' ? `${window.location.origin}/roles/${role.slug}` : ''
@@ -79,7 +79,7 @@ async function handleShare(role) {
   return false
 }
 
-// ── Toast component ──
+// ââ Toast component ââ
 
 function Toast({ message, onDone }) {
   useEffect(() => {
@@ -90,7 +90,7 @@ function Toast({ message, onDone }) {
   return <div className="toast">{message}</div>
 }
 
-// ── Main component ──
+// ââ Main component ââ
 
 export default function CareersClient({ roles }) {
   const searchParams = useSearchParams()
@@ -172,7 +172,7 @@ export default function CareersClient({ roles }) {
             <div className="rail-header">
               <span className="rail-count">{sorted.length} roles</span>
               <button className="sort-toggle" onClick={toggleSort}>
-                {sortBy === 'newest' ? 'newest' : 'comp'} ↕
+                {sortBy === 'newest' ? 'newest' : 'comp'} â
               </button>
             </div>
 
@@ -180,7 +180,6 @@ export default function CareersClient({ roles }) {
             {consultantParam && (
               <div className="consultant-banner">
                 <span>Showing roles for <strong>{consultantParam}</strong></span>
-                <Link href="/" className="clear-filter">&times; clear</Link>
               </div>
             )}
 
@@ -251,7 +250,6 @@ export default function CareersClient({ roles }) {
         {consultantParam && (
           <div className="consultant-banner">
             <span>Showing roles for <strong>{consultantParam}</strong></span>
-            <Link href="/" className="clear-filter">&times; clear</Link>
           </div>
         )}
         <div className="stage-filter">
@@ -317,7 +315,7 @@ export default function CareersClient({ roles }) {
   )
 }
 
-// ── Role detail pane ──
+// ââ Role detail pane ââ
 
 function RoleDetail({ role, activePanel, setActivePanel }) {
   const [toast, setToast] = useState(null)
@@ -381,20 +379,20 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
         <div className="stat-cell">
           <div className="stat-label">SALARY</div>
           <div className={`stat-value ${role.salaryDisplay ? 'green' : ''}`}>
-            {role.salaryDisplay || '—'}
+            {role.salaryDisplay || 'â'}
           </div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LOCATION</div>
-          <div className="stat-value">{role.locationDisplay || '—'}</div>
+          <div className="stat-value">{role.locationDisplay || 'â'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">CONTRACT</div>
-          <div className="stat-value">{role.contractTypeLabel || '—'}</div>
+          <div className="stat-value">{role.contractTypeLabel || 'â'}</div>
         </div>
         <div className="stat-cell">
           <div className="stat-label">LIVE ROLES</div>
-          <div className="stat-value">{role.liveRolesDisplay || '—'}</div>
+          <div className="stat-value">{role.liveRolesDisplay || 'â'}</div>
         </div>
       </div>
 
@@ -451,16 +449,16 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
       {/* Action row */}
       <div className="action-row">
         <a className="btn btn-primary" href={role.applyUrl || `https://my.recruitwithatlas.com/public/${role.id}`} target="_blank" rel="noopener noreferrer">
-          Apply →
+          Apply â
         </a>
         <button className="btn btn-outline" onClick={onShare}>
-          Share ↗
+          Share â
         </button>
         <button className="btn btn-outline" onClick={onRefer}>
-          Refer <span className="green-suffix">£1k</span> ↗
+          Refer <span className="green-suffix">Â£1k</span> â
         </button>
         <a className="btn btn-outline btn-pdf" href={`/api/role-pdf/${role.slug}`} target="_blank" rel="noopener noreferrer">
-          PDF ↓
+          PDF â
         </a>
       </div>
 
@@ -477,7 +475,7 @@ function RoleDetail({ role, activePanel, setActivePanel }) {
   )
 }
 
-// ── Apply form ──
+// ââ Apply form ââ
 
 function ApplyForm({ role }) {
   const [state, setState] = useState('idle') // idle | submitting | done
@@ -565,19 +563,19 @@ function ApplyForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send application →'}
+        {state === 'submitting' ? 'Sending...' : 'Send application â'}
       </button>
 
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
         We won&rsquo;t pass you around to anyone else.{' '}
-        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy →</a>
+        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy â</a>
       </p>
     </form>
   )
 }
 
-// ── Refer form ──
+// ââ Refer form ââ
 
 function ReferForm({ role }) {
   const [state, setState] = useState('idle')
@@ -620,8 +618,8 @@ function ReferForm({ role }) {
     <form className="form-panel" onSubmit={handleSubmit}>
       <div className="form-header">Refer someone</div>
       <p className="form-subhead">
-        If they get hired and pass their probation, we'll pay you £1,000 as a gift card of your choosing.
-        Drop their LinkedIn or their CV — whichever is easier.
+        If they get hired and pass their probation, we'll pay you Â£1,000 as a gift card of your choosing.
+        Drop their LinkedIn or their CV â whichever is easier.
       </p>
 
       <div className="form-toggle">
@@ -686,11 +684,11 @@ function ReferForm({ role }) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={state === 'submitting'}>
-        {state === 'submitting' ? 'Sending...' : 'Send referral →'}
+        {state === 'submitting' ? 'Sending...' : 'Send referral â'}
       </button>
 
       <p className="form-fine-print">
-        We&rsquo;ll only contact them with your permission. £1,000 is paid as a gift voucher of your choosing once the candidate has passed their probation period.
+        We&rsquo;ll only contact them with your permission. Â£1,000 is paid as a gift voucher of your choosing once the candidate has passed their probation period.
       </p>
     </form>
   )

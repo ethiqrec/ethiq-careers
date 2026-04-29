@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethiq — Live Roles</title>
+  <link rel="icon" href="/ethiq-logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #141414;
+      --bg-elev: #1c1c1c;
+      --border: #262626;
+      --border-strong: #3a3a3a;
+      --text: #f5f5f5;
+      --text-muted: #a3a3a3;
+      --text-subtle: #6b6b6b;
+      --accent: #d4af37;
+      --accent-soft: rgba(212, 175, 55, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { height: 36px; width: auto; }
+    .header-meta { color: var(--text-subtle); font-size: 0.875rem; }
+
+    .hero {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      max-width: 600px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding: 2rem 0 1rem;
+      align-items: center;
+    }
+    .filter-group { display: flex; gap: 0.75rem; flex-wrap: wrap; flex: 1; }
+    select, input[type="search"] {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.65rem 1rem;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    input[type="search"] { min-width: 240px; cursor: text; }
+    select:hover, input[type="search"]:hover { border-color: var(--border-strong); }
+    select:focus, input[type="search"]:focus { outline: none; border-color: var(--accent); }
+    .results-count { color: var(--text-subtle); font-size: 0.875rem; white-space: nowrap; }
+
+    .jobs { padding: 1.5rem 0 4rem; display: grid; gap: 1rem; }
+
+    .job-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .job-card:hover { border-color: var(--border-strong); }
+
+    .job-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .job-meta {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .job-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .job-summary {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+    .tag.recruiter {
+      background: var(--accent-soft);
+      border-color: transparent;
+      color: var(--accent);
+    }
+
+    .apply-btn {
+      background: var(--accent);
+      color: #0a0a0a;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+      align-self: center;
+    }
+    .apply-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .empty {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+    }
+    .empty h3 { font-family: 'Playfair Display', serif; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--text-subtle);
+      font-size: 0.875rem;
+    }
+    footer img { height: 28px; margin-bottom: 0.75rem; opacity: 0.7; }
+
+    @media (max-width: 720px) {
+      .job-card { grid-template-columns: 1fr; }
+      .apply-btn { justify-self: start; }
+      input[type="search"] { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <img src="/ethiq-logo.svg" alt="Ethiq" class="logo" />
+      <div class="header-meta" id="header-meta"></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow" id="eyebrow">Live opportunities</div>
+      <h1 id="hero-title">Live roles</h1>
+      <p id="hero-sub">Senior product, engineering, and data roles at fast-growing startups. Client names confidential until shortlisting.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="filters">
+      <div class="filter-group" id="filter-group">
+        <input type="search" id="search" placeholder="Search roles..." />
+        <select id="filter-function"><option value="">All functions</option></select>
+        <select id="filter-seniority"><option value="">All seniority</option></select>
+        <select id="filter-workmode"><option value="">Any work mode</option></select>
+        <select id="filter-recruiter" data-cross-recruiter><option value="">All recruiters</option></select>
+      </div>
+      <div class="results-count" id="results-count"></div>
+    </div>
+
+    <div class="jobs" id="jobs"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <img src="/ethiq-logo.svg" alt="Ethiq" />
+      <div>Exceptional recruitment for exceptional talent</div>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- helpers ----------
+    const params = new URLSearchParams(window.location.search);
+    const recruiterParam = params.get('r');
+    const SINGLE_MODE = !!recruiterParam;
+
+    // Map URL slugs to display names
+    const RECRUITER_NAMES = {
+      james: 'James',
+      fraser: 'Fraser',
+      anton: 'Anton',
+    };
+
+    function recruiterDisplayName(slug) {
+      if (!slug) return '';
+      return RECRUITER_NAMES[slug.toLowerCase()] || (slug.charAt(0).toUpperCase() + slug.slice(1));
+    }
+
+    function formatSalary(raw) {
+      if (raw === null || raw === undefined || raw === '') return '';
+
+      // Object form: { min, max, currency }
+      if (typeof raw === 'object') {
+        const min = raw.min, max = raw.max;
+        const toK = (n) => Math.round(n >= 1000 ? n / 1000 : n);
+        if (min && max) return `£${toK(min)}-£${toK(max)}k`;
+        if (min) return `£${toK(min)}k+`;
+        if (max) return `Up to £${toK(max)}k`;
+        return '';
+      }
+
+      // String form: "£80,000 - £120,000", "80k-120k", "£80k - £120k", "£90k", etc.
+      const str = String(raw);
+      const nums = str.match(/\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?/g);
+      if (!nums || !nums.length) return str;
+
+      const hasK = /k/i.test(str);
+      const values = nums.map((n) => {
+        const v = parseFloat(n.replace(/,/g, ''));
+        if (hasK) return Math.round(v);
+        return v >= 1000 ? Math.round(v / 1000) : Math.round(v);
+      });
+
+      if (values.length >= 2) return `£${values[0]}-£${values[1]}k`;
+      return `£${values[0]}k`;
+    }
+
+    function getRecruiter(job) {
+      // Try multiple field names so this works regardless of what Atlas returns
+      return (
+        job.recruiter ||
+        job.consultant ||
+        job.assignedTo ||
+        job.owner ||
+        ''
+      );
+    }
+
+    function matchesRecruiter(job, slug) {
+      const r = getRecruiter(job);
+      if (!r) return false;
+      if (typeof r === 'string') return r.toLowerCase().includes(slug.toLowerCase());
+      if (typeof r === 'object') {
+        const name = (r.name || r.firstName || r.email || '').toLowerCase();
+        return name.includes(slug.toLowerCase());
+      }
+      return false;
+    }
+
+    function recruiterLabel(job) {
+      const r = getRecruiter(job);
+      if (!r) return '';
+      if (typeof r === 'string') return r;
+      if (typeof r === 'object') return r.name || r.firstName || r.email || '';
+      return '';
+    }
+
+    // ---------- single-recruiter mode UI ----------
+    if (SINGLE_MODE) {
+      const name = recruiterDisplayName(recruiterParam);
+      document.getElementById('hero-title').textContent = `${name}'s live roles`;
+      document.getElementById('eyebrow').textContent = `Curated by ${name}`;
+      document.getElementById('hero-sub').textContent =
+        `Roles I'm actively working on. Client names confidential until shortlisting. Reach out to me directly for a chat.`;
+      document.title = `${name}'s live roles — Ethiq`;
+      // Hide the recruiter dropdown so candidates can't browse other recruiters' roles
+      document.querySelectorAll('[data-cross-recruiter]').forEach((el) => el.remove());
+    }
+
+    // ---------- load and render ----------
+    let allJobs = [];
+    let visibleJobs = [];
+
+    function unique(arr) {
+      return Array.from(new Set(arr.filter(Boolean)));
+    }
+
+    function populateSelect(id, values) {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      values.sort().forEach((v) => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v.charAt(0).toUpperCase() + v.slice(1).replace(/_/g, ' ');
+        sel.appendChild(opt);
+      });
+    }
+
+    function render() {
+      const search = document.getElementById('search').value.toLowerCase().trim();
+      const fn = document.getElementById('filter-function').value;
+      const sen = document.getElementById('filter-seniority').value;
+      const wm = document.getElementById('filter-workmode').value;
+      const recSel = document.getElementById('filter-recruiter');
+      const rec = recSel ? recSel.value : '';
+
+      visibleJobs = allJobs.filter((j) => {
+        if (search) {
+          const hay = `${j.title || ''} ${j.summary || ''} ${(j.location && j.location.name) || ''}`.toLowerCase();
+          if (!hay.includes(search)) return false;
+        }
+        if (fn && (j.function || '').toLowerCase() !== fn.toLowerCase()) return false;
+        if (sen && (j.seniority || '').toLowerCase() !== sen.toLowerCase()) return false;
+        if (wm && (j.workMode || '').toLowerCase() !== wm.toLowerCase()) return false;
+        if (rec && !matchesRecruiter(j, rec)) return false;
+        return true;
+      });
+
+      const container = document.getElementById('jobs');
+      container.innerHTML = '';
+
+      if (!visibleJobs.length) {
+        container.innerHTML = `
+          <div class="empty">
+            <h3>No matching roles</h3>
+            <p>Try adjusting your filters, or check back soon — new roles are added regularly.</p>
+          </div>`;
+      } else {
+        visibleJobs.forEach((j) => container.appendChild(jobCard(j)));
+      }
+
+      const c = document.getElementById('results-count');
+      c.textContent = `${visibleJobs.length} ${visibleJobs.length === 1 ? 'role' : 'roles'}`;
+    }
+
+    function jobCard(j) {
+      const card = document.createElement('article');
+      card.className = 'job-card';
+
+      const loc = (j.location && j.location.name) || j.location || '';
+      const salary = formatSalary(j.salary);
+      const wm = (j.workMode || '').replace(/_/g, ' ');
+      const ct = (j.contractType || '').replace(/_/g, ' ');
+      const fn = j.function || '';
+      const sen = j.seniority || '';
+      const rec = recruiterLabel(j);
+
+      const apply = j.applyUrl || j.atlasUrl || '#';
+
+      card.innerHTML = `
+        <div>
+          <h2 class="job-title">${escapeHtml(j.title || 'Role')}</h2>
+          <div class="job-meta">
+            ${loc ? `<span>📍 ${escapeHtml(loc)}</span>` : ''}
+            ${salary ? `<span>💰 ${escapeHtml(salary)}</span>` : ''}
+            ${wm ? `<span>🌐 ${escapeHtml(wm)}</span>` : ''}
+            ${ct ? `<span>📄 ${escapeHtml(ct)}</span>` : ''}
+          </div>
+          ${j.summary ? `<p class="job-summary">${escapeHtml(j.summary)}</p>` : ''}
+          <div class="tags">
+            ${fn ? `<span class="tag">${escapeHtml(fn)}</span>` : ''}
+            ${sen ? `<span class="tag">${escapeHtml(sen)}</span>` : ''}
+            ${rec && !SINGLE_MODE ? `<span class="tag recruiter">Recruiter: ${escapeHtml(rec)}</span>` : ''}
+          </div>
+        </div>
+        <a href="${escapeAttr(apply)}" class="apply-btn" target="_blank" rel="noopener">View &amp; Apply →</a>
+      `;
+      return card;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function escapeAttr(s) { return escapeHtml(s); }
+
+    async function load() {
+      try {
+        const res = await fetch('/jobs.json', { cache: 'no-store' });
+        const data = await res.json();
+        let jobs = data.jobs || [];
+
+        // Single-recruiter mode: filter immediately, before populating dropdowns
+        if (SINGLE_MODE) {
+          jobs = jobs.filter((j) => matchesRecruiter(j, recruiterParam));
+        }
+
+        allJobs = jobs;
+
+        // Populate dropdowns from the (already filtered) job set
+        populateSelect('filter-function', unique(allJobs.map((j) => j.function)));
+        populateSelect('filter-seniority', unique(allJobs.map((j) => j.seniority)));
+        populateSelect('filter-workmode', unique(allJobs.map((j) => j.workMode)));
+        if (!SINGLE_MODE) {
+          populateSelect('filter-recruiter', unique(allJobs.map((j) => recruiterLabel(j))));
+        }
+
+        // Header meta: last updated
+        if (data.lastUpdated) {
+          const d = new Date(data.lastUpdated);
+          document.getElementById('header-meta').textContent =
+            `Updated ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+        }
+
+        render();
+      } catch (err) {
+        console.error('Failed to load jobs:', err);
+        document.getElementById('jobs').innerHTML = `
+          <div class="empty">
+            <h3>Couldn't load roles</h3>
+            <p>Please refresh the page or try again shortly.</p>
+          </div>`;
+      }
+    }
+
+    ['search', 'filter-function', 'filter-seniority', 'filter-workmode', 'filter-recruiter'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', render);
+      if (el) el.addEventListener('change', render);
+    });
+
+    load();
+  </script>
+</body>
+</html>

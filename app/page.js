@@ -14,8 +14,12 @@ export default async function Page() {
 
   // Route applications through our own /apply/[id] page so submissions
   // always email james@ethiqrec.com via /api/apply, regardless of how
-  // (or whether) the role is wired up in Atlas.
-  roles = roles.map((r) => ({ ...r, applyUrl: `/apply/${r.id}` }))
+  // (or whether) the role is wired up in Atlas. Pass the title in the URL
+  // so the apply page can show it without hitting Atlas itself.
+  roles = roles.map((r) => ({
+    ...r,
+    applyUrl: `/apply/${r.id}?title=${encodeURIComponent(r.title || '')}`,
+  }))
 
   return (
     <Suspense>

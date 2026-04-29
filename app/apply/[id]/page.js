@@ -4,81 +4,45 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
-const styles = {
-  page: {
-    minHeight: '100vh',
-    padding: '3rem 1.25rem',
-    background: '#0a0a0a',
-    color: '#f5f5f5',
-    display: 'flex',
-    justifyContent: 'center',
-    fontFamily: "'Inter', system-ui, sans-serif",
-  },
-  card: {
-    width: '100%',
-    maxWidth: '560px',
-    background: '#141414',
-    border: '1px solid #262626',
-    borderRadius: '12px',
-    padding: '2rem',
-  },
-  back: {
-    display: 'inline-block',
-    color: '#a3a3a3',
-    fontSize: '0.875rem',
-    textDecoration: 'none',
-    marginBottom: '1rem',
-  },
-  h1: {
-    fontFamily: "'Playfair Display', serif",
-    fontSize: '1.75rem',
-    fontWeight: 500,
-    letterSpacing: '-0.01em',
-    margin: '0 0 0.5rem',
-  },
-  sub: {
-    color: '#a3a3a3',
-    fontSize: '0.95rem',
-    lineHeight: 1.55,
-    margin: '0 0 1.5rem',
-  },
-  form: { display: 'grid', gap: '1.1rem' },
-  label: { display: 'grid', gap: '0.4rem' },
-  labelText: {
-    fontSize: '0.85rem',
-    color: '#a3a3a3',
-    fontWeight: 500,
-  },
-  optional: {
-    fontStyle: 'normal',
-    color: '#6b6b6b',
-  },
-  input: {
-    background: '#1c1c1c',
-    border: '1px solid #262626',
-    color: '#f5f5f5',
-    padding: '0.7rem 0.9rem',
-    borderRadius: '6px',
-    fontFamily: 'inherit',
-    fontSize: '0.95rem',
-  },
-  fileInput: {
-    fontSize: '0.85rem',
-    color: '#a3a3a3',
-  },
-  submit: {
-    background: '#d4af37',
-    color: '#0a0a0a',
-    border: 'none',
-    padding: '0.85rem 1.4rem',
-    borderRadius: '6px',
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    cursor: 'pointer',
-    marginTop: '0.5rem',
-  },
-  submitDisabled: { opacity: 0.6, cursor: 'not-allowed' },
-  errorText: { color: '#ff6b6b', fontSize: '0.9rem', margin: '0.5rem 0 0' },
+const wrapStyle = {
+  minHeight: '100vh',
+  padding: '48px 20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  background: 'var(--bg-page)',
+  color: 'var(--text-primary)',
+  fontFamily: 'var(--font-sans)',
+}
+
+const cardStyle = { width: '100%', maxWidth: '560px' }
+
+const breadcrumbStyle = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: '12px',
+  color: 'var(--text-mono)',
+  textDecoration: 'none',
+  marginBottom: '16px',
+  display: 'inline-block',
+  textTransform: 'lowercase',
+  letterSpacing: '0.02em',
+}
+
+const titleStyle = {
+  fontSize: '22px',
+  fontWeight: 500,
+  letterSpacing: '-0.01em',
+  margin: '0 0 6px',
+}
+
+const greenSubmitStyle = {
+  background: 'var(--green)',
+  color: 'var(--bg-page)',
+  borderColor: 'var(--green)',
+  fontWeight: 600,
+  padding: '10px 18px',
+  fontSize: '14px',
+  marginTop: '8px',
 }
 
 export default function ApplyPage() {
@@ -128,96 +92,109 @@ export default function ApplyPage() {
 
   if (!role) {
     return (
-      <main style={styles.page}>
-        <div style={styles.card}><p>Loading…</p></div>
+      <main style={wrapStyle}>
+        <div style={cardStyle}>
+          <div className="form-panel">Loading…</div>
+        </div>
       </main>
     )
   }
 
   if (state === 'done') {
     return (
-      <main style={styles.page}>
-        <div style={styles.card}>
-          <h1 style={styles.h1}>You&rsquo;re in.</h1>
-          <p style={styles.sub}>{role.owner?.name || 'James'} will be in touch within three working days.</p>
-          <Link href="/" style={styles.back}>&larr; All roles</Link>
+      <main style={wrapStyle}>
+        <div style={cardStyle}>
+          <Link href="/" style={breadcrumbStyle}>← all roles</Link>
+          <div className="form-panel">
+            <div className="form-success">
+              You&rsquo;re in. {role.owner?.name || 'James'} will be in touch within three working days.
+            </div>
+          </div>
         </div>
       </main>
     )
   }
 
   return (
-    <main style={styles.page}>
-      <div style={styles.card}>
-        <Link href="/" style={styles.back}>&larr; All roles</Link>
-        <h1 style={styles.h1}>Apply: {role.title}</h1>
-        <p style={styles.sub}>
-          Goes directly to {role.owner?.name || 'James'} &mdash; the recruiter who owns this role.
-          No ATS, no black hole. You&rsquo;ll hear back within three working days.
-        </p>
+    <main style={wrapStyle}>
+      <div style={cardStyle}>
+        <Link href="/" style={breadcrumbStyle}>← all roles</Link>
+        <h1 style={titleStyle}>Apply: {role.title}</h1>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>
-            <span style={styles.labelText}>Your name</span>
+        <form className="form-panel" onSubmit={handleSubmit}>
+          <div className="form-header">Apply for this role</div>
+          <p className="form-subhead">
+            Goes directly to {role.owner?.name || 'James'} &mdash; the recruiter who owns this role.
+            No ATS, no black hole. You&rsquo;ll hear back within three working days.
+          </p>
+
+          <div className="form-group">
+            <label htmlFor="apply-name">Your name</label>
             <input
+              id="apply-name"
               type="text"
               required
               autoComplete="name"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              style={styles.input}
             />
-          </label>
+          </div>
 
-          <label style={styles.label}>
-            <span style={styles.labelText}>Email</span>
+          <div className="form-group">
+            <label htmlFor="apply-email">Email</label>
             <input
+              id="apply-email"
               type="email"
               required
               autoComplete="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              style={styles.input}
             />
-          </label>
+          </div>
 
-          <label style={styles.label}>
-            <span style={styles.labelText}>LinkedIn URL <em style={styles.optional}>(optional)</em></span>
+          <div className="form-group">
+            <label htmlFor="apply-linkedin">LinkedIn URL <span style={{ color: 'var(--text-mono)' }}>(optional)</span></label>
             <input
+              id="apply-linkedin"
               type="url"
               placeholder="https://linkedin.com/in/…"
               value={form.linkedin}
               onChange={(e) => setForm({ ...form, linkedin: e.target.value })}
-              style={styles.input}
             />
-          </label>
+          </div>
 
-          <label style={styles.label}>
-            <span style={styles.labelText}>CV <em style={styles.optional}>(optional, PDF preferred)</em></span>
-            <input ref={fileRef} type="file" accept=".pdf,.doc,.docx" style={styles.fileInput} />
-          </label>
+          <div className="form-group">
+            <label htmlFor="apply-cv">CV <span style={{ color: 'var(--text-mono)' }}>(optional, PDF preferred)</span></label>
+            <input id="apply-cv" ref={fileRef} type="file" accept=".pdf,.doc,.docx" />
+          </div>
 
-          <label style={styles.label}>
-            <span style={styles.labelText}>Anything you want to flag <em style={styles.optional}>(optional)</em></span>
+          <div className="form-group">
+            <label htmlFor="apply-note">Anything you want to flag <span style={{ color: 'var(--text-mono)' }}>(optional)</span></label>
             <textarea
-              rows="4"
+              id="apply-note"
+              rows={4}
               placeholder="Notice period, salary expectations, anything else…"
               value={form.note}
               onChange={(e) => setForm({ ...form, note: e.target.value })}
-              style={styles.input}
             />
-          </label>
+          </div>
 
           <button
             type="submit"
             disabled={state === 'submitting'}
-            style={{ ...styles.submit, ...(state === 'submitting' ? styles.submitDisabled : {}) }}
+            className="btn"
+            style={{
+              ...greenSubmitStyle,
+              ...(state === 'submitting' ? { opacity: 0.6, cursor: 'not-allowed' } : {}),
+            }}
           >
             {state === 'submitting' ? 'Sending…' : 'Send application'}
           </button>
 
           {state === 'error' && (
-            <p style={styles.errorText}>Something went wrong. Please try again, or email james@ethiqrec.com directly.</p>
+            <p style={{ color: '#ff6b6b', fontSize: '13px', margin: '12px 0 0' }}>
+              Something went wrong. Please try again, or email james@ethiqrec.com directly.
+            </p>
           )}
         </form>
       </div>

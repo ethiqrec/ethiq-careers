@@ -45,6 +45,23 @@ const greenSubmitStyle = {
   marginTop: '8px',
 }
 
+const dropZoneBase = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '6px',
+  padding: '20px 12px',
+  border: '1px dashed var(--border-input)',
+  borderRadius: 'var(--radius-md)',
+  background: 'var(--bg-page)',
+  color: 'var(--text-dim)',
+  fontSize: '13px',
+  textAlign: 'center',
+  cursor: 'pointer',
+  transition: 'border-color 120ms ease, background 120ms ease',
+}
+
 export default function ApplyPage() {
   const params = useParams()
   const roleId = params?.id
@@ -52,6 +69,8 @@ export default function ApplyPage() {
   const [role, setRole] = useState(null)
   const [state, setState] = useState('idle') // idle | submitting | done | error
   const [form, setForm] = useState({ name: '', email: '', linkedin: '', note: '' })
+  const [cvFile, setCvFile] = useState(null)
+  const [dragActive, setDragActive] = useState(false)
   const fileRef = useRef(null)
 
   useEffect(() => {
@@ -61,9 +80,9 @@ export default function ApplyPage() {
       .then((data) => {
         const found = (data.jobs || []).find((j) => String(j.id) === String(roleId))
         if (found) setRole(found)
-        else setRole({ id: roleId, title: 'this role', owner: { name: 'James', email: '' } })
+        else setRole({ id: roleId, title: 'this role' })
       })
-      .catch(() => setRole({ id: roleId, title: 'this role', owner: { name: 'James', email: '' } }))
+      .catch(() => setRole({ id: roleId, title: 'this role' }))
   }, [roleId])
 
   const handleSubmit = async (e) => {
@@ -73,13 +92,13 @@ export default function ApplyPage() {
     const fd = new FormData()
     fd.append('roleId', role?.id || roleId || '')
     fd.append('roleTitle', role?.title || 'Unknown role')
-    fd.append('ownerEmail', role?.owner?.email || '')
-    fd.append('ownerName', role?.owner?.name || 'James')
+    // Don't pass ownerEmail - let the server use OWNER_EMAIL_FALLBACK
+    // so notifications go to a single inbox regardless of role owner.
     fd.append('name', form.name)
     fd.append('email', form.email)
     if (form.linkedin) fd.append('linkedin', form.linkedin)
     if (form.note) fd.append('note', form.note)
-    if (fileRef.current?.files?.[0]) fd.append('cv', fileRef.current.files[0])
+    if (cvFile) fd.append('cv', cvFile)
 
     try {
       const res = await fetch('/api/apply', { method: 'POST', body: fd })
@@ -88,6 +107,24 @@ export default function ApplyPage() {
     } catch {
       setState('error')
     }
+  }
+
+  const onDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(true)
+  }
+  const onDragLeave = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+  }
+  const onDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+    const files = e.dataTransfer?.files
+    if (files && files[0]) setCvFile(files[0])
   }
 
   if (!role) {
@@ -107,7 +144,7 @@ export default function ApplyPage() {
           <Link href="/" style={breadcrumbStyle}>← all roles</Link>
           <div className="form-panel">
             <div className="form-success">
-              You&rsquo;re in. {role.owner?.name || 'James'} will be in touch within three working days.
+              You&rsquo;re in. We&rsquo;ll be in touch within three working days.
             </div>
           </div>
         </div>
@@ -122,12 +159,6 @@ export default function ApplyPage() {
         <h1 style={titleStyle}>Apply: {role.title}</h1>
 
         <form className="form-panel" onSubmit={handleSubmit}>
-          <div className="form-header">Apply for this role</div>
-          <p className="form-subhead">
-            Goes directly to {role.owner?.name || 'James'} &mdash; the recruiter who owns this role.
-            No ATS, no black hole. You&rsquo;ll hear back within three working days.
-          </p>
-
           <div className="form-group">
             <label htmlFor="apply-name">Your name</label>
             <input
@@ -164,8 +195,44 @@ export default function ApplyPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="apply-cv">CV <span style={{ color: 'var(--text-mono)' }}>(optional, PDF preferred)</span></label>
-            <input id="apply-cv" ref={fileRef} type="file" accept=".pdf,.doc,.docx" />
+            <label>CV <span style={{ color: 'var(--text-mono)' }}>(optional, PDF preferred)</span></label>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => fileRef.current?.click()}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileRef.current?.click() }}
+              onDragOver={onDragOver}
+              onDragEnter={onDragOver}
+              onDragLeave={onDragLeave}
+              onDrop={onDrop}
+              style={{
+                ...dropZoneBase,
+                ...(dragActive ? { borderColor: 'var(--green)', background: 'var(--bg-surface)' } : {}),
+                ...(cvFile ? { borderStyle: 'solid', color: 'var(--text-primary)' } : {}),
+              }}
+            >
+              {cvFile ? (
+                <>
+                  <span style={{ fontWeight: 500 }}>{cvFile.name}</span>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '12px' }}>
+                    {(cvFile.size / 1024).toFixed(0)} KB · click or drop another to replace
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span>Drop a file here or <span style={{ color: 'var(--green)' }}>browse</span></span>
+                  <span style={{ color: 'var(--text-mono)', fontSize: '12px' }}>PDF, DOC, DOCX</span>
+                </>
+              )}
+              <input
+                ref={fileRef}
+                id="apply-cv"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => { if (e.target.files?.[0]) setCvFile(e.target.files[0]) }}
+                style={{ display: 'none' }}
+              />
+            </div>
           </div>
 
           <div className="form-group">

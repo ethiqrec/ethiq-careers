@@ -303,7 +303,7 @@ export default function CareersClient({ roles }) {
         <div className="container footer-inner">
           <span className="footer-text">&copy; {new Date().getFullYear()} Ethiq Recruitment</span>
           <span className="footer-text">
-            <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">
+            <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
               Privacy policy
             </a>
             <a href="https://www.linkedin.com/company/ethiqrec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="linkedin-link" aria-label="Ethiq on LinkedIn">
@@ -570,7 +570,7 @@ function ApplyForm({ role }) {
       <p className="form-fine-print">
         By applying you&rsquo;re agreeing to share your details with the hiring company.
         We won&rsquo;t pass you around to anyone else.{' '}
-        <a href="https://www.ethiqrec.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy →</a>
+        <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy policy →</a>
       </p>
     </form>
   )

@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "48fe61d2-81b2-49de-812e-0b07c6fc2134",
+      "title": "Applied AI Engineer",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Fraser Tait",
+      "summary": "",
+      "createdAt": "2026-07-06T11:43:27.053Z",
+      "applyUrl": "/apply/48fe61d2-81b2-49de-812e-0b07c6fc2134"
+    },
+    {
       "id": "976fac50-d392-447a-91e3-9a1338f114f6",
       "title": "Product Owner AI",
       "company": "Confidential Client",
@@ -186,6 +203,23 @@
       "summary": "",
       "createdAt": "2026-04-27T14:21:19.902Z",
       "applyUrl": "/apply/8496a725-c09c-414d-a215-2927840fdccd"
+    },
+    {
+      "id": "d4d55bdf-5c70-455d-9642-7b370198552b",
+      "title": "AI Lead",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-04-27T08:22:02.374Z",
+      "applyUrl": "/apply/d4d55bdf-5c70-455d-9642-7b370198552b"
     },
     {
       "id": "c4034fe4-c796-4d5c-9624-1dd055ba6524",
@@ -511,6 +545,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-06T09:02:08.582Z",
-  "count": 30
+  "lastUpdated": "2026-07-06T13:04:21.104Z",
+  "count": 32
 }

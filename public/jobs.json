@@ -1,6 +1,40 @@
 {
   "jobs": [
     {
+      "id": "9a8499e5-6bcc-4bcc-a2c1-9da87c1d6e7a",
+      "title": "Business Development Director - US",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-07-06T15:04:21.962Z",
+      "applyUrl": "/apply/9a8499e5-6bcc-4bcc-a2c1-9da87c1d6e7a"
+    },
+    {
+      "id": "4ad98625-3645-49ac-9767-e7f01acdf40a",
+      "title": "Data Engineer (BI)",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Gabby Hart",
+      "summary": "",
+      "createdAt": "2026-07-06T13:52:13.997Z",
+      "applyUrl": "/apply/4ad98625-3645-49ac-9767-e7f01acdf40a"
+    },
+    {
       "id": "48fe61d2-81b2-49de-812e-0b07c6fc2134",
       "title": "Applied AI Engineer",
       "company": "Confidential Client",
@@ -545,6 +579,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-06T13:04:21.104Z",
-  "count": 32
+  "lastUpdated": "2026-07-06T16:38:29.828Z",
+  "count": 34
 }

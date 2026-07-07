@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "0c2c6aae-8bd5-446d-b23e-f7e926c9153a",
+      "title": "Delivery Lead",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Gabby Hart",
+      "summary": "",
+      "createdAt": "2026-07-07T13:12:11.306Z",
+      "applyUrl": "/apply/0c2c6aae-8bd5-446d-b23e-f7e926c9153a"
+    },
+    {
       "id": "9a8499e5-6bcc-4bcc-a2c1-9da87c1d6e7a",
       "title": "Business Development Director - US",
       "company": "Confidential Client",
@@ -579,6 +596,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-07T11:12:09.478Z",
-  "count": 34
+  "lastUpdated": "2026-07-07T13:35:31.722Z",
+  "count": 35
 }

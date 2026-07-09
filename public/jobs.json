@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "9647367f-af5a-4634-8e7c-f4b0db9cd6ea",
+      "title": "Senior Manager - US",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-07-09T09:44:35.364Z",
+      "applyUrl": "/apply/9647367f-af5a-4634-8e7c-f4b0db9cd6ea"
+    },
+    {
       "id": "0c2c6aae-8bd5-446d-b23e-f7e926c9153a",
       "title": "Delivery Lead",
       "company": "Confidential Client",
@@ -596,6 +613,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-09T04:36:40.703Z",
-  "count": 35
+  "lastUpdated": "2026-07-09T12:09:07.041Z",
+  "count": 36
 }

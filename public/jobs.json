@@ -392,23 +392,6 @@
       "applyUrl": "/apply/5b9e33a6-718c-47fc-ac01-042192d4222d"
     },
     {
-      "id": "696a936d-3d23-40ca-b838-7485e98411b1",
-      "title": "Manufacturing Consultant",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Anton Howell",
-      "summary": "",
-      "createdAt": "2026-02-27T09:36:49.037Z",
-      "applyUrl": "/apply/696a936d-3d23-40ca-b838-7485e98411b1"
-    },
-    {
       "id": "664f54c4-2efb-4817-b578-ca549215adf2",
       "title": "Product Engineer",
       "company": "Confidential Client",
@@ -579,23 +562,6 @@
       "applyUrl": "/apply/b677ac38-64a1-4664-9c52-6e5dd7326f60"
     },
     {
-      "id": "93d5cd3d-3cf2-40e6-95df-61504939aca7",
-      "title": "AI Systems Architect",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Fraser Tait",
-      "summary": "",
-      "createdAt": "2025-08-14T09:05:58.638Z",
-      "applyUrl": "/apply/93d5cd3d-3cf2-40e6-95df-61504939aca7"
-    },
-    {
       "id": "7794c49d-9f99-4bc8-bf16-e4ba2c081dd9",
       "title": "Product Engineer",
       "company": "Confidential Client",
@@ -613,6 +579,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-10T05:39:17.051Z",
-  "count": 36
+  "lastUpdated": "2026-07-10T09:42:10.576Z",
+  "count": 34
 }

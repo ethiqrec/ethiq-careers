@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "60bfe9a1-ac2c-461b-ba25-12ad9dec1ac9",
+      "title": "Contract Databricks Engineers Unifeye x 4",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Anton Howell",
+      "summary": "",
+      "createdAt": "2026-07-13T11:33:08.241Z",
+      "applyUrl": "/apply/60bfe9a1-ac2c-461b-ba25-12ad9dec1ac9"
+    },
+    {
       "id": "8c35d96a-d8e8-4c8b-b9cb-c40b36dd4462",
       "title": "Platform Engineer",
       "company": "Confidential Client",
@@ -596,6 +613,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-13T10:39:34.373Z",
-  "count": 35
+  "lastUpdated": "2026-07-13T13:26:50.315Z",
+  "count": 36
 }

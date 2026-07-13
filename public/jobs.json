@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "8c35d96a-d8e8-4c8b-b9cb-c40b36dd4462",
+      "title": "Platform Engineer",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Fraser Tait",
+      "summary": "",
+      "createdAt": "2026-07-13T09:51:54.158Z",
+      "applyUrl": "/apply/8c35d96a-d8e8-4c8b-b9cb-c40b36dd4462"
+    },
+    {
       "id": "9647367f-af5a-4634-8e7c-f4b0db9cd6ea",
       "title": "Senior Manager - US",
       "company": "Confidential Client",
@@ -579,6 +596,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-13T07:24:38.770Z",
-  "count": 34
+  "lastUpdated": "2026-07-13T10:39:34.373Z",
+  "count": 35
 }

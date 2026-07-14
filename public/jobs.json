@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "259f7779-70bf-45c7-80d9-2e292dbecdba",
+      "title": "Data engineer 1st",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-07-14T09:41:20.669Z",
+      "applyUrl": "/apply/259f7779-70bf-45c7-80d9-2e292dbecdba"
+    },
+    {
       "id": "60bfe9a1-ac2c-461b-ba25-12ad9dec1ac9",
       "title": "Contract Databricks Engineers Unifeye x 4",
       "company": "Confidential Client",
@@ -613,6 +630,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-14T09:07:04.352Z",
-  "count": 36
+  "lastUpdated": "2026-07-14T11:08:01.686Z",
+  "count": 37
 }

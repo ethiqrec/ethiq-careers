@@ -443,23 +443,6 @@
       "applyUrl": "/apply/5b9e33a6-718c-47fc-ac01-042192d4222d"
     },
     {
-      "id": "664f54c4-2efb-4817-b578-ca549215adf2",
-      "title": "Product Engineer",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "James Wilson",
-      "summary": "",
-      "createdAt": "2026-02-23T15:31:59.113Z",
-      "applyUrl": "/apply/664f54c4-2efb-4817-b578-ca549215adf2"
-    },
-    {
       "id": "f55018ca-353a-4fbd-a7fe-c39c7807b748",
       "title": "Product Engineer",
       "company": "Confidential Client",
@@ -630,6 +613,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-15T09:11:17.943Z",
-  "count": 37
+  "lastUpdated": "2026-07-15T11:09:58.402Z",
+  "count": 36
 }

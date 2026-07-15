@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "a8d7bdde-25a7-4275-a731-22cf75509f96",
+      "title": "Databricks Platform Egineer",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-07-15T14:29:53.884Z",
+      "applyUrl": "/apply/a8d7bdde-25a7-4275-a731-22cf75509f96"
+    },
+    {
       "id": "259f7779-70bf-45c7-80d9-2e292dbecdba",
       "title": "Data engineer 1st",
       "company": "Confidential Client",
@@ -613,6 +630,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-15T12:52:33.969Z",
-  "count": 36
+  "lastUpdated": "2026-07-15T14:55:23.246Z",
+  "count": 37
 }

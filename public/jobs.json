@@ -307,23 +307,6 @@
       "applyUrl": "/apply/8e16a27c-1c46-4e03-ab55-b679e4c0c375"
     },
     {
-      "id": "b171a37a-fa45-4079-a76e-fbafbfda5395",
-      "title": "Workplace Product Owner",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Mark Worsfold",
-      "summary": "",
-      "createdAt": "2026-05-01T07:32:06.312Z",
-      "applyUrl": "/apply/b171a37a-fa45-4079-a76e-fbafbfda5395"
-    },
-    {
       "id": "8496a725-c09c-414d-a215-2927840fdccd",
       "title": "Voice AI Engineer",
       "company": "Confidential Client",
@@ -630,6 +613,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-17T07:19:53.291Z",
-  "count": 37
+  "lastUpdated": "2026-07-17T09:27:17.695Z",
+  "count": 36
 }

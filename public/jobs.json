@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "521acefa-595c-4583-ba2e-1158b8f037e7",
+      "title": "Lead AI Software Engineer",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "James Wilson",
+      "summary": "",
+      "createdAt": "2026-07-17T16:02:18.282Z",
+      "applyUrl": "/apply/521acefa-595c-4583-ba2e-1158b8f037e7"
+    },
+    {
       "id": "a8d7bdde-25a7-4275-a731-22cf75509f96",
       "title": "Databricks Platform Egineer",
       "company": "Confidential Client",
@@ -613,6 +630,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-17T14:45:50.582Z",
-  "count": 36
+  "lastUpdated": "2026-07-17T16:17:52.067Z",
+  "count": 37
 }

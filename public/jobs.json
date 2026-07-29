@@ -460,6 +460,23 @@
       "applyUrl": "/apply/f55018ca-353a-4fbd-a7fe-c39c7807b748"
     },
     {
+      "id": "551f2cb0-6a86-4dfe-b594-1a3c02795ecc",
+      "title": "AI Engineer (Perm)",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Anton Howell",
+      "summary": "",
+      "createdAt": "2026-02-12T13:27:29.781Z",
+      "applyUrl": "/apply/551f2cb0-6a86-4dfe-b594-1a3c02795ecc"
+    },
+    {
       "id": "a9af73aa-332f-4fa7-b14b-9ee109b8752d",
       "title": "Product Engineer",
       "company": "Confidential Client",
@@ -613,6 +630,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-29T16:24:23.741Z",
-  "count": 36
+  "lastUpdated": "2026-07-29T17:49:06.770Z",
+  "count": 37
 }

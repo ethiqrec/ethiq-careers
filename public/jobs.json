@@ -1,6 +1,23 @@
 {
   "jobs": [
     {
+      "id": "9a95d320-260e-4643-926b-91eb4b70370d",
+      "title": "BDM AI Enablement Senior Manager",
+      "company": "Confidential Client",
+      "location": {
+        "name": "Location TBD"
+      },
+      "salary": "",
+      "contractType": "full_time",
+      "workMode": "hybrid",
+      "seniority": "",
+      "function": "",
+      "recruiter": "Mark Worsfold",
+      "summary": "",
+      "createdAt": "2026-07-31T13:38:39.699Z",
+      "applyUrl": "/apply/9a95d320-260e-4643-926b-91eb4b70370d"
+    },
+    {
       "id": "521acefa-595c-4583-ba2e-1158b8f037e7",
       "title": "Lead AI Software Engineer",
       "company": "Confidential Client",
@@ -630,6 +647,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-07-31T12:27:31.791Z",
-  "count": 37
+  "lastUpdated": "2026-07-31T15:01:36.319Z",
+  "count": 38
 }

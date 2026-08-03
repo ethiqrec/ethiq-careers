@@ -171,23 +171,6 @@
       "applyUrl": "/apply/48fe61d2-81b2-49de-812e-0b07c6fc2134"
     },
     {
-      "id": "976fac50-d392-447a-91e3-9a1338f114f6",
-      "title": "Product Owner AI",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Mark Worsfold",
-      "summary": "",
-      "createdAt": "2026-07-01T15:36:40.319Z",
-      "applyUrl": "/apply/976fac50-d392-447a-91e3-9a1338f114f6"
-    },
-    {
       "id": "51df240f-20ca-42af-b5a7-7b2710c05d2b",
       "title": "Senior Data Engineers",
       "company": "Confidential Client",
@@ -220,23 +203,6 @@
       "summary": "",
       "createdAt": "2026-06-25T12:56:33.225Z",
       "applyUrl": "/apply/5269668c-9a60-4a32-8297-2e6835db0c79"
-    },
-    {
-      "id": "cf5d6421-7481-41eb-8ab2-c602db6bd226",
-      "title": "Automation Tester",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Mark Worsfold",
-      "summary": "",
-      "createdAt": "2026-06-19T09:42:57.176Z",
-      "applyUrl": "/apply/cf5d6421-7481-41eb-8ab2-c602db6bd226"
     },
     {
       "id": "d203981b-20ee-4afb-bcdb-34c6e68968f2",
@@ -424,23 +390,6 @@
       "summary": "",
       "createdAt": "2026-04-20T20:38:06.245Z",
       "applyUrl": "/apply/1529b656-7a29-4ad2-b93d-bfd5dae33aeb"
-    },
-    {
-      "id": "45ea6ad8-49ff-4585-920f-809d205df5f4",
-      "title": "Senior Automation Test Analyst",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Mark Worsfold",
-      "summary": "",
-      "createdAt": "2026-03-02T10:26:48.741Z",
-      "applyUrl": "/apply/45ea6ad8-49ff-4585-920f-809d205df5f4"
     },
     {
       "id": "5b9e33a6-718c-47fc-ac01-042192d4222d",
@@ -647,6 +596,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-08-03T10:46:12.099Z",
-  "count": 38
+  "lastUpdated": "2026-08-03T13:42:52.533Z",
+  "count": 35
 }

@@ -69,23 +69,6 @@
       "applyUrl": "/apply/259f7779-70bf-45c7-80d9-2e292dbecdba"
     },
     {
-      "id": "60bfe9a1-ac2c-461b-ba25-12ad9dec1ac9",
-      "title": "Contract Databricks Engineers Unifeye x 4",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Anton Howell",
-      "summary": "",
-      "createdAt": "2026-07-13T11:33:08.241Z",
-      "applyUrl": "/apply/60bfe9a1-ac2c-461b-ba25-12ad9dec1ac9"
-    },
-    {
       "id": "8c35d96a-d8e8-4c8b-b9cb-c40b36dd4462",
       "title": "Platform Engineer",
       "company": "Confidential Client",
@@ -137,23 +120,6 @@
       "applyUrl": "/apply/9a8499e5-6bcc-4bcc-a2c1-9da87c1d6e7a"
     },
     {
-      "id": "4ad98625-3645-49ac-9767-e7f01acdf40a",
-      "title": "Data Engineer (BI)",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Gabby Hart",
-      "summary": "",
-      "createdAt": "2026-07-06T13:52:13.997Z",
-      "applyUrl": "/apply/4ad98625-3645-49ac-9767-e7f01acdf40a"
-    },
-    {
       "id": "48fe61d2-81b2-49de-812e-0b07c6fc2134",
       "title": "Applied AI Engineer",
       "company": "Confidential Client",
@@ -172,7 +138,7 @@
     },
     {
       "id": "51df240f-20ca-42af-b5a7-7b2710c05d2b",
-      "title": "Senior Data Engineers",
+      "title": "Senior Data Engineers - Gabs",
       "company": "Confidential Client",
       "location": {
         "name": "Location TBD"
@@ -222,23 +188,6 @@
       "applyUrl": "/apply/d203981b-20ee-4afb-bcdb-34c6e68968f2"
     },
     {
-      "id": "f3b2e880-53d1-42aa-8e60-f93e49dfa44e",
-      "title": "Senior Databricks Solution Architect",
-      "company": "Confidential Client",
-      "location": {
-        "name": "Location TBD"
-      },
-      "salary": "",
-      "contractType": "full_time",
-      "workMode": "hybrid",
-      "seniority": "",
-      "function": "",
-      "recruiter": "Anton Howell",
-      "summary": "",
-      "createdAt": "2026-05-21T13:59:15.197Z",
-      "applyUrl": "/apply/f3b2e880-53d1-42aa-8e60-f93e49dfa44e"
-    },
-    {
       "id": "d37f44e8-dcbe-418c-8bd5-5865c8d8097c",
       "title": "Business Analyst AI",
       "company": "Confidential Client",
@@ -257,7 +206,7 @@
     },
     {
       "id": "05212766-980a-4113-965e-f0978fec767c",
-      "title": "Data Engineer x2",
+      "title": "Data Engineer - Mark",
       "company": "Confidential Client",
       "location": {
         "name": "Location TBD"
@@ -596,6 +545,6 @@
       "applyUrl": "/apply/7794c49d-9f99-4bc8-bf16-e4ba2c081dd9"
     }
   ],
-  "lastUpdated": "2026-08-04T07:41:51.484Z",
-  "count": 35
+  "lastUpdated": "2026-08-04T10:43:01.838Z",
+  "count": 32
 }
